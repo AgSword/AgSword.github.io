@@ -1,0 +1,417 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      JVM [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      JVM
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h2 id="JVM与java体系结构"><a href="#JVM与java体系结构" class="headerlink" title="JVM与java体系结构"></a>JVM与java体系结构</h2><ol>
+<li>java一次编译，多次运行</li>
+<li>jvm只关心字节码文件，不关心字节码由哪个编程语言编写编译的，jvm就是二进制字节码的运行环境</li>
+<li>执行引擎包括解释器、JIT编译器、垃圾回收器，执行引擎的作用是将字节码翻译为机器语言；解释器和JIT编译器并行允许，JIT编译器将热点代码编译存储起来，放到方法区的CodeCache，下次直接调用</li>
+<li>jvm的生命周期：启动、执行（执行一个所谓的java程序的时候，真正在执行的是一个叫做java虚拟机的进程）、退出（正常执行结束、遇到异常或错误而异常终止、调用Runtime类或System类的exit方法，或Runtime类的halt方法）</li>
+</ol>
+<h3 id="jvm的构成"><a href="#jvm的构成" class="headerlink" title="jvm的构成"></a>jvm的构成</h3><ol>
+<li>jvm包括类加载器子系统，运行时数据区，执行引擎，本地接口库</li>
+<li>类加载子系统将编译好的字节码文件加载到jvm中</li>
+<li>运行时数据区用户存储在jvm运行过程中产生的数据，包括程序计数器，虚拟机栈，本地方法栈，堆，方法区</li>
+<li>执行引擎包含解释器，即时编译器，垃圾回收器</li>
+<li>本地接口库用于调用操作系统的本地方法库完成具体的指令操作</li>
+</ol>
+<h3 id="类加载器子系统（加载、链接、初始化）作用"><a href="#类加载器子系统（加载、链接、初始化）作用" class="headerlink" title="类加载器子系统（加载、链接、初始化）作用"></a>类加载器子系统（加载、链接、初始化）作用</h3><ol>
+<li>类加载器子系统负责从文件系统或者网络中加载class文件，class文件在文件开头有特定的文件标识</li>
+<li>classLoader只负责class文件的加载，至于它是否可以允许，则由ExecutionRngine决定</li>
+<li>加载的类信息存放在一个的内存空间，除了类的信息外，方法区中还会存放运行时常量池信息，可能还包含字符串字面量和数字常量（这部分常量信息是class文件中常量池部分的内存映射）</li>
+</ol>
+<h3 id="jvm内存区域解析、jvm内存结构"><a href="#jvm内存区域解析、jvm内存结构" class="headerlink" title="jvm内存区域解析、jvm内存结构"></a>jvm内存区域解析、jvm内存结构</h3><p>jvm内存区域分为线程私有区域、线程共享区域和直接内存，线程私有区域的生命周期和线程相同，随线程启动而创建，随线程结束而销毁；线程共享区域的生命周期和虚拟机实例启动而创建，随虚拟机实例关闭而销毁；直接内存不是JVM运行时数据区的一部分，但也被频繁使用，常见于NIO，用于数据缓冲区</p>
+<ol>
+<li>程序计数器，是线程私有的，记录所属线程下一条要执行的指令的地址</li>
+<li>虚拟机栈，是线程私有的，每个jvm线程都会有一个栈，每个线程中每个方法的执行都会创建一个栈帧，用于存储局部变量表，操作数栈，动态链接，方法返回等信息，方法开始执行，将栈帧压入栈，方法结束，将栈帧从栈顶弹出。局部变量表是一个数字数组，其基本存储单元为slot，如果栈帧对应的方法为构造方法或实例方法，那么对应的局部变量表下标为0的slot处存放的是对象引用this。局部变量表中的槽位可以复用，后面的局部变量可以复用前面过期的局部变量的槽位。操作数栈是用来存储计算过程中的中间结果，同时作为变量的临时存储空间。每个栈帧的内部都包含一个指向运行时常量池中该栈帧所属方法的引用，<strong>该引用使得方法内的代码能够实现动态引用</strong>。如果方法正常返回，那么返回的是调用该方法的指令的下一条指令的地址，如果方法出现异常，那么返回地址从异常表中去查找</li>
+<li>本地方法栈，是线程私有的，存储native方法的信息，当一个jvm创建的线程调用native方法时，jvm不会向这个线程中的栈中压入这个native方法的栈帧，而是向本地方法栈中压入这个native方法的栈帧</li>
+<li>堆，是线程间共享的内存空间，用来存放对象实例和数组，是垃圾收集器管理的主要区域；-Xms设定程序启动时占用内存方法，-Xmx设定程序运行期间最大可占用的内存大小</li>
+<li>方法区，和堆一样也是线程共享的区域，存放被加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据，在jdk1.8后，方法区被分为两个部分，一个是被加载的类信息，一个是运行时常量池，其中被加载的类信息被放到元空间中，运行时常量池被放到堆中，对方法区进行垃圾回收的主要目标是对常量池的回收和对类的卸载。</li>
+</ol>
+<h3 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h3><p>在cpu中具有寄存器、一级缓存、二级缓存、三级缓存，java中为了保留线程之间各自的缓存，降低开发难度。抽象出本地内存和主内存两个概念，每个线程的工作内存的数据是不相通的。本地内存中的所有变量内容都是主内存的拷贝。<br>在java内存中，每个线程都存在本地内存，存储主内存中共享变量的副本。java内存模型就是在底层处理器内存模型的基础上，通过指定一系列规则，保证线程间的可见性，当一个线程对共享内存进行修改时，其他线程对这种修改是可见的。上面提到的规则被称为Happens-before规则，有A和B两个操作，这两个操作可以是不同线程的，如果A Happens-BeforeB，那么可以保证，A操作执行完成后，A操作的执行结果对B来说是可见的。happens-before原则有八条：1、程序顺序规则，在同一线程中，按照代码书写的顺序，书写在前面的代码happens-before书写在后面的代码，虚拟机和处理器对指令的重排序不会影响程序的执行结果和顺序执行结果的一致性，例如代码块内语句为x&#x3D;1,y&#x3D;1这个代码块内的语句就有可能发生排序，而若代码块内为x&#x3D;1,x++，那么代码块内的语句就不会发生重排序，因为交换顺序后无法保证执行结果和顺序执行的结果一样；2、锁定规则，解锁操作happens-before加锁操作；3、volicate原则，对一个volicate变量，写操作happens-before读操作；4、线程启动原则，Thread的start()方法happens-before这个线程的其他方法；5、线程结束原则，这个线程的所有操作happens-before这个线程的结束检测；6、线程中断规则，对线程interrupt的调用happens-before被线程中断的代码检测到中断事件的发生；7、对象终止规则，一个对象的初始化完成happens-before对象finalize()方法的开始；8、传递性，A happens-before B，B happens-before C，那么A happens-before C</p>
+<h3 id="谈谈OOM"><a href="#谈谈OOM" class="headerlink" title="谈谈OOM"></a>谈谈OOM</h3><p>oom是OutOfMemery，在jvm内存中除了程序计数器，其他内存区域都有可能产生oom错误</p>
+<ol>
+<li>在虚拟机栈中，如果栈可以动态扩展空间，那么如果内存空间小于栈扩容申请内存的空间或者新建一个栈所需要的内存空间，那么会产生OOM错误</li>
+<li>在本地方法栈中，和上面一样</li>
+<li>在堆中，如果fullgc之后依旧没有足够的内存空间创建对象，那么会爆oom</li>
+<li>方法区中，如果生成了大量的类信息，方法区中存放不下，那么会报oom</li>
+</ol>
+<h3 id="对象的分配与回收"><a href="#对象的分配与回收" class="headerlink" title="对象的分配与回收"></a>对象的分配与回收</h3><ol>
+<li>对象优先分配在eden中，大的对象（eden区放不下，进行youngGC后依然放不下）直接进入老年代</li>
+<li>当eden区满之后会触发youngGC，会将eden区和from区的垃圾进行回收，采用复制算法，将年龄未超过阈值的对象复制到to区，如果to区放不下，直接晋升到老年代，将超过阈值的对象放入老年代，将eden区和from区清空</li>
+<li>如果survivor区中相同年龄的所有对象大小的总和大于survivor区的一半，那么survivor区中大于或等于这个年龄的对象进入老年区，无需年龄达到阈值</li>
+<li>空间分配担保机制</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653125340661-b9de0841-d4d0-4636-bd9e-84e75fc10b87.png#averageHue=%23f3e6d8&clientId=u939fb807-28c9-4&from=drop&id=ud1d2851d&originHeight=545&originWidth=662&originalType=binary&ratio=1&rotation=0&showTitle=false&size=213602&status=done&style=none&taskId=u17c32f9f-8b5f-4a57-b62a-63025db53d0&title=" alt="3dd8f4b7-3c1f-42b1-a19f-97970d125e4d.png"></p>
+<h3 id="对方法区的实现，为什么用元空间代替永久代"><a href="#对方法区的实现，为什么用元空间代替永久代" class="headerlink" title="对方法区的实现，为什么用元空间代替永久代"></a>对方法区的实现，为什么用元空间代替永久代</h3><p>永久代内存受限于jvm内存的，而元空间使用的是直接内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是相比永久代，元空间内存溢出的可能性要更小</p>
+<h3 id="什么是类的加载，类加载的过程"><a href="#什么是类的加载，类加载的过程" class="headerlink" title="什么是类的加载，类加载的过程"></a>什么是类的加载，类加载的过程</h3><ol>
+<li>类的加载是指将.class文件的二进制数据读到内存中，在堆中创建一个此类的对象</li>
+<li>类加载的过程分为加载，验证，准备，解析，初始化，其中验证，准备，解析的过程也叫为连接<ol>
+<li>加载，<strong>通过类的全限定名获取定义此类的二进制字节流，将字节流所代表的静态存储结构转换为方法区的运行时数据结构，在堆区中生成一个对应的class对象，作为方法区类信息的访问入口</strong></li>
+<li>验证，<strong>确保class文件中字节流包含的信息符合虚拟机规范，保证被加载类的正确性</strong>，主要包含四种验证：文件格式验证，元数据验证，字节码验证，符号引用验证</li>
+<li>准备，<strong>为类变量分配内存并设置类变量的默认初始值</strong>。这里不包含用final修饰的static，因为final在编译的时候就分配了，初始化阶段会显式初始化。这里不会为实例变量分配初始化，类变量会分配在方法区中，而实例变量是会随着对象一起分配到java堆中。 </li>
+<li>解析，<strong>将常量池内的符号引用替换为直接引用的</strong>过程。事实上，解析操作往往会伴随着jvm在执行初始化之后再执行。符号引用就是一组符号来描述所引用的目标。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型等。对应常量池中的CONSTANT_Class_info、CONSTANT_fieldref_info、CONSTANT_Methodref_info等</li>
+<li>初始化，<strong>初始化阶段就是执行类构造器方法<clinit>()的过程，此方法不需定义，是javac编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并而来</strong>。构造器方法中指令按语句在源文件中出现的顺序执行。<clinit>()不同于类的构造器（构造器是虚拟机视角下的<init>()）。若该类具有父类，jvm会保证子类的<clinit>()执行前，父类的<clinit>()已经执行完毕。虚拟机必须保证一个类的<clinit>()方法在多线程下被同步加锁</li>
+</ol>
+</li>
+</ol>
+<h3 id="类加载器的分类"><a href="#类加载器的分类" class="headerlink" title="类加载器的分类"></a>类加载器的分类</h3><ol>
+<li>启动类加载器（引导类加载器）,java核心类使用此加载器</li>
+<li>扩展类加载器，从java.ext.dirs系统属性所指定的目录中加载类库，或者从JDK的安装目录的jre&#x2F;lib&#x2F;ext子目录下加载类库 </li>
+<li>应用程序加载器（系统类加载器），用户自定义类使用此加载器</li>
+<li>自定义类加载器<ol>
+<li>为什么需要自定义加载器：隔离加载源、修改类加载方式、扩展加载源、防止源码泄漏</li>
+</ol>
+</li>
+</ol>
+<p>除了启动类加载器是用c++编写，其他类都是用java编写，同时都继承于ClassLoader这个抽象类</p>
+<h3 id="什么是类加载器，类加载器有哪些"><a href="#什么是类加载器，类加载器有哪些" class="headerlink" title="什么是类加载器，类加载器有哪些"></a>什么是类加载器，类加载器有哪些</h3><ol>
+<li>实现通过类的全限定名获取类的二进制字节流的代码块叫做类加载器</li>
+<li>四种类加载器<ol>
+<li>启动类加载器，用来加载java核心类库，无法被java程序直接引用</li>
+<li>扩展类加载器，该类加载器在扩展库目录里面查找并加载类</li>
+<li>系统类加载器，根据应用的类目录加载java类</li>
+<li>自定义类加载器，自己定义的类加载器</li>
+</ol>
+</li>
+</ol>
+<h3 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h3><p>这四种类加载器的uml关系</p>
+<ol>
+<li>java虚拟机堆class文件采用的是按需加载的方式，也就是说需要使用该类时才会将它的class文件加载到内存中生成class对象。而且加载某个类的class文件时，java虚拟机采用的是双亲委派模式</li>
+<li>如果一个类加载器收到类加载请求，它并不会自己先去加载，而是将这个请求委托给父类的加载器去执行，如果父类加载器还存在父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器。如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载，这就是双亲委派模式</li>
+<li>双亲委派机制的优点：避免类的重复加载，因为类的加载具有层次结构，只会被一种类加载器加载；保护程序的安全，防止核心api被随意篡改，如自己写的java.lang.java不会被加载，因为启动类加载器只会去加载java核心库里的string类	 </li>
+<li>沙箱安全机制：保护java核心源代码</li>
+</ol>
+<h3 id="对-类加载器的引用"><a href="#对-类加载器的引用" class="headerlink" title="对 类加载器的引用"></a>对 类加载器的引用</h3><p>jvm必须知道一个类型是由启动类加载器加载的还是由用户类加载器加载的。如果一个类型是由用户类加载器加载的，那么jvm会将这个类加载器的一个引用作为类型信息的一部分保存在方法区中。当解析一个类型到另一个类型的引用的时候，jvm需要保证这两个类型的类加载器是相同的</p>
+<h3 id="运行时数据区概述"><a href="#运行时数据区概述" class="headerlink" title="运行时数据区概述"></a>运行时数据区概述</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652421670719-c15d27f3-781c-4932-bb7a-55eec8e47b12.png#averageHue=%23ebf0eb&clientId=u912253af-0826-4&from=drop&id=ubfcd20c0&originHeight=456&originWidth=972&originalType=binary&ratio=1&rotation=0&showTitle=true&size=660108&status=done&style=none&taskId=u97957060-00cc-4741-a215-22d8d343060&title=%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%8F%8F%E8%BF%B0" alt="运行时数据区描述" title="运行时数据区描述"></p>
+<h3 id="为什么只有线程间共享的区域才会进行GC"><a href="#为什么只有线程间共享的区域才会进行GC" class="headerlink" title="为什么只有线程间共享的区域才会进行GC"></a>为什么只有线程间共享的区域才会进行GC</h3><p>那么线程间独立的数据区会随着线程开始和结束而创建和销毁</p>
+<h3 id="jvm里的线程"><a href="#jvm里的线程" class="headerlink" title="jvm里的线程"></a>jvm里的线程</h3><p>线程是一个程序里的运行单元，jvm允许一个应用有多个线程并行的执行。在hotspot jvm里，每个线程都与操作系统的本地线程直接映射。当一个java线程准备号执行以后，此时一个操作系统的本地线程也同时创建，一个本地线程初始化成功后就会调用java线程的run()方法。java线程执行终止后，本地线程也会回收</p>
+<h3 id="jvm里的程序计数器"><a href="#jvm里的程序计数器" class="headerlink" title="jvm里的程序计数器"></a>jvm里的程序计数器</h3><p>程序计数器用来存储指向下一个指令的地址，由执行引擎读取下一条指令，这个区域没有GC，也没有OOM</p>
+<h3 id="使用程序计数器存储字节码指令地址有什么用"><a href="#使用程序计数器存储字节码指令地址有什么用" class="headerlink" title="使用程序计数器存储字节码指令地址有什么用"></a>使用程序计数器存储字节码指令地址有什么用</h3><ol>
+<li>因为cpu需要不停的切换各个线程，一个线程切换回来后就得知道接着从哪来继续执行</li>
+<li>jvm的字节码解释器就需要通过改变pc寄存器的值来明确下一条应该执行怎么样的字节码指令</li>
+</ol>
+<h3 id="程序计数器为什么是线程独立的"><a href="#程序计数器为什么是线程独立的" class="headerlink" title="程序计数器为什么是线程独立的"></a>程序计数器为什么是线程独立的</h3><p>一核cpu只能同时运行一个线程，程序计数器记录了存储此线程下一条执行的程序语句的地址值，线程切换的时候要保证现场恢复，就必须为每个线程都配备一个程序计数器</p>
+<h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><ol>
+<li>栈管运行，堆管存储</li>
+<li>每个线程在创建的时候都会创建一个虚拟机栈，其内部保存一个个的栈帧，对应着一次次的java方法调用。其作用为主管java程序的运行，保存方法的<strong>局部变量（8种基本数据类型，引用性变量的引用地址）、部分结果，并参与方法的调用和返回。</strong>栈不存在GC，当存在OOM</li>
+<li>通过参数-Xss 来设置虚拟机栈的容量</li>
+</ol>
+<h3 id="虚拟机栈可能出现的异常"><a href="#虚拟机栈可能出现的异常" class="headerlink" title="虚拟机栈可能出现的异常"></a>虚拟机栈可能出现的异常</h3><ol>
+<li>jvm允许java栈的大小是动态的或者是固定不变的</li>
+<li>如果采用固定大小的java虚拟机栈，那么虚拟机栈的容量在线程创建的时候就固定住了，如果运行过程种所需要的栈空间大于栈的容量，java虚拟机会抛出StackOverflowError异常；</li>
+<li>如果虚拟机栈可以动态扩展，那么在产生扩展的时候发现无法申请足够的内存，或者在创建新线程的时候没有足够的内存去创建对应的虚拟机栈，那么jvm会排除OutOfMemoryError异常</li>
+</ol>
+<h3 id="栈执行原理"><a href="#栈执行原理" class="headerlink" title="栈执行原理"></a>栈执行原理</h3><ol>
+<li>不同线程中所包含的栈帧是不允许存在相互引用的</li>
+<li>如果当前方法调用了其他方法，方法返回之际，当前栈帧会传回此方法的执行结果给前一个栈帧，接着，虚拟机会丢弃当前栈帧，使得前一个栈帧重新成为当前栈帧</li>
+<li>java方法有两种返回函数的方式，一种是正常的函数返回，使用return指令，另一种就是抛出异常，不管使用哪种方式，都会导致栈帧被弹出</li>
+</ol>
+<h3 id="栈帧的内部结构"><a href="#栈帧的内部结构" class="headerlink" title="栈帧的内部结构"></a>栈帧的内部结构</h3><ol>
+<li>局部变量表</li>
+<li>操作数栈（或表达式栈）</li>
+<li>动态链接（或指向运行时常量池的方法引用）</li>
+<li>方法返回地址（或方法正常退出或异常退出的定义）</li>
+<li>一些附加的信息</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652541995952-d9dfe615-fdbf-430b-9b30-70e59a146a73.png#averageHue=%23dbdddb&clientId=uc6a70406-4c80-4&from=drop&id=u6f1ccc93&originHeight=515&originWidth=510&originalType=binary&ratio=1&rotation=0&showTitle=true&size=123501&status=done&style=none&taskId=u43bbe8df-843f-44b4-81ec-69b076353f8&title=%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E7%9A%84%E7%BB%93%E6%9E%84%E5%9B%BE" alt="虚拟机栈的结构图" title="虚拟机栈的结构图"></p>
+<h3 id="java中变量的分类"><a href="#java中变量的分类" class="headerlink" title="java中变量的分类"></a>java中变量的分类</h3><ol>
+<li>按数据类型分，分为基本数据类型和引用数据类型</li>
+<li>按在类中声明的位置，分为成员变量和局部变量，其中成员变量又分为静态变量和实例变量  <strong>值得注意是是成员变量会被自动赋予默认值，而局部变量必须在程序中显式赋值，否侧会编译出错</strong></li>
+</ol>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><ol>
+<li><strong>局部变量表定义为一个数字数组，主要用于存储方法参数和定义在方法体内的局部变量</strong>。这些数据类型包括各种基本数据类型，对象引用，以及returnAddress类型。</li>
+<li>由于局部变量表是建立在线程的栈上，是线程私有数据，因此不存在数据安全问题</li>
+<li><strong>局部变量表所需的容量大小是编译期确定下来的</strong>，并保存在方法的code属性的maximum local variables 数据项中。在方法运行期间是不会改变局部变量表的大小的</li>
+<li><strong>局部变量表的最基本的存储单元是slot</strong>。在局部变量表中，32位以内的类型只占用1个slot，64位的类型占用2个slot，引用类型占1个slot</li>
+<li>局部变量表中的变量只在当前方法调用有效</li>
+<li>如果当前帧是<strong>由构造方法或者实例方法创建的，那么该对象引用this将会存放在index为0的slot处</strong>，其余的参数按照参数表顺序继续排列</li>
+<li>栈帧中的局部变量表中的槽位是可以重用的，如果一个局部变量过了其作用域，那么其作用域后申明的局部变量就很有可能会复用过期局部变量的槽位，从而达到节省资源的目的</li>
+<li><strong>局部变量表中的变量是重要的垃圾回收根节点，只要被局部变量表中直接或间接引用的对象都不会被回收</strong></li>
+</ol>
+<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><ol>
+<li>在方法执行的过程中，某些字节码指令将值压入操作数栈，其余的字节码指令将操作数取出栈，使用它们之后再将结果压入栈。比如在执行复制、交换、求和等操作</li>
+<li>操作数栈<strong>主要用于保存计算过程的中间结果，同时作为计算过程中变量临时的存储空间</strong></li>
+<li>栈的深度在编译期就已经确定，32bit的类型占用一个栈深度，64bit的类型占用二个栈深度</li>
+<li>如果<strong>被调用的方法带有返回值的话，其返回值将会被压入当前栈帧的操作数栈中</strong>，并更新pc寄存器中下一条需要执行的字节码指令</li>
+<li>由于操作数是存储在内存中的，且完成一项操作需要使用更多的入栈和出栈指令，因为频繁的执行内存读&#x2F;读做好必然影响执行速度。为了解决这个问题，提出了栈顶缓存技术，将栈顶元素全部缓存在物理cpu的寄存器中，以此降低对内存的读写次数，提升执行引擎的执行效率</li>
+</ol>
+<h3 id="常量池和运行时常量池的区别"><a href="#常量池和运行时常量池的区别" class="headerlink" title="常量池和运行时常量池的区别"></a>常量池和运行时常量池的区别</h3><p>常量池是指字节码中的常量池，里面存放变量、方法的符号引用。运行时常量池是在方法区</p>
+<h3 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h3><ol>
+<li>每个栈帧内部都包含一个<strong>指向运行时常量池</strong>中<strong>该栈帧所属方法</strong>的引用，包含这个引用的目的就是为了支持当前方法的代码能够实现动态链接</li>
+<li>在<strong>java源代码被编译为字节码文件中时，所有的变量和方法引用都作为符号引用保存在class文件的常量池中</strong>。比如，描述一个方法调用了另外的其他方法时，就是通过常量池中指向方法的符号引用来表示的，那么动态链接的作用就是将这些符号引用转换为调用方法的直接引用</li>
+</ol>
+<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><ol>
+<li>在jvm中，将符号引用转换为调用方法的直接引用与方法的绑定机制相关<ol>
+<li>静态链接，当一个字节码文件被装载进jvm内部时，如果被调用的目标方法在编译期可知，且在运行期保持不变时，这种情况下将调用方法的符号引用转换为直接引用的过程称之为静态链接</li>
+<li>动态链接，如果被调用的方法与编译期无法被确定下来，也就是说，只能够在程序运行期间将调用方法的符号引用替换为直接引用，由于这种引用过程具备动态性，因此也被称之为动态链接</li>
+</ol>
+</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652753624479-ff5c3cbd-1b46-4cf4-9bb5-07d31b366f38.png#averageHue=%23f4f4f4&clientId=u951d817c-17f1-4&from=drop&id=uc7ecaf47&originHeight=434&originWidth=852&originalType=binary&ratio=1&rotation=0&showTitle=true&size=129630&status=done&style=none&taskId=u1bc38544-b936-4855-9e31-8526456838a&title=%E8%99%9A%E6%96%B9%E6%B3%95%E4%B8%8E%E9%9D%9E%E8%99%9A%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB" alt="虚方法与非虚方法的区别" title="虚方法与非虚方法的区别"></li>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652753752286-078a5e3c-1439-45e3-abd2-561afdd18789.png#averageHue=%23f1efee&clientId=u951d817c-17f1-4&from=drop&id=u012d18ab&originHeight=439&originWidth=933&originalType=binary&ratio=1&rotation=0&showTitle=true&size=306109&status=done&style=none&taskId=uabf1b1f0-7f72-4420-8328-885c1af3b28&title=%E5%87%A0%E6%9D%A1%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95%E7%9A%84%E6%8C%87%E4%BB%A4" alt="几条调用方法的指令" title="几条调用方法的指令"><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652755037885-5e046904-0f41-4684-973f-f07055f59be5.png#averageHue=%23eff2ef&clientId=u951d817c-17f1-4&from=drop&id=u86076a72&originHeight=523&originWidth=907&originalType=binary&ratio=1&rotation=0&showTitle=true&size=262157&status=done&style=none&taskId=ubfa0ad92-7c20-484f-ba47-303acb218d1&title=%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99%E7%9A%84%E6%9C%AC%E8%B4%A8" alt="方法重写的本质" title="方法重写的本质"></li>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652755838632-cbd8755d-afa0-42fd-b5ec-71ab7db180da.png#averageHue=%23f0f3f0&clientId=u951d817c-17f1-4&from=drop&id=u8ec676f5&originHeight=473&originWidth=885&originalType=binary&ratio=1&rotation=0&showTitle=true&size=281820&status=done&style=none&taskId=uc7919c92-9229-43b1-9173-3938ddb4175&title=%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8" alt="虚方法表" title="虚方法表"></li>
+</ol>
+<h3 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h3><p>一个方法的结束，有两种方式：正常执行完成；出现未正常退出。无论通过哪种方式退出，调用着的pc计数器的值作为返回地址，即调用该方法的指令的下一条指令的地址。而通过异常退出的，返回地址是通过异常表来确定，栈帧中一般不会保存这部分信息</p>
+<h3 id="本地方法"><a href="#本地方法" class="headerlink" title="本地方法"></a>本地方法</h3><ol>
+<li>一个本地方法就是一个java调用非java代码的接口</li>
+<li>为什么要使用本地办法：与java环境外交互，它为我们提供了一个非常简洁的接口，而且我们无需去了解java应用以外的繁琐的细节；与操作系统交互，jvm是需要和操作系统进行交互的，通过使用本地方法，我们得以用java实现了jre与底层系统的交互</li>
+</ol>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><ol>
+<li>用于管理本地方法的调用<img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1652776886298-d53be6fe-9a72-4528-982b-50717bba8e20.png#averageHue=%23eddfd5&clientId=u951d817c-17f1-4&from=drop&id=ub8cb75f5&originHeight=493&originWidth=674&originalType=binary&ratio=1&rotation=0&showTitle=false&size=147801&status=done&style=none&taskId=ub9ab6755-4274-4837-91ba-678dbe7adfa&title=" alt="74b9743a-9e06-4ed5-8cef-1b89a113e313.png"></li>
+</ol>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><ol>
+<li>一个jvm实例只存在一个堆实例，堆也是java内存管理的核心区域</li>
+<li>设置的参数：-Xms初始堆空间大小    -Xmx最大推空间大小。当堆区中的内存大小超过-Xmx所设定的最大内存大小，将会抛出OOM。通常会将-Xms和-Xmx这两个参数配置相同的值，其目的是为了能够在java垃圾回收机制清理网</li>
+<li>堆可以处于物理上不连续的内存空间中，但在逻辑上它应该被视为连续的 </li>
+<li>所有的线程共享java堆，但在这里还可以划分线程私有的缓冲区</li>
+<li>数组和对象可能永远不会存储在栈上，因为栈帧中保存的是引用，这个引用指向对象或数组在堆中的位置</li>
+<li>堆的内存细分：在jdk1.7中年轻代+老年代+永久区，在jdk1.8中新生代+老年代+元空间</li>
+<li>新生代和老年代的比例为1：2  。 在新生代中eden，from，to的比例为8：1：1  。通过-XX:newratio指令来修改老年代和新生代的比例。通过-XX:SurvivorRatio指令调整新生代空间比例</li>
+</ol>
+<h3 id="如何判断一个对象是否存活"><a href="#如何判断一个对象是否存活" class="headerlink" title="如何判断一个对象是否存活"></a>如何判断一个对象是否存活</h3><ol>
+<li>引用计数法，给每个对象设置一个引用计数器，每当有一个地方引用它，计数器就加1，引用失效，计数器减1，任何时候计数器为0的对象就是不可能被使用。这种方法很难解决对象之间循环引用的问题</li>
+<li>可达性分析，通过一系列称为gc roots的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过程中走的路径称为引用链，如果某个对象到gcroots将没有任何引用链相连，或者用图论的话来说就是从gcroots到这个对象不可达时，则证明此对象是不可用的。<ol>
+<li>gcroot的对象有：虚拟机栈中引用的对象，本地方法栈中引用的对象，方法区静态属性引用的对象，方法区常量引用的对象，所有被同步锁synchroized持有的对象，java虚拟机内部的引用（基本数据类型对应的class对象，一些常驻的异常对象，如空指针异常，oom），系统加载类</li>
+</ol>
+</li>
+</ol>
+<h3 id="fullGC触发的条件"><a href="#fullGC触发的条件" class="headerlink" title="fullGC触发的条件"></a>fullGC触发的条件</h3><ol>
+<li>调用System.gc()时，系统建议执行fullgc，但是不是必然执行的</li>
+<li>老年代空间不足</li>
+<li>方法区空间不足</li>
+<li>由Eden、from区向to进行复制时，对象大小大于老年区最大可用连续内存空间且空间分配担保不允许担保失败。或者允许担保失败，但是老年代最大可用连续空间小于历次晋升到老年代的平均大小，</li>
+</ol>
+<h3 id="线程缓冲区域"><a href="#线程缓冲区域" class="headerlink" title="线程缓冲区域"></a>线程缓冲区域</h3><p>从内存模型而不是垃圾收集的角度，对eden区域继续进行划分，jvm为每个线程分配一个私有缓存区域，它包含在eden空间中，仅占有整个Eden空间的1% 。对象创建时会优先分配到线程缓冲区中</p>
+<h3 id="所有的对象都会分配在堆上吗"><a href="#所有的对象都会分配在堆上吗" class="headerlink" title="所有的对象都会分配在堆上吗"></a>所有的对象都会分配在堆上吗</h3><p>随着JIT编译期的发展和逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化，所有的对象都分配到堆上也逐渐变为不那么绝对。<br>在java虚拟机中，对象是在java堆中分配内存的，这是一个普遍的常识，但是，有一个特殊情况，那就是如果经过逃逸分析后发现，一个对象并没有逃逸出方法，那么就可能被优化成栈上分配，这样就无需在堆上分配内存，也无须进行垃圾回收，这也是最常见的堆外存储技术。<br>在jdk7中就默认开启逃逸分析，使用逃逸分析，编译器可以对代码做如下优化：<br><strong>栈上分配</strong>，将堆分配转化为栈分配，如果一个对象在子程序中被分配，要使指向该对象的指针永远不会逃逸，对象可能使栈分配的候选，而不是堆分配<br><strong>同步省略</strong>，如果一个对象被发现只能从一个线程被访问，那么对于这个对象的操作可以不考虑同步<br><strong>分离对象或标量替换</strong>，在JIT阶段，如果经过逃逸分析，发现一个对象不会被外界访问的话，那么经过JIT优化，就会把这个对象拆解成若干个其中包含的若干个成员变量来代替，这个过程就是标量替换</p>
+<h3 id="栈、堆、方法区的交互关系"><a href="#栈、堆、方法区的交互关系" class="headerlink" title="栈、堆、方法区的交互关系"></a>栈、堆、方法区的交互关系</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653205425266-2a7c01c4-9bd1-48f7-a859-c6b0dc6d49e2.png#averageHue=%23e7c8a3&clientId=ue039ad6e-472b-4&from=drop&id=ued15b667&originHeight=611&originWidth=1066&originalType=binary&ratio=1&rotation=0&showTitle=false&size=216851&status=done&style=none&taskId=u66501210-3a3f-4f7e-93f3-539a399afd4&title=" alt="uTools_1653205419123.png"><br>方法区和java堆一样，是各个线程共享的内存区域。方法区在jvm启动的时候被创建，并且它的实际的物理内存空间中和java堆区一样可以是不连续的。方法区的大小，跟堆空间一样，可以选择固定大小或者可扩展。方法区的大小决定了系统可以保存多少个类，如果系统定义了太多的类，导致方法区溢出，虚拟机同样会抛出内存溢出错误。<br>在jdk1.8以后，方法区由元空间来实现，元空间的大小可以使用参数-XX:MetaspaceSize和-XX:MaxMetaspaceSize指定。在永久代中，方法区具有最大的大小，而元空间可以对方法区空间最大值没有限制，由本地内存的大小来限制。如果触及元空间设置的初始元空间大小，那么full gc就会被触发并卸载没用的类，然后初始元空间大小这个值就会被重置，新的值取决于gc后释放了多少元空间，如果释放的空间不足，那么在不超过MaxMetaspaceSize时，适当提高该值；如果释放空间过多，则适当降低该值。</p>
+<h3 id="方法区的结构"><a href="#方法区的结构" class="headerlink" title="方法区的结构"></a>方法区的结构</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653218062677-bc4f4380-7875-4bdc-b99c-bd92c24358fd.png#averageHue=%23eef2ef&clientId=ue039ad6e-472b-4&from=drop&id=ud89c212c&originHeight=661&originWidth=1423&originalType=binary&ratio=1&rotation=0&showTitle=true&size=413488&status=done&style=none&taskId=ueb65e9cd-fbf2-416d-ac14-f9c83713162&title=%E6%96%B9%E6%B3%95%E5%8C%BA%E5%AD%98%E5%82%A8%E4%BB%80%E4%B9%88" alt="方法区存储什么" title="方法区存储什么"></p>
+<ol>
+<li>类型信息：对每个加载的类型（类class，接口interface，枚举enum，注解annotation），jvm必须在方法区中存储一下类型信息：1、这个类型的完整有效名称；2、这个类型直接父类的完整有效名；3、这个类型的修饰符；4、这个类型直接接口的一个有效序列表</li>
+<li>域信息，jvm必须在方法区中保存类型的所有域的相关信息以及域的声明顺序。域的相关信息包括：域名称，域类型，域修饰符</li>
+<li>方法信息，jvm必须保存所有方法的以下 信息，包括方法名称，方法的返回类型，方法参数的数量和类型，方法的修饰符，方法的字节码、操作数栈、局部变量表及大小（abstract和native方法除外）</li>
+<li>异常表（abstract和native方法除外），每个异常处理的开始位置、结束位置、代码处理在程序计数器中的偏移地址、被捕获的异常类的常量池索引	</li>
+<li>运行时常量池：常量池表作为class文件的一部分，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后存放在方法区的运行时常量池中。且运行时常量池相对于class文件常量池具有动态性。运行时常量池中方法或者字段引用不再是常量池中的符号地址，而是真实地址</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653225579455-e8d81bab-ddc6-4e9d-877e-715f901cd87d.png#averageHue=%23f9fcf9&clientId=ue039ad6e-472b-4&from=drop&id=u3707e907&originHeight=352&originWidth=995&originalType=binary&ratio=1&rotation=0&showTitle=false&size=298574&status=done&style=none&taskId=u72743739-f541-4361-966f-6b360d59691&title=" alt="uTools_1653225575393.png"><br>将字符串常量池放入堆中的原因：1、字符串常量池很容易变得很大，容易造成永久代oom，对永久代调参造成困难；2、字符串常量池易造成垃圾，而永久代full gc的效率不高，放在堆中，能及时回收内存</p>
+<h3 id="方法区的垃圾收集"><a href="#方法区的垃圾收集" class="headerlink" title="方法区的垃圾收集"></a>方法区的垃圾收集</h3><p>一般来说方法区的回收效果比较难令人满意，尤其是类型的卸载，条件相当苛刻。方法区的垃圾收集主要回收两个部分内容：常量池中废弃的常量和不再使用的类型</p>
+<h3 id="什么情况下类会被卸载"><a href="#什么情况下类会被卸载" class="headerlink" title="什么情况下类会被卸载"></a>什么情况下类会被卸载</h3><ol>
+<li>该类的所有实例都会被回收</li>
+<li>加载该类的类加载器已经被回收</li>
+<li>该类对应的class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法</li>
+</ol>
+<p>虚拟机可以满足上面三个条件的类进行回收，但不一定会进行回收</p>
+<h3 id="创建对象的步骤"><a href="#创建对象的步骤" class="headerlink" title="创建对象的步骤"></a>创建对象的步骤</h3><ol>
+<li>判断对象对应的类是否加载、链接、初始化</li>
+<li>为对象分配内存：如果内存是绝对规整的，所有被使用过的内存都被放在一边，空闲的内存被存放在另一边，中间放着一个指针作为分界点的指示器，那所分配内存就仅仅是把那个指针向空闲空间方向挪动一段域对象大小相等的距离，这种分配方式称为指针碰撞。如果java堆中的内存并不是规整的，已被使用的内存和空闲的内存相互交互交错在一起，那么就没有办法简单的进行指针碰撞，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中取出一块足够大的内存空间给此对象，并更新列表上的记录</li>
+<li>处理并发安全问题：对象创建在虚拟机中是非常频繁的行为，即使仅仅修改一个指针所指向的位置，在并发情况下也并不是线程安全的，在并发情况下可能会出现两个线程在同一个内存地址中申请创建对象，解决这个问题两种可选方案，一种就是堆分配内存空间的动作进行同步处理，实际上虚拟机是采用CAS配上失败重试的方法保证更新操作的原子性，另外一种是每个线程在java堆中预先分配一小块内存，称为本地线程分配缓冲</li>
+<li>初始化分配的空间，所有属性设置默认值，保证对象实例字段在不赋值时可以直接使用</li>
+<li>设置对象的对象头</li>
+<li>执行init方法进行初始化。init方法执行非静态成员变量的显式赋值，非静态代码块的执行，构造函数的执行</li>
+</ol>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><ol>
+<li>对象头，主要分为两个部分，一个是运行时元数据mark world，运行时元数据包括哈希值，gc分代年龄，锁状态标志，线程持有的锁信息，另一个是类型指针，指向类元数据instanceclass，确定该对象所属的类型。如果是数组，还需记录数据的长度<img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1655036598740-c2f9add2-52e2-495f-8766-b6693b3b3e56.png#averageHue=%23dfe8e5&clientId=ue5fabe0f-ef50-4&from=drop&id=u61895b1e&originHeight=640&originWidth=1258&originalType=binary&ratio=1&rotation=0&showTitle=true&size=451864&status=done&style=none&taskId=ud68b7b34-da60-44d5-af4d-3daced31a35&title=%E8%BF%90%E8%A1%8C%E6%97%B6%E5%85%83%E6%95%B0%E6%8D%AEmark%20world" alt="运行时元数据mark world" title="运行时元数据mark world"></li>
+<li>实例数据，它是对象真正存储的有效信息，包括程序代码中定义的各种类型的字段（包括从父类继承下来的和本身拥有的字段），规则：相同宽度的字段总是被分配在一起，父类中定义的变量会出现在子类之前，如果CompactFields参数为true，子类的窄变量可能插入到父类变量的空隙</li>
+<li>对齐填充</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653307276690-f00328ec-19dd-4383-9b60-1a88c8995b5f.png#averageHue=%23c7e492&clientId=u7558de89-fb3c-4&from=drop&id=u4f0035a4&originHeight=550&originWidth=1070&originalType=binary&ratio=1&rotation=0&showTitle=true&size=454753&status=done&style=none&taskId=ua7320f26-0f4e-494f-8ef5-66aa20cfb35&title=Customer%20cust%20%3D%20new%20Customer%28%29" alt="Customer cust = new Customer()" title="Customer cust = new Customer()"></p>
+<h3 id="对象访问定位"><a href="#对象访问定位" class="headerlink" title="对象访问定位"></a>对象访问定位</h3><p>对象访问方式主要有两种方式，一种是句柄访问，另一种是直接指针，在hostspot中采用直接指针的方式，栈帧中对象引用指向堆中的对象实例，对象实例中具有类型指针，指向方法区中的类元数据</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存是在java堆外的，直接向系统申请的内存区间，访问直接内存的速度会优于java堆，读写频繁的场合可能会考虑使用直接内存。直接内存和java堆总和依然受限于操作系统能给出的最大内存。<br>直接内存的缺点是分配回收成本较高，不受jvm内存回收管理。直接内存大小可以通过MaxDirectMemorySize设置，如果不指定，默认与堆的最大值参数值一致</p>
+<h3 id="执行引擎"><a href="#执行引擎" class="headerlink" title="执行引擎"></a>执行引擎</h3><p>执行引擎的任务就是将字节码指令解释&#x2F;编译为对应平台上的本地机器指令才可以，简单的说，jvm中的执行引擎充当了将高级语言翻译为机器语言的译者<br>执行引擎在执行的过程中究竟需要执行什么样的字节码指令完全依赖于pc寄存器。每当执行完一项指令操作后，pc寄存器就会更新下一条需要被执行的指令地址。当然方法在执行的过程中，执行引擎有可能会通过存储在局部变量表中的对象引用准确定位到存储在java堆区中的对象实例信息，以及通过对象头中的原数据指针定位到目标对象的类型信息</p>
+<h3 id="解释器和jit编译器"><a href="#解释器和jit编译器" class="headerlink" title="解释器和jit编译器"></a>解释器和jit编译器</h3><ol>
+<li>当java虚拟机启动时会根据预定义的规范对字节码采用逐行解释的方式执行，将每条字节码文件中的内容翻译为对应平台的本地机器指令执行<ol>
+<li>在java发展历史中，一共有两套解释执行器，即古老的字节码解释器，现在普遍使用的模板解释器，字节码解释器在执行时通过纯软件代码模拟字节码的执行，效率非常低下。模板解释器将每一条字节码和一个模板函数相关联，模板函数直接产生这个字节码执行时的机器码，从而很大程度上提高了解释器的性能。解释器主要由interpreter模块和code模块构成，interpreter模块，实现了解释器的核心功能，code模块用于管理hotspotvm在运行时生成的本地机器指令</li>
+</ol>
+</li>
+<li>jit编译器，就是虚拟机将源代码直接编译长和本地机器平台相关的机器语言<ol>
+<li>一个被多次调用的方法或者是一个方法体内部循环次数较多的循环体都可以被称之为热点代码，这些代码通过即时编译器编译为本地机器指令。这种编译方法发生在方法的执行过程中，因此也被称为栈上替换。虚拟机热点探测方式是基于计数器的热点探测。</li>
+<li>采用基于计数器的热点探测，虚拟机会为每个方法都建立2个不同类型的计数器，分别为方法调用计数器和回边计数器。方法调用计数器用于统计方法的调用次数，回边计数器则用于统计循环体执行的循环次数 。</li>
+<li>如果不做任何设置，方法调用计数器的统计的并不是方法被调用的绝对次数，而是一个相对的执行频率，即一段时间之内方法被调用的次数。当超过一定的时间限制，如果方法的调用次数仍然不足以让它提交给即时编译器编译，那这个方法的调用计数器就会被减少一半，这个过程称为方法调用计数器热度的衰减，而这段时间就称为此方法统计的半衰周期。这个热度衰减的动作是在虚拟机进行垃圾收集时顺便进行的，可以使用虚拟机参数-XX:UseCounterDecay来关闭热度衰减，让方法计数器统计方法调用的绝对次数，这样，系统允许时间足够长，让绝大部分方法都会被编译成本地代码</li>
+<li>回边计数器统计循环体代码执行的次数，遇到回边指令后，判断是否存在已编译版本，如果存在执行编译后的本地代码版本，如果不存在，回边计数器加1，并判断回边计数器和方法调用计数器之和是否超过阈值，如果超过，向编译器提交编译请求，调整回边计数器值，以解释方式继续执行</li>
+</ol>
+</li>
+</ol>
+<h3 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653394780878-1972cbde-b506-49e8-805c-ee6bb2b3656d.png#averageHue=%23edefec&clientId=uba2016f7-c355-4&from=drop&id=u4139dc78&originHeight=523&originWidth=893&originalType=binary&ratio=1&rotation=0&showTitle=true&size=346718&status=done&style=none&taskId=u375f5aee-f5d4-4f30-9f9d-d034b3a027f&title=string%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7" alt="string的基本特性" title="string的基本特性"><br>字符串的拼接：如果是两个常量拼接，则在编译期间就会被优化成一个整体的字符串；如果是两个变量拼接，则会使用StringBuilder.append()，StringBuilder.tostring()方<br>法<br><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653398001214-4e8ebc57-9757-4e9d-a989-b3c64901bef5.png#averageHue=%23f6fbf7&clientId=uba2016f7-c355-4&from=drop&id=u2ca06a47&originHeight=468&originWidth=605&originalType=binary&ratio=1&rotation=0&showTitle=true&size=199639&status=done&style=none&taskId=u58eae1f3-b5b8-4142-9e40-c104883c75e&title=%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E7%9A%84%E6%9C%AC%E8%B4%A8" alt="字符串拼接的本质" title="字符串拼接的本质"><br>string.intern()方法：在jdk6中，字符串常量池在方法区中，此方法尝试将这个字符串放入串池中，如果串池中有，则并不会放入，返回已有的串池中的对象的地址；如果没有，会把此对象复制一份，放入串池，并返回串池中的对象地址。在jdk7、8中，字符串常量池在堆中，此方法尝试将字符串对象放入串池中，如果串池中有，返回已有串池中的对象的地址，如果没有，则会把对象的引用地址复制一份，放入串池，并返回串池中的引用地址。</p>
+<h3 id="java中的引用"><a href="#java中的引用" class="headerlink" title="java中的引用"></a>java中的引用</h3><p>在jdk1.2之前，java中的引用是很传统的定义：如果reference类型的数据中存储的是另一块内存的起始地址，就称该reference数据是代表某一块内存或某一个对象的引用。这种定义看上去过于狭隘。在jdk1.2以后，java对引用进行了扩充，将引用分为强引用、软引用、弱引用、虚引用四种。</p>
+<ol>
+<li>强引用，在程序代码中普遍存在的引用赋值，类似于new一个对象产生的引用关系，无论在什么情况下，只要强引用关系还存在，垃圾收集器就永远不会回收掉被引用的对象。</li>
+<li>软引用，如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。在系统将要发生内存溢出异常之前，会把这些对象列入回收范围之中进行第二次回收，如果这次回收还没有足够的内存，才会抛出内存溢出异常。在jdk1.2之后，使用SoftReference类来实现软引用</li>
+<li>弱引用，也是用来描述那些非必须对象，但是它的强度比软引用更弱一点，被弱引用关联的对象只能生存到下一个垃圾收集发生未知。当垃圾收集器开始工作，无论当前内存是否足够，都会回收只被弱引用关联的对象，在jdk1.2之后提供了WeakReference类来实现弱引用。</li>
+<li>虚引用，也称为幽灵引用，它是最弱的一种引用关系，一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例，为一个对象设置虚引用关联的唯一目的只是为了能在这个对象被收集器回收时收到一个系统通知，在jdk1.2之后提供了phantomReference类来实现虚引用。</li>
+</ol>
+<h3 id="G1的String去重操作"><a href="#G1的String去重操作" class="headerlink" title="G1的String去重操作"></a>G1的String去重操作</h3><p>当垃圾收集器工作的时候，会访问堆上存活的对象，对每个访问的对象都会检查是否是候选的要去重的String对象<br>如果是，把这个对象的一个引用插入到队列中等待后续的处理，一个去重的线程在后台运行，处理这个队列，处理队列的一个元素意味着从队列删除这个元素，然后尝试去重它引用的String对象<br>使用一个hashtable来记录所有的被String对象使用的不重复的char数组。当去重的时候，会查这个hashtable，来看堆上是否已经存在一个一模一样的char数组。<br>如果存在，String对象会被调整引用那个数组，释放对原来的数组的引用，最终会被垃圾收集器回收掉。<br>如果查找失败，char数组会被插入到hashtable，这样以后的时候就可以共享这个数组了。</p>
+<h3 id="对象的finalization机制"><a href="#对象的finalization机制" class="headerlink" title="对象的finalization机制"></a>对象的finalization机制</h3><p>当垃圾回收器发现没有引用指向一个对象，即：垃圾回收此对象之前，总会先调用这个方法的finalize()方法<br>finalize()方法允许在子类中被重写，用于在对象被回收时进行资源释放，通常在这个方法中进行一些资源释放和清理的工作，比如关闭文件，套接字和数据库链接<img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1653568166060-e694e69b-4057-4432-9196-73bd59d9644d.png#averageHue=%23c0bdba&clientId=u8e8cd0da-1ffc-4&from=drop&id=u3cfd3ff6&originHeight=594&originWidth=1229&originalType=binary&ratio=1&rotation=0&showTitle=false&size=424522&status=done&style=none&taskId=u21f9beb0-021b-46d5-a32e-bb87b454c83&title=" alt="uTools_1653568160851.png"></p>
+<h3 id="Minor-GC和Full-GC的区别"><a href="#Minor-GC和Full-GC的区别" class="headerlink" title="Minor GC和Full GC的区别"></a>Minor GC和Full GC的区别</h3><ol>
+<li>minor gc，回收新生代，因为新生代对象存活时间很短，因此minor gc会频繁执行，执行的速度一般也会比较快</li>
+<li>full gc，回收老娘代和新生代，老年代的对象存活时间长，因此full gc很少执行，执行的速度会比minor gc慢很多</li>
+</ol>
+<h3 id="垃圾回收算法有哪些"><a href="#垃圾回收算法有哪些" class="headerlink" title="垃圾回收算法有哪些"></a>垃圾回收算法有哪些</h3><ol>
+<li>标记清除法，会产生大量的空间碎片</li>
+<li>标记整理法，向一端移动</li>
+<li>复制算法</li>
+<li>分代收集算法，根据各个年代的特点采用最合适的收集算法。新生代采用复制算法，老年代采用标记清除算法或标记整理算法<ol>
+<li>在新生代中，每次垃圾收集时都有大批对象死去，只有少量存活，使用复制算法比较合适，只需要付出少量存活对象的复制成本就可以完成收集</li>
+<li>老年代对象存活率高，适合使用标记-清理或标记整理算法进行垃圾回收</li>
+</ol>
+</li>
+</ol>
+<h3 id="有哪些垃圾回收器"><a href="#有哪些垃圾回收器" class="headerlink" title="有哪些垃圾回收器"></a>有哪些垃圾回收器</h3><ol>
+<li>Serial收集器，为一个单线程收集器，在进行垃圾回收的时候必须暂停其他所有的工作线程，直到它收集结束，使用复制算法，特点是简单高效。</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1650876735962-58527913-73dc-4b69-9d14-ad191ca9e68f.png#averageHue=%23fbfbfb&clientId=u1574ccbb-1877-4&from=drop&height=342&id=u20b302a7&originHeight=504&originWidth=769&originalType=binary&ratio=1&rotation=0&showTitle=false&size=35923&status=done&style=none&taskId=u5b15ef17-5844-4d69-ba33-e8c22ca5d91&title=&width=522" alt="uTools_1650876729843.png"></p>
+<ol start="2">
+<li>ParNew收集器，为Serial收集器的多线程版本，gc线程运行时需要stop the world</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1650876902404-69169526-f9dd-4d53-8a59-3c1250e092da.png#averageHue=%23f5f4f4&clientId=u1574ccbb-1877-4&from=drop&height=268&id=u2c90f092&originHeight=418&originWidth=927&originalType=binary&ratio=1&rotation=0&showTitle=false&size=74869&status=done&style=none&taskId=uf239b72e-22c4-4d77-b405-428e3adffca&title=&width=594" alt="uTools_1650876894454.png"></p>
+<ol start="3">
+<li>ParallelScavenge收集器，基于复制清除算法实现的收集器，特点是吞吐量优先，能够并发收集的多线程收集器，允许多个垃圾回收线程同时运行，降低垃圾收集时间，提高吞吐量。吞吐量是指CPU用于运行用户代码的时间与CPU总消耗时间的比值。和ParNew的最大区别是GC自动调节策略；虚拟机会根据系统的运行状态收集性能监控信息，动态设置这些参数，以提供最优停顿时间和最高的吞吐量 。</li>
+</ol>
+<p>停顿时间是垃圾回收器进行垃圾回收时，终端执行响应的时间；停顿时间越短就越适合需要和用户交互的程序，良好的响应速度能提升用户体验；高吞吐量则可以高效地利用CPU时间，尽快完成程序的运算任务，主要适合在后台运算而不需要太多交互的任务。	<br><img src="https://cdn.nlark.com/yuque/0/2022/png/26322903/1650877181168-6ba9942d-332b-4f5d-ba7a-18a491d51071.png#averageHue=%23f7f7f6&clientId=u1574ccbb-1877-4&from=drop&id=u38985499&originHeight=481&originWidth=871&originalType=binary&ratio=1&rotation=0&showTitle=false&size=101168&status=done&style=none&taskId=uc3523625-cad0-4cce-922a-6f3192ec21a&title=" alt="uTools_1650877172504.png"></p>
+<ol start="4">
+<li>Serial Old ,Serial收集器的老年代版本，单线程收集器，使用标记整理算法</li>
+<li>Parallel Old收集器，Parallel Scavenge收集器的老年代版本，多线程垃圾收集器，使用标记整理算法</li>
+<li>CMS收集器，Concurrent Mask Sweep，并发标记清除，追求获取最短停顿时间，<ol>
+<li>分为四个阶段：初始标记（暂停所有用户进程，标记直接和GC root相连的对象），并发标记（不停顿用户线程，接着标记引用链上的对象），重新标记（暂停所有用户进程、修正并发标记的过程中因用户进程运行而导致标记记录发生变动的那一部分对象的标记记录）、并发清除（并发，使用清除算法）；</li>
+<li>缺点：采用清除算法，会存在空间碎片；由于清除阶段，与用户进行并发执行，会存在浮动垃圾；并发标记占用cpu资源，吞吐量会降低。</li>
+</ol>
+</li>
+<li>G1收集器，目标是在不同应用场景中追求高吞吐量和低停顿之间的最佳平衡，G1将整个堆分为相同大小的分区，有四种类型，分别为eden,survivor,old,humongous，其中humongous用于储存大对象。G1对各个分区回收所获得的空间大小和回收所需时间的经验值进行排序，根据用户设置的最大回收停顿时间，优先回收价值最大的分区<ol>
+<li>分为四个步骤：初始标记，并发标记。最终标记，筛选回收（对各个分区的回收价值和成本进行排序，根据用户期望的停顿时间来制定回收计划，然后把决定回收的分区的存活对象复制到空的分区中，再清理掉整个旧的全部空间，这里的操作涉及存活对象的移动，会暂停用户线程，由多条收集器线程并发完成）</li>
+</ol>
+</li>
+</ol>
+<h3 id="jvm调优的命令有哪些"><a href="#jvm调优的命令有哪些" class="headerlink" title="jvm调优的命令有哪些"></a>jvm调优的命令有哪些</h3><ol>
+<li>jps 列出所有java进程的进程号</li>
+<li>jstack 查看目前java进程内的线程堆栈信息</li>
+<li>jstat 查看虚拟机各种运行状态信息（类装载，内存，垃圾收集等运行数据）</li>
+<li>jmap 查看堆内存快照</li>
+<li>jinfo 查看当前的应用jvm参数设置</li>
+</ol>
+<h3 id="如何排查OOM的问题"><a href="#如何排查OOM的问题" class="headerlink" title="如何排查OOM的问题"></a>如何排查OOM的问题</h3><ol>
+<li>查看服务器运行日志，捕捉到内存溢出异常</li>
+<li>jstat查看监控jvm的内存和GC情况，评估问题大概出现再什么地方</li>
+<li>使用MAT工具载入dump文件，分析大对象的占用情况</li>
+</ol>
+<h3 id="内存的分配策略"><a href="#内存的分配策略" class="headerlink" title="内存的分配策略"></a>内存的分配策略</h3><ol>
+<li>大多数情况下，对象在新生代eden上分配，当</li>
+<li>eden空间不够，触发minor gc</li>
+<li>大对象直接进老年代</li>
+<li>长期存活的对象进入老年代，对象在survivor中每经过一次minor gc，年龄就增加1岁，当它的年龄增加到一定程度，就会被晋升。</li>
+<li>动态对象年龄判定，对象在survivor中相同年龄所有对象大小的总和大于survivor空间的一半，则年龄大于或等于该年龄的对象进入老年代</li>
+<li>空间分配担保，在发生 Minor GC 之前，虚拟机先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如 果条件成立的话，那么 Minor GC 是安全的。如果不成立的话虚拟机会查看 HandlePromotionFailure 的值是否允许担保失败。如果允许，那么就会继续检查老年代最大可用的 连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试着进行一次 Minor GC ；如果 小于，或者 HandlePromotionFailure 的值为不允许担保失败，那么就要进行一次 Full GC 。不过在jdk7及其之后，参数失效，只要老年代最大可用连续空间大于新生代所有对象的总和或者老年代最大可用连续空间的大小大于历次young gc晋级老年代的对象总和的平均值，就会进行younggc，否则就会进行full gc</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>
