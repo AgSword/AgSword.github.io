@@ -1,0 +1,337 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      spring [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      spring
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h3 id="使用spring框架的好处"><a href="#使用spring框架的好处" class="headerlink" title="使用spring框架的好处"></a>使用spring框架的好处</h3><ol>
+<li><p>轻量，spring的基础版本大约2mb</p>
+</li>
+<li><p>控制反转，spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们</p>
+</li>
+<li><p>面向切面的编程，spring支持面向切面的编程，并且把应用业务逻辑和系统服务分开</p>
+</li>
+<li><p>容器，spring包含并管理应用中对象的生命周期和配置</p>
+</li>
+<li><p>mvc框架，SpringMVC是传统的web框架的很好的替代品</p>
+</li>
+<li><p>声明式事务的支持，支持通过配置就来完成对事务的管理，而不需要通过硬编码的方式，以前重复的一些事务提交、回滚的jdbc代码，都不用自己写了。</p>
+</li>
+<li><p>异常处理，spring提供方便的api把具体技术相关的异常转化为一致的运行时异常</p>
+</li>
+<li><p>快速集成功能，方便集成各种优秀框架，Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架，如Mybaits等的直接支持### Spring的特性</p>
+</li>
+<li><p>控制反转</p>
+</li>
+<li><p>面向切面编程</p>
+</li>
+<li><p>依赖注入	### spring中用到哪些设计模式</p>
+</li>
+<li><p>简单工厂模式</p>
+</li>
+<li><p>工厂方法模式</p>
+</li>
+<li><p>单例模式</p>
+</li>
+<li><p>适配器模式</p>
+</li>
+<li><p>代理模式</p>
+</li>
+<li><p>观察者模式</p>
+</li>
+<li><p>模板模式### 什么是AOP<br>面向切面编程，作为面向对象的一种补充，将公告逻辑（事务管理、日志、缓存等）封装成切面，跟业务代码进行分离，可以减少系统的重复代码和降低模块之间的耦合度。切面就是那些和业务无关，但所有业务模块都会调用的公共逻辑</p>
+</li>
+</ol>
+<h3 id="AOP有哪些实现方式"><a href="#AOP有哪些实现方式" class="headerlink" title="AOP有哪些实现方式"></a>AOP有哪些实现方式</h3><p>AOP有两种实现方式：静态代理和动态代理</p>
+<ol>
+<li><p>静态代理：代理类在编译阶段生成，在编译阶段将通知织入java字节码中，也称编译时增强，Aspectj使用的就是静态代理。代理对象需要与目标对象实现一样的接口，并且实现接口的方法，会有冗余代码，同时，一旦接口增加方法，目标对象与代码对象都要维护。</p>
+</li>
+<li><p>动态代理：代理类在程序运行时创建，AOP框架不会去修改字节码，而是在内存中临时生成一个代理对象，在运行期间对业务方法进行增加，不会生成新类### jdk动态代理和CGLIB动态代理的区别</p>
+</li>
+<li><p>jdk动态代理，如果目标类实现类接口，Spring AOP会先择使用jdk动态代理目标类，代理类实现目标类实现的 接口动态生成，不需要自己编写，生成的动态代理类和目标类都实现相同的接口。代理类实现InvocationHandler接口，实现invoke()</p>
+</li>
+<li><p>CGLIB动态代理，如果目标类没有实现接口，那么Spring AOP会选择使用CGLIB来动态实现代理目标类。在CGLIB可以在运行时动态生成类的字节码，动态创建目标类的子类对象，在子类对象中增强目标类。CGLIB是通过继承的方式做的动态代理，因此如果某个类被标记为final，那么它是无法使用CGLIB做动态代理的### AOP中的专业术语</p>
+</li>
+<li><p>连接点：目标类中<strong>可以</strong>被增强功能的<strong>方法</strong></p>
+</li>
+<li><p>切点：目标类中被增强功能的<strong>方法</strong></p>
+</li>
+<li><p>通知：又被称为增强，比如想给方法增加日志<strong>功能</strong>，那么<strong>这个功能</strong>就被称为 通知&#x2F;增强</p>
+</li>
+<li><p>切面：通知&#x2F;增强+切点&#x3D;切面</p>
+</li>
+<li><p>目标：被增强的类的对象</p>
+</li>
+<li><p>织入：增强应用到目标的过程</p>
+</li>
+<li><p>代理：向目标对象应用通知后创建的对象### Spring通知有哪些类型</p>
+</li>
+<li><p>有5种类型：</p>
+</li>
+<li><p>前置通知（Before），在目标方法被调用之前调用通知功能</p>
+</li>
+<li><p>后置通知（After)，在目标方法完成之后调用通知，此时不会关心方法的输出是什么</p>
+</li>
+<li><p>返回通知（After-returning），在目标方法成功执行之后调用通知</p>
+</li>
+<li><p>异常通知（After-throwing），在目标方法抛出异常后调用通知</p>
+</li>
+<li><p>环绕通知（Around）,通知包裹了被通知的方法，在被通知的方法调用之前和调用之后执行自定义的逻辑### 什么是IOC，有什么好处</p>
+</li>
+<li><p>控制反转，由Spring容器管理bean的整个生命周期，通过反射实现对其他对象的控制，包括初始化、创建、销毁等，解放手动创建对象的过程，同时降低类之间的耦合度</p>
+</li>
+<li><p>降低了类之间的耦合，对象创建和初始化给了Spring容器管理，在需要的时候只需向容器进行申请### 什么是依赖注入<br>在Spring创建对象的过程中，把对象依赖的属性注入到对象中，依赖注入的两种方式是构造器注入和属性注入</p>
+</li>
+</ol>
+<h3 id="IOC容器初始化过程"><a href="#IOC容器初始化过程" class="headerlink" title="IOC容器初始化过程"></a>IOC容器初始化过程</h3><ol>
+<li>从xml中读取配置文件</li>
+<li>将bean标签解析成BeanDefinition，如解析property元素，并注入到BeanDefinition实例中</li>
+<li>将BeanDefinition注册到容器BeanDefinitionMap中，其中的key为beanName，就是xml配置文件中的bean的id,value为BeanDefinition</li>
+<li>BeanFactory根据BeanDefinition的定义信息创建实例化和初始化单例bean的初始化以及依赖注入一般都在容器初始化阶段进行，只有懒加载的单例bean是在应用第一次调用getBean()时进行初始化和依赖注入<br>多例bean在容器启动时不实例化<br>AbstractBeanDefinition 描述了一个bean的信息<br>BeanFactory 是负责创建bean的简单工厂</li>
+</ol>
+<h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><p><img src="/2026/03/29/spring/1651803399605-f96b391d-bf10-4a5b-9ddf-ada26946a4fe.png" alt="uTools_1651803391993.png"></p>
+<ol>
+<li><p>bean创建前的准备阶段</p>
+</li>
+<li><p>bean容器在配置文件中找到spring bean的定义以及相关的配置，如init-method和destroy-method指定的方法</p>
+</li>
+<li><p>实例化相关的后置处理器如beanFactoryPostProcessor、BeanPostProcessor、InstantiationAwareBeanPostProcessor</p>
+</li>
+<li><p>创建bean的实例</p>
+</li>
+<li><p>Spring容器通过java反射创建bean实例</p>
+</li>
+<li><p>扫描bean声明的属性并解析</p>
+</li>
+<li><p>开始依赖注入</p>
+</li>
+<li><p>开始依赖注入，解析所有需要赋值的属性并赋值</p>
+</li>
+<li><p>如果bean类实现类BeanNameAware。则调用setBeanName()方法</p>
+</li>
+<li><p>如果bean类实现了BeanFactoryAware接口，则调用setBeanFactory()方法</p>
+</li>
+<li><p>如果有任何与BeanFactory相关联的BeanPostProcessors对象已加载Bean，则在设置bean属性前调用postProcessBeforeInitialization()方法</p>
+</li>
+<li><p>如果bean类实现了InitializingBean接口，则在设置配置文件中定义的所有Bean属性后，将调用afterPropertiesSet()方法</p>
+</li>
+<li><p>缓存在Spring容器</p>
+</li>
+<li><p>如果配置文件中的Bean定义包含init-method属性，则调用bean类相应的方法</p>
+</li>
+<li><p>如果Bean Factory对象附加了任何Bean后置处理器，则将调用postBeanAfterInitialization方法</p>
+</li>
+<li><p>销毁Bean的实例</p>
+</li>
+<li><p>如果Bean类实现DisposableBean接口，则当Application不再需要Bean引用时，将调用destroy()方法</p>
+</li>
+<li><p>如果配置文件中的Bean定义包含destroy-method属性，那么将调用Bean类中的相应方法定义### BeanFactory和FactoryBean的区别</p>
+</li>
+<li><p>BeanFactory是生产和管理Bean的容器，Spring中生成的Bean都是由这个接口的实现来管理</p>
+</li>
+<li><p>FactoryBean通常是用来创建比较复杂的bean。当配置文件中bean标签的class属性配置的实现类是FactoryBean时，通过getBean()方法返回的不是FactoryBean本身，而是调用FactoryBean的getObject()方法所返回的对象### Bean注入容器有哪些方式</p>
+</li>
+<li><p>使用@Configuration与@Bean注解</p>
+</li>
+<li><p>使用@Controller与@Service、@Repository、@Component注解表示该类，然后启动@ComponentScan</p>
+</li>
+<li><p>使用@Import方法，### Bean的使用域</p>
+</li>
+<li><p>单例</p>
+</li>
+<li><p>prototype，每次请求都会创建一个新的bean实例</p>
+</li>
+<li><p>request，每一次Http请求都会产生一个新的bean</p>
+</li>
+<li><p>session，每次Http请求都会产生一个新 bean</p>
+</li>
+<li><p>global-session，全局sessin作用域### Spring中的事务传播行为<br>事务传播行为是为了解决业务层方法间调用的事务问题。当事务方法被另外一个事务方法调用时，必须指定事务应该如何传播。例如，方法可能继续在现有事务中运行，也可能开启一个新事务，并在自己的事务中运行。<br><img src="/2026/03/29/spring/1655379933200-f2362050-f12b-4814-aa38-336f416262de.png" alt="uTools_1655379926058.png"></p>
+</li>
+</ol>
+<h3 id="Spring自动装配的方式有哪些"><a href="#Spring自动装配的方式有哪些" class="headerlink" title="Spring自动装配的方式有哪些"></a>Spring自动装配的方式有哪些</h3><ol>
+<li><p>byType</p>
+</li>
+<li><p>byName</p>
+</li>
+<li><p>constructor### @Autowired和@Resource以及@Value的区别</p>
+</li>
+<li><p>#Autowired默认是按byType的方式，如果想要按名称匹配的话，需要使用@Qualifier注解配合，Qualifier注解后面为bean的名称</p>
+</li>
+<li><p>@Resource默认是按byName模式自动注入，此注解有两个重要的属性：name和type，按照填写的情况判断是byName还是byType，既不指定nam也不指定type属性，Spring容器将通过反射技术默认按byName模式注入</p>
+</li>
+<li><p>@Value注解用来自动注入简单值，如int、boolean、long、String### Spring如何解决循环依赖的问题<br>链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/478709434">https://zhuanlan.zhihu.com/p/478709434</a><br><img src="/2026/03/29/spring/1651915945172-a8effd5c-659d-4fb5-9606-5c2939d77f87.png" alt="uTools_1651915936588.png"></p>
+</li>
+<li><p>spring扫描xml或者注解生成BeanDefinition，存入BeanDefinitionMap中</p>
+</li>
+<li><p>BeanFactory，是负责创建bean的简单工厂，遍历BeanDefinitionMap，调用getBean方法，创建bean。在创建的过程中会先去一级缓存singletonObjects（Map&lt;beanName,bean实例&gt;）中看没有创建好的bean，如果有直接取，如果没有且不在创建中，直接返回null，如果在创建中，尝试从二级缓存中获取，二级缓存没有会得到一级缓存的锁，再重新尝试一级缓存、二级缓存、三级缓存获取，如果都没有就会返回null。</p>
+</li>
+<li><p>如果没有创建，首先标记这个bean正在创建中，然后会调用doCreateBean()来创建Bean，首先会实例化，在beanFactory中存放一个getEarlybeanReference函数，提前暴露bean，开始属性注入，这时发现A需要注入B，所以去getBean(B)，此时又会走一遍上面描述的逻辑，到了B的属性注入这一步。此时B调用getBean(A),这时一级缓存中找不到，但是发现A正在创建中，于是去二级缓存中查找，还是找不到于是去三级缓存中找，找到后B进行属性注入，aop生成代理类后，加入二级缓存，从三级缓存中移除bean，B初始化后进入一级缓存，A属性注入的</p>
+</li>
+<li><p>创建的时候分为三部分，实例化、属性注入、初始化，在实例化之后就将bean放入三级缓存BeanFactories，</p>
+</li>
+<li><p>一级缓存的目的是解决循环依赖时的死循环问题</p>
+</li>
+<li><p>二级缓存的目的是解决对缓存加锁时，性能查</p>
+</li>
+<li><p>三级缓存的目的时为了解决bean有动态代理，且要向不止一个类里依赖注入</p>
+</li>
+<li><p>非单例模式循环依赖和构造器注入的循环依赖问题，Spring无法解决</p>
+</li>
+<li><p>单例模式下的循环单例问题可以使用三级缓存来处理</p>
+</li>
+<li><p>单例对象实例化完成后加入singletonFactories，完成实例化未完成初始化，将对象移入到earlySingleObject，完成了初始化，将对象移入singleObject</p>
+</li>
+<li><p>属性注入的循环依赖主要通过将实例化完成的bean添加到singletonFactories来实现的，而使用构造器依赖注入的bean在实例化的时候会进行依赖注入，不会被添加到singletonFactories中### Spring的单例Bean是否有线程安全问题<br>无状态bean是线程安全的，而有状态bean是线程不安全的，一般使用多例模式或者使用ThredLocal解决线程安全问题</p>
+</li>
+</ol>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p>Spring有七个核心模块</p>
+<ol>
+<li>Spring Core核心容器，核心容器提供Spring框架的基本功能，Spring以bean的方式组织和管理Java应用中的各个组件及其关系。Spring使用BeanFactory来产生和管理Bean，它是工厂模式的实现。BeanFactory使用控制反转模式将应用的配置和依赖性规范与实际的应用程序代码分开。BeanFactory使用依赖注入的方式提供给组件依赖，主要实现控制反转IOC和依赖注入DI、Bean配置以及加载。</li>
+<li>Spring AOP，spring面向切面编程，通过配置管理特性，Spring AOP模块直接将面向切面的编程功能集成到Spring框架中，所以很容易的使Spring框架管理的任何对象支持AOP。Spring AOp模块为基于Spring的应用程序中的对象提供了事务管理服务。通过使用Spring Aop，不用依赖EJB组件，就可以将声明性事务管理集成到应用程序中，Aop把一个业务流程分为几部分，例如权限检查，业务处理，日志记录，每个部分单独处理，然后把它们组装成完整的业务流程，每个部分被称为切面或关注点。Aop的实现原理为动态代理技术，一共有两种代理模式</li>
+<li>Spring context，Spring上下文。Spring 上下文是一共配置文件，向Spring框架提供上下文信息，Spring上下文包含企业服务，如JNDI，EJB，电子邮件，国际化，校验和调度功能，提供框架式Bean访问方式，其他程序可以通过Context访问Spring的Bean资源</li>
+<li>Spring Dao，此模块主要目的是将持久层相关问题与一般的业务规则和工作隔离开来，Spring中的Dao提供一致的方式访问数据库，不管采用何种持久化技术，Spring都提供一致的编程模式，Spring还对不同的持久层提供一致的Dao方式的，Spring的Dao模块对JDBC进行了再封装，隐藏了Connection，Statement，ResultSet等JDBC API ,使Dao模块直接集成jdbcDaoSupport类</li>
+<li>Spring ORM，spring与所有的主要的ORM框架都集成的很好</li>
+<li>Spring Web模块建立在应用程序上下文模块之上，为基于web的应用程序提供了上下文，web层使用web层框架，可选的，可以是Spring自己的MVC框架，或者提供了web框架</li>
+<li>Spring MVC，这是一个全功能的构造web应用程序的MVC实现，通过策略接口，mvc框架变为高度可配置的，Spring的MVC框架提供清晰的角色划分，控制器，验证器、命令对象、表单对象和模型对象、分发器、处理器和视图解析器。Spring支持多种视图技术。### MVC模型<br>MVC是model、view和controller的缩写，分别代表web应用程序中的三种职责</li>
+</ol>
+<ul>
+<li>model模型，用于存储数据以及能处理用户请求的业务逻辑</li>
+<li>view模型，向控制器提交数据，显示模型中的数据</li>
+<li>controller控制器，根据视图提出的请求，判断将请求和数据交给哪个模型处理，处理后的有关结果交给哪个视图更新显示### SpringMVC的工作原理</li>
+</ul>
+<ol>
+<li>用户发送请求至前端控制器DispatcherServlet</li>
+<li>DispatcherServlet收到请求调用HandlerMapping处理器映射器</li>
+<li>处理器映射器找到处理request的handler和interceptor，构造成HandlerExecutionChain执行链返回给DispatcherServlet</li>
+<li>DispatcherServlet调用HandlerAdapter处理器适配器</li>
+<li>处理器适配器handlerAdapter经过适配调用具体的处理器Controller</li>
+<li>Controller执行完成返回ModelAndView</li>
+<li>HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet</li>
+<li>DispatcherServlet将ModelAndView传给ViewReslover视图解析器</li>
+<li>ViewReslove解析后返回具体View</li>
+<li>DispatcherServlet将模型数据填充到视图View中</li>
+<li>DispatcherServlet响应用户### 什么是SpringBoot<br>SpringBoot是Spring开源组织下的子项目，是Spring组件一站式解决方案，主要是简化了使用Spring的难度，简化了繁重的配置，提供了各种启动器，开发者能够快速上手。</li>
+</ol>
+<h3 id="Springboot的优点"><a href="#Springboot的优点" class="headerlink" title="Springboot的优点"></a>Springboot的优点</h3><ol>
+<li>内置servlet容器，不需要在服务端部署tomcat。只需要将项目打成jar包，使用java -jar xxx.jar一键启动项目</li>
+<li>Springboot提供了starter，把常用库聚合在一起，简单复杂的环境配置，快速搭建spring应用环境，可以避免大量的Maven导入和减少各种组件版本冲突发生可能性</li>
+<li>可以快速创建独立运行的spring项目，集成各个主流框架</li>
+<li>准生产环境的运行应用监控### Springboot的自动配置原理<br><img src="/2026/03/29/spring/1650504612947-8a6a9289-3c5b-4616-989c-818fbea10020.png" alt="微信图片_20220421092929.png"></li>
+</ol>
+<h3 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a>前后端分离</h3><ol>
+<li>SPA：Single Page Application，使用前端路由的方式代替后端的conroller，并使用前端模板代替后端的模板引擎渲染，使用restful api实现与后端的数据交互</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

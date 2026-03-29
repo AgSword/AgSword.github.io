@@ -1,0 +1,822 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      redis [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      redis
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h2 id="redis在ubuntu中的后台操作（开启到关闭）"><a href="#redis在ubuntu中的后台操作（开启到关闭）" class="headerlink" title="redis在ubuntu中的后台操作（开启到关闭）"></a>redis在ubuntu中的后台操作（开启到关闭）</h2><p><img src="/2026/03/29/redis/1646307240415-9928e984-7f37-4d80-a82a-8e583562e4bb.png" alt="image.png"></p>
+<h2 id="redis中常见的五大数据类型"><a href="#redis中常见的五大数据类型" class="headerlink" title="redis中常见的五大数据类型"></a>redis中常见的五大数据类型</h2><h3 id="key的相关命令"><a href="#key的相关命令" class="headerlink" title="key的相关命令"></a>key的相关命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keys *</td>
+<td>查看当前库中所有的key</td>
+</tr>
+<tr>
+<td>exists key</td>
+<td>判断某个key是否存在，存在返回1，不存在返回0</td>
+</tr>
+<tr>
+<td>type key</td>
+<td>查看你的key是什么类型</td>
+</tr>
+<tr>
+<td>del key</td>
+<td>删除指定的key</td>
+</tr>
+<tr>
+<td>unlink key</td>
+<td>根据value选择非阻塞删除，仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作</td>
+</tr>
+<tr>
+<td>expire key 10</td>
+<td>为给定的key设置过期时间</td>
+</tr>
+<tr>
+<td>ttl key</td>
+<td>查询还有多少秒过期</td>
+</tr>
+<tr>
+<td>select</td>
+<td>切换数据库</td>
+</tr>
+<tr>
+<td>dbsize</td>
+<td>查看当前库有多少key</td>
+</tr>
+<tr>
+<td>flushdb</td>
+<td>将当前库所有key都去除</td>
+</tr>
+<tr>
+<td>flushall</td>
+<td>通杀全部库</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Redis中的String"><a href="#Redis中的String" class="headerlink" title="Redis中的String"></a>Redis中的String</h3><p>是指value为String类型，Redis的String可以包含任何数据，只要这个数据可以用String来表示，比如jpg图片或者序列化的对象。String类型是Redis最基本的数据类型，一个Redis中字符串value最多可以是512M</p>
+<table>
+<thead>
+<tr>
+<th>get key</th>
+<th>查询对应的键值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>append key value</td>
+<td>将value追加到原值的末尾，返回值为key被追加完的长度</td>
+</tr>
+<tr>
+<td>strlen key</td>
+<td>获得值的长度</td>
+</tr>
+<tr>
+<td>setnx key value</td>
+<td>只有当key不存在的时候，才会有效设置，否则不会进行设置</td>
+</tr>
+<tr>
+<td>incr key</td>
+<td>将key对应的value数字值增1，这里的value只能是数字值</td>
+</tr>
+<tr>
+<td>decr key</td>
+<td>将key对应的value数字值减1，这里的value只能是数字值</td>
+</tr>
+<tr>
+<td>incrby key 10</td>
+<td>将key对应的value数字值加10,这里的value只能是数字值</td>
+</tr>
+<tr>
+<td>decrby key 10</td>
+<td>将key对应的value数字值减10,这里的value只能是数字值</td>
+</tr>
+<tr>
+<td>incr操作是原子操作，所谓的原子操作是指不会被线程调度机制打断的操作，这种操作一旦开始，就一直运行到结束。在单线程中，能够在单条指令中完成的操作都可以被认为是原子操作，因为中断只能发生在指令之间。</td>
+<td></td>
+</tr>
+<tr>
+<td>mset key1 value1 key2 value2 …</td>
+<td>同时设置一个或者多个键值对</td>
+</tr>
+<tr>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>mget key1 key2 key3…</td>
+<td>同时获取一个或者多个value</td>
+</tr>
+<tr>
+<td>msetnx key1 value1 key2 value2</td>
+<td>同时设置一个或者多个键值对，只有key不存在的时候才会生效</td>
+</tr>
+<tr>
+<td>上面的操作为原子操作，有一个键值对失效就会全部失效</td>
+<td></td>
+</tr>
+<tr>
+<td>getrange key start end</td>
+<td>获取key对应的value从start到end的subvalue</td>
+</tr>
+<tr>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>setrange key start value</td>
+<td>用value覆写key所存储的字符串值，从start位置开始（索引从0开始）</td>
+</tr>
+<tr>
+<td>setex key 过期时间 value</td>
+<td>设置键值的同时，设置过期时间，单位为秒</td>
+</tr>
+<tr>
+<td>getset key value</td>
+<td>以新换旧，设置了新值的同时获取旧值</td>
+</tr>
+<tr>
+<td>String的底层是简单动态字符串，是可以扩容的。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Redis中的List"><a href="#Redis中的List" class="headerlink" title="Redis中的List"></a>Redis中的List</h3><p>value为List，做到单键多值，Redis列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到猎豹的头部或者尾部。它的底层实际上是双向列表，对两端的操作性能很高，通过索引下标的操作中间的节点性能会很差</p>
+<table>
+<thead>
+<tr>
+<th>lpush&#x2F;rpush key value1 value2 value3</th>
+<th>从左边&#x2F;右边插入一个或者多个值，</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lpop&#x2F;rpop key</td>
+<td>从左边&#x2F;右边吐出一个值，值在键在，值光键光</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rpoplpush key1 key2</td>
+<td>从key1右边吐出一个值，插到key2的左边</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lrange key start end</td>
+<td>按照索引下标，end为-1表示到末尾</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lindex key index</td>
+<td>按照索引下标获取元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>llen key</td>
+<td>获取列表长度</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>linsert key before</td>
+<td>after value newvalue</td>
+<td>在value前面&#x2F;后面插入newvalue</td>
+<td></td>
+</tr>
+<tr>
+<td>lrem key n value</td>
+<td>从左边删除n个value</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lset key index value</td>
+<td>将列表key下标为index的值替换为value</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Redis将链表和ziplist相结合组成quicklist，也就是将多个ziplist使用双向指针串起来，既满足了插入删除性能，又不会出现太大的空间</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="redis中的Set"><a href="#redis中的Set" class="headerlink" title="redis中的Set"></a>redis中的Set</h3><p>set可以自动查重</p>
+<table>
+<thead>
+<tr>
+<th>sadd key value1 value2…</th>
+<th>将一个或多个member元素加入到集合中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>smembers key</td>
+<td>取出该集合的所有值</td>
+</tr>
+<tr>
+<td>sismember key value</td>
+<td>判断key对应的set中是否有value，有为1，没有为0</td>
+</tr>
+<tr>
+<td>scard key</td>
+<td>返回key对应的set内元素的个数</td>
+</tr>
+<tr>
+<td>srem key value1 value2…</td>
+<td>删除set中对应的value</td>
+</tr>
+<tr>
+<td>spop key</td>
+<td>随机从set中pop一个值</td>
+</tr>
+<tr>
+<td>srandmember key n</td>
+<td>随机从key对应的set中取出n个值，不会从集合中删除</td>
+</tr>
+<tr>
+<td>smove source distination value</td>
+<td>把集合中一个值从一个集合移动到另一个集合</td>
+</tr>
+<tr>
+<td>sinter key1 key2…</td>
+<td>返回多个集合的交集元素</td>
+</tr>
+<tr>
+<td>sunion key1 key2</td>
+<td>返回多个集合的并集元素</td>
+</tr>
+<tr>
+<td>sdiff key1 key2</td>
+<td>返回两个集合的差集元素</td>
+</tr>
+</tbody></table>
+<h3 id="Redis中的hash"><a href="#Redis中的hash" class="headerlink" title="Redis中的hash"></a>Redis中的hash</h3><p>value为一种映射,&lt;field,value&gt;</p>
+<table>
+<thead>
+<tr>
+<th>hset key field value</th>
+<th>给key对应的field赋值为value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hget key field</td>
+<td>从key对应的field中取出value</td>
+</tr>
+<tr>
+<td>hmset key field1 value1 field2 value2</td>
+<td>批量设置hansh的值</td>
+</tr>
+<tr>
+<td>hexists key field</td>
+<td>查看哈希表key中，给定域field是否存在</td>
+</tr>
+<tr>
+<td>hkeys key</td>
+<td>列出key对用的hash集合中所有的field</td>
+</tr>
+<tr>
+<td>hvals key</td>
+<td>列出key对应的hash集合中所有的value</td>
+</tr>
+<tr>
+<td>hincrby key field 增量</td>
+<td>key对应的hash集合中filed对应的value加上增量</td>
+</tr>
+<tr>
+<td>hsetnx key field value</td>
+<td>将key中的field的值设置为value，当且仅当field的值不存在</td>
+</tr>
+<tr>
+<td>hash类型对应的数据结构是两种，ziplist(压缩列表)和hashtable(哈希表)，当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Redis中的Zset"><a href="#Redis中的Zset" class="headerlink" title="Redis中的Zset"></a>Redis中的Zset</h3><p>Redis有序集合和普通集合非常相似，是一个没有重复元素的字符串集合，不同之处是有序集合的每个成员都关联了一个评分，根据这个评分来排序</p>
+<table>
+<thead>
+<tr>
+<th>zadd key score1 value1 score2 value2…</th>
+<th>将一个或多个score及value加到key对应的集合中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zrange key start end withsrcores</td>
+<td>返回有序集key，下标在start和end之间的元素</td>
+</tr>
+<tr>
+<td>zrangebyscore key min max</td>
+<td>返回有序集key中，所有score介于min和max之间的成员，成员按score值递增</td>
+</tr>
+<tr>
+<td>zrevrangebyscore key max min</td>
+<td>和上一条指令的结果想反序</td>
+</tr>
+<tr>
+<td>zincrby key increment value</td>
+<td>为key中value的score增加increment</td>
+</tr>
+<tr>
+<td>zrem key value</td>
+<td>删除该集合下指定值的元素</td>
+</tr>
+<tr>
+<td>zcount key min max</td>
+<td>统计该集合分数区间内的元素个数</td>
+</tr>
+<tr>
+<td>zrank key value</td>
+<td>返回该值在集合中的排名，从0开始计数</td>
+</tr>
+</tbody></table>
+<h2 id="Redis配置文件的介绍"><a href="#Redis配置文件的介绍" class="headerlink" title="Redis配置文件的介绍"></a>Redis配置文件的介绍</h2><ol>
+<li>Redis中网络的配置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1 -::1</span><br></pre></td></tr></table></figure>
+表示只能本地连接，要想可以从其他电脑上连接，需要将配置文件中的这句话注掉</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected-mode yes</span><br></pre></td></tr></table></figure>
+<p>这句话表示开启保护模式，这能本地连接     有需要的话，要将yes改为no<br>​</p>
+<h2 id="Redis的发布和订阅"><a href="#Redis的发布和订阅" class="headerlink" title="Redis的发布和订阅"></a>Redis的发布和订阅</h2><p>Redis发布订阅（pub&#x2F;sub）是一种消息通信模式：发布者发送消息，订阅者接受消息，Redis客户端可以订阅任意数量的频道<br><img src="/2026/03/29/redis/1646363861566-8cbdb438-2dfd-40a4-90ba-8448265e3e4a.png" alt="image.png"></p>
+<h2 id="Redis新数据类型"><a href="#Redis新数据类型" class="headerlink" title="Redis新数据类型"></a>Redis新数据类型</h2><h3 id="Bitmaps"><a href="#Bitmaps" class="headerlink" title="Bitmaps"></a>Bitmaps</h3><p>Redis提供了Bitmaps这个“数据类型”，可以实现对位的操作：BItmaps本身不是一种数据类型，实际上就是字符串，但它可以对字符串的位进行操作。Bitmaps单独提供了一套命令，所以在redis中使用BItmaps和使用字符串的方法不太相同。可以把Bitmaps想象成一个以位为单位的数组，数组的每个单元只能存储0和1，数组的下标为Bitmaps中叫做偏移量</p>
+<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>用来做基数统计，在输入元素的 数量或者体积非常大时，计算基数所需的控件总是固定的，并且是很小的。</p>
+<table>
+<thead>
+<tr>
+<th>pfadd key value1 …</th>
+<th>向key对应的HyperLogLog添加元素</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pfcount key</td>
+<td>计算基数</td>
+</tr>
+<tr>
+<td>pfmerge destkey sourcekey sourcekey</td>
+<td>将一个或者多个sourcekey合并后的结果存储到destkey中</td>
+</tr>
+</tbody></table>
+<h3 id="Geographic"><a href="#Geographic" class="headerlink" title="Geographic"></a>Geographic</h3><p>该类型就是元素的二维坐标，在地图上就是经纬度</p>
+<table>
+<thead>
+<tr>
+<th>geoadd key longitude latitude member[…]</th>
+<th>在key中对应的Geo中存数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>geolist key member</td>
+<td>在key中读取数据</td>
+</tr>
+<tr>
+<td>geodist key member1 member2 m</td>
+<td></td>
+</tr>
+<tr>
+<td>georadis key longitude latitude radis m</td>
+<td>km</td>
+</tr>
+</tbody></table>
+<h2 id="在java中使用Jedis连接Redis"><a href="#在java中使用Jedis连接Redis" class="headerlink" title="在java中使用Jedis连接Redis"></a>在java中使用Jedis连接Redis</h2><p>java连接Redis：1、修改redis的配置文件，使得外部电脑可以访问Redis。2、通过ifconfig -a指令获取虚拟机的ip<br><img src="/2026/03/29/redis/1646377252358-2494b79a-42f9-4fd7-ac49-b2ede8474a95.png" alt="image.png"><br>3、在虚拟机中打开Redis<br>4、编写java程序,验证是否可以连接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">6379</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">ping</span> <span class="operator">=</span> jedis.ping();</span><br><span class="line">        System.out.println(ping);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模拟验证码发送的案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PhoneCode</span> &#123;</span><br><span class="line">    <span class="comment">//生成验证码</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getCode</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</span><br><span class="line">            builder.append(random.nextInt(<span class="number">10</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(builder);</span><br><span class="line">        System.out.println(s);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//手机申请验证码,每个手机每天只能发送三次，验证码放到redis中，设置过期时间</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">verifyCode</span><span class="params">(String phone,String code)</span>&#123;</span><br><span class="line">        <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;192.168.198.128&quot;</span>,<span class="number">6379</span>);</span><br><span class="line">        String countkey=phone+<span class="string">&quot;count&quot;</span>;</span><br><span class="line">        String codekey=phone+<span class="string">&quot;code&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> jedis.get(countkey);</span><br><span class="line">        <span class="keyword">if</span>(s ==<span class="literal">null</span>)&#123;</span><br><span class="line">            jedis.setex(countkey,<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>, String.valueOf(<span class="number">1</span>));</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(Integer.parseInt(s)&lt;=<span class="number">2</span>)&#123;</span><br><span class="line">            jedis.incr(countkey);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            jedis.close();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        jedis.setex(codekey,<span class="number">2</span>*<span class="number">60</span>,code);</span><br><span class="line">        jedis.close();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//校验验证码</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">checkCode</span><span class="params">(String phone,String code)</span>&#123;</span><br><span class="line">        <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;192.168.198.128&quot;</span>,<span class="number">6379</span>);</span><br><span class="line">        String codekey=phone+<span class="string">&quot;code&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(jedis.get(codekey).equals(code))&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;成功&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        jedis.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        String phone=<span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;15062727921&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">code</span> <span class="operator">=</span> getCode();</span><br><span class="line">        <span class="keyword">if</span> (verifyCode(phone,code))&#123;</span><br><span class="line">            checkCode(phone,code);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;次数用完了，明天再来哦&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Springboot和Redis的整合"><a href="#Springboot和Redis的整合" class="headerlink" title="Springboot和Redis的整合"></a>Springboot和Redis的整合</h2><ol>
+<li><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.198</span><span class="number">.128</span></span><br><span class="line">    <span class="attr">connect-timeout:</span> <span class="number">1800000</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用RedisTemplate进行Redis的操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.springboot_redis.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/redis&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">redis</span><span class="params">()</span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;li&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> (String) redisTemplate.opsForValue().get(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Redis中的事务操作"><a href="#Redis中的事务操作" class="headerlink" title="Redis中的事务操作"></a>Redis中的事务操作</h2><p>  Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端送来的命令请求所打断。Redis事务的主要作用就是串联多个命令防止别的命令插队</p>
+<h3 id="Multi、Exec、Discard为三种命令"><a href="#Multi、Exec、Discard为三种命令" class="headerlink" title="Multi、Exec、Discard为三种命令"></a>Multi、Exec、Discard为三种命令</h3><p>从输入Multi命令开始，输入的命令都会依次进入命令队列中，但不会执行，直到输入Exec后，Redis会将之前的命令队列中的命令依次执行。组队的过程中可以通过discard来放弃组队<br>当组队的时候就有命令出错，则Exec之后组队过程中的命令都不会被执行。如果在执行的时候有命令出差，则只有出错的那个指令不会被执行，Queued中的其他命令照常执行。</p>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>悲观锁：在操作前先上锁，在传统的关系型数据库里面就用到了很多这种锁机制，比如行锁，表锁  等<br>乐观锁：每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量。Redis就是利用这种check-and-set机制实现事务的。</p>
+<h3 id="watch命令"><a href="#watch命令" class="headerlink" title="watch命令"></a>watch命令</h3><p>在执行multi之前，先执行watch key1，可以监视一个（或多个）key，如果在事务执行这个（或多个）key被其他命令所改动（这个改动的时间点从自己watch这个key开始的），那么事务将被打断。<br>unwatch则是取消监视</p>
+<h3 id="Redis事务的三个特性"><a href="#Redis事务的三个特性" class="headerlink" title="Redis事务的三个特性"></a>Redis事务的三个特性</h3><ol>
+<li>单独隔离操作：事务中的所有命令都会系列化、按顺序执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+<li>没有隔离级别的概念：队列中的命令没有提交之前都不会实际被执行，因为事务提交之前任何指令都不会被实际执行</li>
+<li>事务中如果有一条命令执行失败，气候的命令仍然会被执行，没有回滚### redis为什么适用于秒杀系统<br>使用redis列表 的原子特性，即使多个用户同时到达，也会依次执行，这样就防止超卖多卖现象的产生了<br>redis是缓存数据库，数据直接存储在内存中，读取效率高<br>使用mysql也可以实现秒杀功能，实现原理就是加锁，当多个用户同时对一个字段进行修改时，给数据加锁，只有当事务提交或者回滚时候才会释放锁。但这种悲观锁是以阻塞形式的，在用户数量少的情况下还可以使用。如果在用户量大的情况下，用户体验会非常差</li>
+</ol>
+<h3 id="ab工具的使用"><a href="#ab工具的使用" class="headerlink" title="ab工具的使用"></a>ab工具的使用</h3><p>help指令查看如何使用<br><img src="/2026/03/29/redis/1646797662399-c102ae99-5c30-438b-96a4-4ac8a318d4a3.png" alt="image.png"></p>
+<h3 id="秒杀系统出现的问题："><a href="#秒杀系统出现的问题：" class="headerlink" title="秒杀系统出现的问题："></a>秒杀系统出现的问题：</h3><ol>
+<li><p>超卖问题：添加事务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//增加乐观锁</span></span><br><span class="line">jedis.watch(qtkey);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//3.判断库存</span></span><br><span class="line"><span class="type">String</span> <span class="variable">qtkeystr</span> <span class="operator">=</span> jedis.get(qtkey);</span><br><span class="line"><span class="keyword">if</span>(qtkeystr==<span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(qtkeystr.trim())) &#123;</span><br><span class="line">System.out.println(<span class="string">&quot;未初始化库存&quot;</span>);</span><br><span class="line">jedis.close();</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span> ;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> <span class="variable">qt</span> <span class="operator">=</span> Integer.parseInt(qtkeystr);</span><br><span class="line"><span class="keyword">if</span>(qt&lt;=<span class="number">0</span>) &#123;</span><br><span class="line">System.err.println(<span class="string">&quot;已经秒光&quot;</span>);</span><br><span class="line">jedis.close();</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//增加事务</span></span><br><span class="line"><span class="type">Transaction</span> <span class="variable">multi</span> <span class="operator">=</span> jedis.multi();</span><br><span class="line"> </span><br><span class="line"><span class="comment">//4.减少库存</span></span><br><span class="line"><span class="comment">//jedis.decr(qtkey);</span></span><br><span class="line">multi.decr(qtkey);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//5.加人</span></span><br><span class="line"><span class="comment">//jedis.sadd(usrkey, uid);</span></span><br><span class="line">multi.sadd(usrkey, uid);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//执行事务</span></span><br><span class="line">List&lt;Object&gt; list = multi.exec();</span><br><span class="line"> </span><br><span class="line"><span class="comment">//判断事务提交是否失败</span></span><br><span class="line"><span class="keyword">if</span>(list==<span class="literal">null</span> || list.size()==<span class="number">0</span>) &#123;</span><br><span class="line">System.out.println(<span class="string">&quot;秒杀失败&quot;</span>);</span><br><span class="line">jedis.close();</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">System.err.println(<span class="string">&quot;秒杀成功&quot;</span>);</span><br><span class="line">jedis.close();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接超时问题：创建一个连接池，节省每次连接redis服务带来的消耗，把连接好的实例反复利用</p>
+</li>
+<li><p>在1的解决的基础上出现的问题：乐观锁造成的库存遗留问题：LUA脚本，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">local userid=KEYS[1]; </span><br><span class="line">local prodid=KEYS[2];</span><br><span class="line">local qtkey=&quot;sk:&quot;..prodid..&quot;:qt&quot;;</span><br><span class="line">local usersKey=&quot;sk:&quot;..prodid.&quot;:usr&#x27;; </span><br><span class="line">local userExists=redis.call(&quot;sismember&quot;,usersKey,userid);</span><br><span class="line">if tonumber(userExists)==1 then </span><br><span class="line">  return 2;</span><br><span class="line">end</span><br><span class="line">local num= redis.call(&quot;get&quot; ,qtkey);</span><br><span class="line">if tonumber(num)&lt;=0 then </span><br><span class="line">  return 0; </span><br><span class="line">else </span><br><span class="line">  redis.call(&quot;decr&quot;,qtkey);</span><br><span class="line">  redis.call(&quot;sadd&quot;,usersKey,userid);</span><br><span class="line">end</span><br><span class="line">return 1;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Redis持久化之RDB"><a href="#Redis持久化之RDB" class="headerlink" title="Redis持久化之RDB"></a>Redis持久化之RDB</h2><p>Redis的持久化指的是将Redis中的数据写到硬盘中去<br>RDB为Redis Dtabase的缩写，RDB是在一定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的Snapshot快照，它恢复时时将快照文件直接读到内存里</p>
+<h3 id="备份时如何进行的"><a href="#备份时如何进行的" class="headerlink" title="备份时如何进行的"></a>备份时如何进行的</h3><p>Redis会单独创建（fork）一个子进程来进行持久化，会先将数据写入一个临时文件中，待持久化过程都结束了，在用这个临时文件替换上次持久化好的文件。整个过程中，主进程是不进行任何IO操作的，这就保证了极高的性能，如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效，RDB的缺点是最后一次持久化后的数据有可能丢失。</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p>符合大规模的数据恢复、对数据完整性和一致性要求不高更适合使用、节省磁盘空间、恢复速度高</p>
+<h3 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h3><p>fork的时候，内存中的数据被克隆了一份，大致2倍的膨胀性需要考虑；虽然Redis在fork时使用了写时拷贝技术，但是如果数据庞大时还是比较消耗性能；在备份周期在一定间隔时间做一次备份，所以如果Redis意外down掉的话，就会丢失最后一次快照后的所有修改 </p>
+<h2 id="Reis持久化之AOF"><a href="#Reis持久化之AOF" class="headerlink" title="Reis持久化之AOF"></a>Reis持久化之AOF</h2><p> 以日志的形式来记录每个写操作（增量保存），将Redis执行过的所有写指令记录下来（读操作不记录），只许追加文件不可以改写文件，Redis启动之初会读取该文件重写构建数据，换言之，Redis重启的话就根据日志文件的内容将写指令从前到后执行一次已完成数据的恢复工作。</p>
+<h3 id="AOF默认不开启"><a href="#AOF默认不开启" class="headerlink" title="AOF默认不开启"></a>AOF默认不开启</h3><p>需要通过修改redis.cof中的appendonly值开启AOF，可以在redis.conf中配置文件名称，默认为appendonly.aof，AOF文件的保存路径，同RDB的路径一致。<br>当RDB和AOF同时开启，系统默认去AOF的数据（数据不存在丢失）<br>当aof文件损坏时，可以通过redis-check-aof指令修复文件</p>
+<h3 id="AOF同步频率设置"><a href="#AOF同步频率设置" class="headerlink" title="AOF同步频率设置"></a>AOF同步频率设置</h3><p>在conf文件中，设置appendfsync&#x3D;always&#x2F;everysec&#x2F;no</p>
+<h3 id="Rewrite压缩"><a href="#Rewrite压缩" class="headerlink" title="Rewrite压缩"></a>Rewrite压缩</h3><p>重写后的AOF文件为什么可以变小：1、进程内已经超时的数据不再写入文件；2、旧的AOF文件含有无效命令，重写使用进程内数据直接生成，这样新的AOF文件只保留最终数据的写入命令；3、多条写命令可以合并为一个<br>aof重写降低了文件的占用空间，更小的AOF文件可以更快的被Redis加载</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>主机(master)数据更新后根据配置和策略自动同步到从机(slaver)的master&#x2F;slaver机制，master以写为主，slaver以读为主</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>读写分离；容灾快速恢复：当一个从机宕机后还有其他从机来代替它<br>​<br>虚拟机上执行步骤：</p>
+<ol>
+<li><p>复制多份redis.conf到一个文件夹下，里面修改端口号（通过同时运行不同的端口号来实现打开多个Redis）<img src="/2026/03/29/redis/1646811213941-cc80925c-dc20-42a5-bd30-8a4b929fde67.png" alt="uTools_1646811208192.png"></p>
+</li>
+<li><p>启动三个redis-server，redis-cli -p 6379 进入，通过info replication查看服务器信息</p>
+</li>
+<li><p>配置主从：原则时配从不配主：在从机上slaveof <ip> <port> ### 薪火相传<br>从站以一个从站为主机</port></ip></p>
+</li>
+</ol>
+<h3 id="反客为主"><a href="#反客为主" class="headerlink" title="反客为主"></a>反客为主</h3><p>当主站宕机后，所有的从站就没有了主机，此时就可以有一个从机出来当主机，使用slaveof no one 指令</p>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>为反客为主的自动版，能够后台监控主机是否故障，如果故障根据投票数自动将从库转换为主库<br>在myredis目录下新建sentinel.conf文件，内容如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 1</span><br><span class="line">其中mymaster 为监控对象起的服务器名称，1为至少有多少个哨兵同意迁移的数量</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 启动</span><br><span class="line">redis-sentinel sentinel.conf</span><br></pre></td></tr></table></figure>
+<p>根据条件依次为：根据redis.conf中的replica-priority来选举出主机，值越小优先级越高，原主机重启后会变为从机；选择偏移量最大的，即获得原主机数据量最大的；选择runid最小的，每个redis实列启动后都会随机生成一个40位的runid</p>
+<h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><p>无中心化集群：任何一台服务器都可以作为集群的入口，集群内的服务器可以互相连通<br>Redis集群实现了对Redis的水平扩容，即启动N个Redis节点，将整个数据库分布存储在这N个节点中，每个节点存储总数据的1&#x2F;N。Redis集群通过分区（partition）来提供一定程度的可用性，即使集群中有一部分节点失效或者无法进行通讯，集群也可以继续处理命令请求</p>
+<ol>
+<li><p>设置.conf文件<img src="/2026/03/29/redis/1646875273711-ad037de5-b7e2-4992-825e-f4f1fb9339ec.png" alt="uTools_1646875268888.png"></p>
+</li>
+<li><p>开启redis-server，形成6个节点，3个主机，3个从机</p>
+</li>
+<li><p>将6个节点合成一个集群<img src="/2026/03/29/redis/1646876757439-f290bcde-2905-4f4f-90e4-b3545a105483.png" alt="uTools_1646876747573.png"></p>
+</li>
+<li><p>连接集群</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 采用集群策略连接，设置数据会自动切换到相应的主机</span><br><span class="line">redis-cli -c -p 6379</span><br><span class="line"># 查看集群信息</span><br><span class="line">cluster nodes</span><br></pre></td></tr></table></figure>
+<p>一个集群至少要有三个主节点；–cluster-replicas 1表示我们希望位集群中的每个主节点创建一个从节点；分配原则尽量保证每个数据库运行在不同的ip地址每个从库和主库不在一个ip地址上<br>集群中站分配集群中的插槽<br><img src="/2026/03/29/redis/1646880995787-45fa0593-17a5-4278-86a0-0c87a9e341ef.png" alt="uTools_1646880988749.png"></p>
+</li>
+</ol>
+<p>主机宕机后，从机变为主机<br><img src="/2026/03/29/redis/1646881650070-0b1eb91f-c495-419a-a066-572ccf74d10d.png" alt="uTools_1646881641656.png"></p>
+<h3 id="Redis集群在Java中的应用"><a href="#Redis集群在Java中的应用" class="headerlink" title="Redis集群在Java中的应用"></a>Redis集群在Java中的应用</h3><p>使用RedisCluster类<br><img src="/2026/03/29/redis/1646881903205-8fb217f3-324c-44cf-b294-d8fa1710916a.png" alt="uTools_1646881895634.png"></p>
+<h2 id="Redis应用中的问题"><a href="#Redis应用中的问题" class="headerlink" title="Redis应用中的问题"></a>Redis应用中的问题</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>现象：应用服务器压力变大；redis命中率降低；一致查询数据库<br>原因：Redis查询不到数据库；出现很多非正常的url访问<br><img src="/2026/03/29/redis/1646883102227-e79d16b6-d900-4bca-9d9d-ed7aee152fd2.png" alt="uTools_1646883093827.png"></p>
+<p><img src="/2026/03/29/redis/1646883275638-0ea3141a-f2f1-454c-8b4c-43aeb8c0c725.png" alt="uTools_1646883266834.png"></p>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p><img src="/2026/03/29/redis/1646883442497-1f850847-3171-4260-a501-f077f4f7d36b.png" alt="uTools_1646883435136.png"></p>
+<p><img src="/2026/03/29/redis/1646883597696-ba51e6ea-4e6a-44a5-8804-44ec9b88b669.png" alt="uTools_1646883588602.png"></p>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p><img src="/2026/03/29/redis/1646884284889-ea850255-1089-447b-aa0e-e6b89e8c81eb.png" alt="uTools_1646884278663.png"></p>
+<p><img src="/2026/03/29/redis/1646884344276-dbce782f-1ddf-4254-9a81-a6a7f0ffe8ba.png" alt="uTools_1646884336609.png"></p>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>setnx就是一种上锁，set之后就上锁，通过del释放锁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set key value nx ex time</span><br><span class="line"># nx 表示上锁</span><br><span class="line"># ex 表示设定过期时间，过期时间值为time</span><br></pre></td></tr></table></figure>
+<h3 id="使用UUID防止误删-LUA"><a href="#使用UUID防止误删-LUA" class="headerlink" title="使用UUID防止误删+LUA"></a>使用UUID防止误删+LUA</h3><p>1、加锁</p>
+<table>
+<thead>
+<tr>
+<th><em>&#x2F;&#x2F; 1. <strong>从</strong>redis<strong>中获取锁</strong>,set*</em> <strong>k1 v1 px 20000 nx</strong>*String uuid &#x3D; UUID.<em>randomUUID</em>().toString();Boolean lock &#x3D; <strong>this</strong>.<strong>redisTemplate</strong>.opsForValue() .setIfAbsent(<strong>“lock”</strong>, uuid, 2, TimeUnit.<em><strong>SECONDS</strong></em>);</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>​</td>
+</tr>
+<tr>
+<td>2、使用lua释放锁</td>
+</tr>
+<tr>
+<td><em>&#x2F;&#x2F; 2. <strong>释放锁</strong> <strong>del</strong></em>String script &#x3D; <strong>“if redis.call(‘get’, KEYS[1]) &#x3D;&#x3D; ARGV[1] then return redis.call(‘del’, KEYS[1]) else return 0 end”</strong>;<em>&#x2F;&#x2F; <strong>设置</strong>lua<strong>脚本返回的数据类型</strong></em>DefaultRedisScript<Long> redisScript &#x3D; <strong>new <strong>DefaultRedisScript&lt;&gt;();*&#x2F;&#x2F; <strong>设置</strong>lua</strong>脚本返回类型为</strong>Long<em><strong>redisScript.setResultType(Long.<strong>class</strong>);redisScript.setScriptText(script);<strong>redisTemplate</strong>.execute(redisScript, Arrays.<em>asList</em>(</strong>“lock”</em>*),uuid);</Long></td>
+</tr>
+<tr>
+<td>—</td>
+</tr>
+<tr>
+<td>​</td>
+</tr>
+<tr>
+<td>3、重试</td>
+</tr>
+<tr>
+<td>Thread.<em>sleep</em>(500);testLock();</td>
+</tr>
+<tr>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3 id="Redisson框架"><a href="#Redisson框架" class="headerlink" title="Redisson框架"></a>Redisson框架</h3><p>应用代码中创建RLook对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Config</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Config</span>();</span><br><span class="line">config.useSingleServer()</span><br><span class="line">.setPassword(<span class="string">&quot;&quot;</span>)</span><br><span class="line">.setAddress(<span class="string">&quot;redis://127.0.0.1:6379&quot;</span>);</span><br><span class="line"><span class="type">RedissonClient</span> <span class="variable">redisson</span> <span class="operator">=</span> Redisson.create(config);</span><br><span class="line"><span class="comment">// RLock对象</span></span><br><span class="line"><span class="type">RLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getLock(<span class="string">&quot;myLock&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>Redisson中lock源码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">(<span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">boolean</span> interruptibly)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">	<span class="type">long</span> <span class="variable">threadId</span> <span class="operator">=</span> Thread.currentThread().getId();</span><br><span class="line">	<span class="comment">// 此函数调用tryAcquireAsync函数，通过lua脚本实现原子性加锁</span></span><br><span class="line">	<span class="type">Long</span> <span class="variable">ttl</span> <span class="operator">=</span> <span class="built_in">this</span>.tryAcquire(-<span class="number">1L</span>, leaseTime, unit, threadId);</span><br><span class="line">	<span class="keyword">if</span> (ttl != <span class="literal">null</span>) &#123;</span><br><span class="line">		CompletableFuture&lt;RedissonLockEntry&gt; future = <span class="built_in">this</span>.subscribe(threadId);</span><br><span class="line">		<span class="built_in">this</span>.pubSub.timeout(future);</span><br><span class="line">		RedissonLockEntry entry;</span><br><span class="line">		<span class="keyword">if</span> (interruptibly) &#123;</span><br><span class="line">			entry = (RedissonLockEntry)<span class="built_in">this</span>.commandExecutor.getInterrupted(future);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			entry = (RedissonLockEntry)<span class="built_in">this</span>.commandExecutor.get(future);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">				ttl = <span class="built_in">this</span>.tryAcquire(-<span class="number">1L</span>, leaseTime, unit, threadId);</span><br><span class="line">				<span class="keyword">if</span> (ttl == <span class="literal">null</span>) &#123;</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (ttl &gt;= <span class="number">0L</span>) &#123;</span><br><span class="line">					<span class="keyword">try</span> &#123;</span><br><span class="line">						entry.getLatch().tryAcquire(ttl, TimeUnit.MILLISECONDS);</span><br><span class="line">					&#125; <span class="keyword">catch</span> (InterruptedException var14) &#123;</span><br><span class="line">						<span class="keyword">if</span> (interruptibly) &#123;</span><br><span class="line">							<span class="keyword">throw</span> var14;</span><br><span class="line">						&#125;</span><br><span class="line"></span><br><span class="line">						entry.getLatch().tryAcquire(ttl, TimeUnit.MILLISECONDS);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (interruptibly) &#123;</span><br><span class="line">					entry.getLatch().acquire();</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					entry.getLatch().acquireUninterruptibly();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="built_in">this</span>.unsubscribe(entry, threadId);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Redisson中源码tryAcquireAsync</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; RFuture&lt;Long&gt; <span class="title function_">tryAcquireAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">	RFuture ttlRemainingFuture;</span><br><span class="line">	<span class="keyword">if</span> (leaseTime &gt; <span class="number">0L</span>) &#123;</span><br><span class="line">		<span class="comment">// 通过lua脚本实现加锁</span></span><br><span class="line">		ttlRemainingFuture = <span class="built_in">this</span>.tryLockInnerAsync(waitTime, leaseTime, unit, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// this.internalLockLeaseTime为看门狗的时间</span></span><br><span class="line">		ttlRemainingFuture = <span class="built_in">this</span>.tryLockInnerAsync(waitTime, <span class="built_in">this</span>.internalLockLeaseTime, TimeUnit.MILLISECONDS, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 在ttlRemainingFuture之后执行，</span></span><br><span class="line">	<span class="comment">//ttlRemaining返回null表示加锁成功</span></span><br><span class="line">	<span class="comment">// 如果实参锁过期时间没有设，那么会起一个线程去更新锁的过期时间（当过来看门狗时间过了三分之一的时候会重置）</span></span><br><span class="line">	CompletionStage&lt;Long&gt; f = ttlRemainingFuture.thenApply((ttlRemaining) -&gt; &#123;</span><br><span class="line">		<span class="keyword">if</span> (ttlRemaining == <span class="literal">null</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (leaseTime &gt; <span class="number">0L</span>) &#123;</span><br><span class="line">				<span class="built_in">this</span>.internalLockLeaseTime = unit.toMillis(leaseTime);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="built_in">this</span>.scheduleExpirationRenewal(threadId);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> ttlRemaining;</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CompletableFutureWrapper</span>(f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Redisson源码中的tryLockInnerAsync函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果加锁成功（如果是否为重入），都会返回null，否则返回锁的过期时间</span></span><br><span class="line">&lt;T&gt; RFuture&lt;T&gt; <span class="title function_">tryLockInnerAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId, RedisStrictCommand&lt;T&gt; command)</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.evalWriteAsync(<span class="built_in">this</span>.getRawName(), LongCodec.INSTANCE, command, </span><br><span class="line">							   <span class="string">&quot;if (redis.call(&#x27;exists&#x27;, KEYS[1]) == 0) then redis.call(&#x27;hincrby&#x27;, KEYS[1], ARGV[2], 1); redis.call(&#x27;pexpire&#x27;, KEYS[1], ARGV[1]); return nil; end; if (redis.call(&#x27;hexists&#x27;, KEYS[1], ARGV[2]) == 1) then redis.call(&#x27;hincrby&#x27;, KEYS[1], ARGV[2], 1); redis.call(&#x27;pexpire&#x27;, KEYS[1], ARGV[1]); return nil; end; return redis.call(&#x27;pttl&#x27;, KEYS[1]);&quot;</span>, </span><br><span class="line">							   Collections.singletonList(<span class="built_in">this</span>.getRawName()), <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;unit.toMillis(leaseTime), <span class="built_in">this</span>.getLockName(threadId)&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="redeis全景图"><a href="#redeis全景图" class="headerlink" title="redeis全景图"></a>redeis全景图</h2><p><img src="/2026/03/29/redis/1654213976707-d924ff02-7964-4470-b616-ae61bcfb4bdd.png" alt="uTools_1654213972849.png"></p>
+<h2 id="键值对是如何保存在redis中的"><a href="#键值对是如何保存在redis中的" class="headerlink" title="键值对是如何保存在redis中的"></a>键值对是如何保存在redis中的</h2><p>Redis是使用一个哈希表来保存所有键值对，哈希表的最大好处就是让我们可以用O(1)的时间复杂度来快速查找到键值对，哈希表其实就是一个数组，数组中的元素叫做哈希桶。哈希桶存放的是指向键值对数据的指针(dictEntry*)，这样通过指针就能找到键值对数据，键值对数据中存放着指向key和value的指针<br><img src="/2026/03/29/redis/1654242959725-c361ce04-1882-4ea5-baf2-638324996e0b.png" alt="uTools_1654242953219.png"></p>
+<h2 id="redis中底层数据类型"><a href="#redis中底层数据类型" class="headerlink" title="redis中底层数据类型"></a>redis中底层数据类型</h2><p><img src="/2026/03/29/redis/1654247154736-fbaf2b09-df1a-49c8-9394-3b8b7a3f17ed.png" alt="a9c3e7dc4ac79363d8eb8eb2290a58e6.png"></p>
+<h2 id="Redis为什么会设计redisObject对象"><a href="#Redis为什么会设计redisObject对象" class="headerlink" title="Redis为什么会设计redisObject对象"></a>Redis为什么会设计redisObject对象</h2><p>redis必须让每个键都带有类型信息，使得程序可以检查键的类型与操作指令是否相匹配。同时每个键还需要记录编码方式，相同的指令不同的编码方式具体的处理方式也是不同的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">著作权归https:<span class="comment">//pdai.tech所有。</span></span><br><span class="line">链接：https:<span class="comment">//pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Redis 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// LRU - 24位, 记录最末一次访问时间（相对于lru_clock）; 或者 LFU（最少使用的数据：8位频率，16位访问时间）</span></span><br><span class="line">    <span class="type">unsigned</span> lru:LRU_BITS; <span class="comment">// LRU_BITS: 24</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 引用计数</span></span><br><span class="line">    <span class="type">int</span> refcount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向底层数据结构实例</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line"></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/03/29/redis/1654309689147-cde542c2-da2e-4763-b49b-56e7042766f4.png" alt="db-redis-object-2-2.png"></p>
+<h2 id="Redis数据类型有哪些"><a href="#Redis数据类型有哪些" class="headerlink" title="Redis数据类型有哪些"></a>Redis数据类型有哪些</h2><ol>
+<li><p>String，最常用的一种数据类型，底层数据结构是sds</p>
+</li>
+<li><p>List，可重复的集合，底层使用quicklist，为双向链表+压缩列表</p>
+</li>
+<li><p>Hash,是一个键值对，使用压缩列表或者hash表，当hash对象保存的所有键值对的键和值的字符串长度均小于64字节，且hash对象保存的键值对数量小于512个时，hash对象采用ziplist编码，否则就是hashtable编码</p>
+</li>
+<li><p>Set，无序去重的集合，使用hash表或者intset，当元素个数大于512或者元素的值非整数时，使用hash表，否则使用intset</p>
+</li>
+<li><p>SortedSet，有序Set，使用跳表或者ziplist，当zset保存的元素个数小于128，且zset元素的成员成员长度都小于64字节，使用ziplist，否则使用跳表</p>
+</li>
+<li><p>Bitmap，位图，可以认为是一个以位位单位数组，数组中的每个单位只能存0或1，数组的下标在BItMap中叫做偏移量，BitMap的长度与集合中元素个数无关，而是与基数的上限有关</p>
+</li>
+<li><p>Hyperloglog，用来做基数统计的算法，有点事，在输入元素的数量或者体积非常大的时候，计算基数所需的空间总是固定，并且是很小的，经典的适用场景是统计独立访客</p>
+</li>
+<li><p>Geospatial，主要用于存储地理位置信息，并对存储的信息进行操作，适合场景如定位，附件的人等## Redis中的sds   简单动态字符串 是string的实现<br><img src="/2026/03/29/redis/1651938252134-2aade782-bcb7-411e-b6e9-cdfef2c5ff7f.png" alt="image.png"></p>
+</li>
+<li><p>len、alloc、flags、buf，分别表示现在buf数组的长度，buf数组预分配的空间大小，标志位，sds中存的字符</p>
+</li>
+<li><p>有五种结构体sdshdr，分别表示不同数据长度的sds，它们len和alloc变量的数据类型不同,它们是sdshdr5,sdshd8,sdshdr16,sdshdr32,sdshdr64。</p>
+</li>
+<li><p>根据value输入的字符串，调用sdsnew方法，传入指向value的常量指针，在这个方法内调用sdsnewlen()方法，在这个方法内根据value的长度确定sdshdr的类型，计算结构体的长度，申请内层空间，初始化结构体成员len,alloc,flags，通过memcpy将value复制到buf数组中，返回指向buf数组的sds，sds是char*的别名</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Create a new sds string starting from a null terminated C string. */</span></span><br><span class="line">sds <span class="title function_">sdsnew</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *init)</span> &#123;  <span class="comment">//根据value传入的字符串，建立sds</span></span><br><span class="line">    <span class="type">size_t</span> initlen = (init == <span class="literal">NULL</span>) ? <span class="number">0</span> : <span class="built_in">strlen</span>(init);</span><br><span class="line">    <span class="keyword">return</span> sdsnewlen(init, initlen);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sds <span class="title function_">sdsnewlen</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *init, <span class="type">size_t</span> initlen)</span> &#123;  <span class="comment">//</span></span><br><span class="line">    <span class="type">void</span> *sh;</span><br><span class="line">    sds s;</span><br><span class="line">    <span class="type">char</span> type = sdsReqType(initlen); <span class="comment">// 根据长度判断类型</span></span><br><span class="line">    <span class="comment">/* Empty strings are usually created in order to append. Use type 8</span></span><br><span class="line"><span class="comment">     * since type 5 is not good at this. */</span></span><br><span class="line">    <span class="keyword">if</span> (type == SDS_TYPE_5 &amp;&amp; initlen == <span class="number">0</span>) type = SDS_TYPE_8;</span><br><span class="line">    <span class="type">int</span> hdrlen = sdsHdrSize(type); <span class="comment">// 计算结构体长度</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> *fp; <span class="comment">/* flags pointer. */</span></span><br><span class="line"></span><br><span class="line">    sh = s_malloc(hdrlen+initlen+<span class="number">1</span>); <span class="comment">// 结构体、数据、\0</span></span><br><span class="line">    <span class="keyword">if</span> (sh == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (init==SDS_NOINIT)</span><br><span class="line">        init = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!init)</span><br><span class="line">        <span class="built_in">memset</span>(sh, <span class="number">0</span>, hdrlen+initlen+<span class="number">1</span>); <span class="comment">// 长度为0时</span></span><br><span class="line">    s = (<span class="type">char</span>*)sh+hdrlen; <span class="comment">// s指向buf</span></span><br><span class="line">    fp = ((<span class="type">unsigned</span> <span class="type">char</span>*)s)<span class="number">-1</span>; <span class="comment">// s - 1 是flags字段</span></span><br><span class="line">    <span class="keyword">switch</span>(type) &#123;</span><br><span class="line">        <span class="keyword">case</span> SDS_TYPE_5: &#123;</span><br><span class="line">            *fp = type | (initlen &lt;&lt; SDS_TYPE_BITS); <span class="comment">// 高位存储长度，低位存储类型</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SDS_TYPE_8: &#123;</span><br><span class="line">            SDS_HDR_VAR(<span class="number">8</span>,s);</span><br><span class="line">            sh-&gt;len = initlen;</span><br><span class="line">            sh-&gt;alloc = initlen;</span><br><span class="line">            *fp = type;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SDS_TYPE_16: &#123;</span><br><span class="line">            SDS_HDR_VAR(<span class="number">16</span>,s);</span><br><span class="line">            sh-&gt;len = initlen;</span><br><span class="line">            sh-&gt;alloc = initlen;</span><br><span class="line">            *fp = type;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SDS_TYPE_32: &#123;</span><br><span class="line">            SDS_HDR_VAR(<span class="number">32</span>,s);</span><br><span class="line">            sh-&gt;len = initlen;</span><br><span class="line">            sh-&gt;alloc = initlen;</span><br><span class="line">            *fp = type;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SDS_TYPE_64: &#123;</span><br><span class="line">            SDS_HDR_VAR(<span class="number">64</span>,s);</span><br><span class="line">            sh-&gt;len = initlen;</span><br><span class="line">            sh-&gt;alloc = initlen;</span><br><span class="line">            *fp = type;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (initlen &amp;&amp; init)</span><br><span class="line">        <span class="built_in">memcpy</span>(s, init, initlen);</span><br><span class="line">    s[initlen] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="sds与c字符串的区别（特点）"><a href="#sds与c字符串的区别（特点）" class="headerlink" title="sds与c字符串的区别（特点）"></a>sds与c字符串的区别（特点）</h3><ol>
+<li>sds用len记录buf中字符串的长度，时间复杂度为O(1)，而c语言中需要遍历字符串至\0来计算字符串的长度。这样做也可以实现二进制安全，不仅可以存储string类型的数据，也可以存储一些二进制数据，二进制数据可以包含\0，sds不会因为数据中的\0而忽视\0后面的数据，c语言中读到\0就认为字符串结束了。</li>
+<li>空间预分配，sds被修改后，程序不仅会为sds分配所需要的必须空间，还会分配额外的未使用的空间。如果对sds修改后，len的长度小于1M，那么程序将分配和len相同长度的未使用空间。如果len长度大于1M，那么程序将分配1M的未使用空间## redis中的hash表<br>Redis整体就是一个hash表来保存所有的键值对，无论数据类型是5种的任意一种。只需要计算每个键的哈希值，便知道对应的哈希桶位置，定位桶里面的entry找到对应数据，这个也是redis快的原因之一<br>Redis使用链表解决冲突，也就是同一个桶里面的元素使用链表保存。但是当链表过长就会导致查找性能变差，所以redis为了追求快，使用使用dict结构体来两个全局哈希表。使用rehash操作，增强现有的哈希桶数量，减少哈希冲突。<br>开始默认使用hash表1保存键值对数据，哈希表2此刻没有分配空间，当键值对越来越多触发rehash操作，则执行一下操作：1、给hash表2分配更大的空间；2、将hash表1的数据重新映射拷贝到hash表2中；3、释放hash表1的空间。值得注意的是，将hash表1的数据重新映射到hash表2的过程种并不是一次性的，这样当hash表中保存的键值对数量很大时会造成redis阻塞，无法提供服务。而是采用渐进式rehash，当要开始rehash时，让rehashidx&#x3D;0，每次处理客户端请求的时候，程序除了执行指定的操作外，还会顺带将hash表1rehashidx索引的所有键值对rehash到hash表2上。完成后将rehashidx+1，表示下一次要迁移的位置。当所有桶的键值对都rehash到表2后，将rehashidx的值设为-1，表示rehash操作已完成。就这样将rehash分散到多次请求过程中，避免耗时阻塞。</li>
+</ol>
+<h2 id="压缩列表-ziplist"><a href="#压缩列表-ziplist" class="headerlink" title="压缩列表 ziplist"></a>压缩列表 ziplist</h2><p>压缩列表是redis为了节约内存而开发的，它是由连续内存块组成的顺序型数据结构，优点类似于数组<br>压缩列表在表头有三个字段：zlbytes，记录整个压缩列表占用内存字节数；zltail，记录压缩列表尾部节点距离起始地址有多少字节，也就是列表尾的偏移量；zllen，记录压缩列表包含的节点数量；压缩列表的尾部使用zllend表示压缩列表的结束点，固定值为0xFF<br>压缩列表中存放的节点zlentry包含了三部分内容：prelen，记录了前一个节点的长度，encoding记录了当前节点实际数据的类型以及长度；data记录了当前节点的实际数据<br>当我们往压缩列表中插入数据时，压缩列表就会根据数据是字符串还是整数，以及数据的大小，会使用不同空间大小的prevlen和coding，这两个元素里保存当前节点的信息，这种根据value数据大小和类型进行不同的空间大小分配的设计思想，正是redis为了节省内存而采用的。<br><img src="/2026/03/29/redis/1654244801738-fb5f1b85-d452-47b0-b200-9705255ceb64.png" alt="uTools_1654244797440.png"></p>
+<p>压缩列表中每个节点的prevlen属性都记录了前一个节点的长度，而且prevlen属性的空间大小跟前一个节点长度值有关，比如：如果前一个节点的长度小于254字节，那么prevlen属性需要用1字节的空间来保存这个长度值；如果前一个节点的长度大于等于254字节，那么prevlen属性需要5字节的空间来保存这个长度值。<br>压缩列表中每个节点的encoding属性的空间大小跟数据是字符串还是整数，以及字符串的长度有关：如果当前节点的数据是整数，则encoding会使用1个字节的空间来编码；如果当前节点的数据是字符串，根据字符串的长度大小，encoding会使用1字节&#x2F;2字节&#x2F;5字节的空间进行编码<br>压缩列表具有查找时间复杂度高的问题，只有第一元素和最后一个元素可以做到O(1)来定位。压缩列表还有个可能出现连锁更新的问题，当压缩列表新增某个元素或修改某个元素时，如果空间不够，压缩列表占用的内存空间就需要重新分配。而当新插入的元素较大时，可能会导致后续节点的prevlen属性占用的空间发生变化，需要重新分配内存。<br>因此压缩列表虽然因为排列紧凑可以起到节省内存开销的作用，但是如果保存的元素数量增加了，或是元素变大了，会导致内存重新分配，容易发生连锁更新的问题。因此压缩列表只会用于保存的节点数量不多的场景，只要节点数量足够小，即使发生连锁更新，也是能接受的。</p>
+<h2 id="quickList-是redis6-0中list的实现"><a href="#quickList-是redis6-0中list的实现" class="headerlink" title="quickList 是redis6.0中list的实现"></a>quickList 是redis6.0中list的实现</h2><p>从redis3.2起，List对象的底层改由quicklist实现，quicklist是由双向链表和压缩列表组合，quicklist就是一个双向链表，链表中每个元素又是一个压缩列表。<br>quicklist解决压缩列表连锁更新问题的办法就是控制每个链表节点中压缩列表的大小或元素个数。因为压缩列表元素越少或者越小，连锁更新带来的影响就越小，从而提供了更好的访问性能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">quicklist</span> &#123;</span></span><br><span class="line">    <span class="comment">//quicklist的链表头</span></span><br><span class="line">    quicklistNode *head;      <span class="comment">//quicklist的链表头</span></span><br><span class="line">    <span class="comment">//quicklist的链表头</span></span><br><span class="line">    quicklistNode *tail; </span><br><span class="line">    <span class="comment">//所有压缩列表中的总元素个数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> count;</span><br><span class="line">    <span class="comment">//quicklistNodes的个数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;       </span><br><span class="line">    ...</span><br><span class="line">&#125; quicklist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">quicklistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">//前一个quicklistNode</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">quicklistNode</span> *<span class="title">prev</span>;</span>     <span class="comment">//前一个quicklistNode</span></span><br><span class="line">    <span class="comment">//下一个quicklistNode</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">quicklistNode</span> *<span class="title">next</span>;</span>     <span class="comment">//后一个quicklistNode</span></span><br><span class="line">    <span class="comment">//quicklistNode指向的压缩列表</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> *zl;              </span><br><span class="line">    <span class="comment">//压缩列表的的字节大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> sz;                </span><br><span class="line">    <span class="comment">//压缩列表的元素个数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> count : <span class="number">16</span>;        <span class="comment">//ziplist中的元素个数 </span></span><br><span class="line">    ....</span><br><span class="line">&#125; quicklistNode;</span><br></pre></td></tr></table></figure>
+
+<h2 id="整数数组-intset"><a href="#整数数组-intset" class="headerlink" title="整数数组 intset"></a>整数数组 intset</h2><p>当一个集合只包含整数值元素，元素大小处于64位有符号整数范围之内时，并且这个集合的元素数量不多时，redis就会使用整数集合作为集合键的底层实现。<br>当元素个数超过一定数量之后（默认为512），即使元素类型仍为整型，也会将编码转换为hashtable或者当添加非整型变量时set的底层编码从intset转换为hashtable</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;  <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">uint32_t</span> length;    <span class="comment">// 长度</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];  <span class="comment">// 内容</span></span><br><span class="line">&#125; intset;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 共三种encoding</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INTSET_ENC_INT16 (sizeof(int16_t))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INTSET_ENC_INT32 (sizeof(int32_t))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INTSET_ENC_INT64 (sizeof(int64_t))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据值进行encoding判断</span></span><br><span class="line"><span class="type">static</span> <span class="type">uint8_t</span> _intsetValueEncoding(<span class="type">int64_t</span> v) &#123;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; INT32_MIN || v &gt; INT32_MAX)</span><br><span class="line">        <span class="keyword">return</span> INTSET_ENC_INT64;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (v &lt; INT16_MIN || v &gt; INT16_MAX)</span><br><span class="line">        <span class="keyword">return</span> INTSET_ENC_INT32;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> INTSET_ENC_INT16;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>contents数组是整数集合的底层实现，整数集合的每个元素都是contents数组的一个数组项，各个项在数组中按值的大小从小到大有序地排列，并且数组中不包含任何重复项，length属性记录了整数集合包含的元素数量，也即是contents数组的长度<br>encoding有三种方式，根据value的值进行判断。在添加value的过程中，如果添加的值的大小超出了现在encoding允许的范围，调用intsetUpgradeAndAdd()方法则会更新encoding方式，重新分配空间，原有的值重新编码放入contents中，如果添加的value大于0则在数组末尾空出一个位置，反之在在数组开头空出一个位置。如果encoding编码方式不变，则先调用intsetSearch()方法，使用二分查找search要添加的值，看看是否以及存在，在这个过程中还会改变此值应在数组的位置pos变量，为下一步的插入做好准备。插入值。<br>删除元素时，将其后的元素往前挪动</p>
+<h2 id="跳表-作为redis6-0中zset实现的一种"><a href="#跳表-作为redis6-0中zset实现的一种" class="headerlink" title="跳表 作为redis6.0中zset实现的一种"></a>跳表 作为redis6.0中zset实现的一种</h2><p>跳表要解决的是对于一个单链表，即使它存储的数据是有序的，如果我们想要在其中查找某个数据，也只能从头到尾遍历链表，这样查找效率就会很低，时间复杂度会很高，是O(n)。如果我们增加多级索引，可以减少搜索次数	<br>跳表属于多层链表，上层链表中节点个数小于下层链表。当search的时候，先从高层开始，如果比后面一个节点值小或者下一个节点为空是，会进入到下一层，会继续和下一层节点进行这样规律的比较，直到找到相等的节点<br><img src="/2026/03/29/redis/1654350245222-d9e68977-969e-42f8-9b97-eb196f5e3a42.png" alt="uTools_1654350239271.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最多32层</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ZSKIPLIST_MAXLEVEL 32 <span class="comment">/* Should be enough for 2^64 elements */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ZSKIPLIST_P 0.25      <span class="comment">/* Skiplist P = 1/4 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    sds ele;                            <span class="comment">// 成员</span></span><br><span class="line">    <span class="type">double</span> score;                       <span class="comment">// 分数</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span>     <span class="comment">// 后一个节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span>  <span class="comment">// 前节点</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">long</span> span;             <span class="comment">// 跨度</span></span><br><span class="line">    &#125; level[];                          <span class="comment">// 层级</span></span><br><span class="line">&#125; zskiplistNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span><span class="comment">// 头尾指针</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;               <span class="comment">// 节点长度</span></span><br><span class="line">    <span class="type">int</span> level;                          <span class="comment">// 最大层数</span></span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    dict *dict;                         <span class="comment">// O(1)查找元素</span></span><br><span class="line">    zskiplist *zsl;                     <span class="comment">// 根据score查询</span></span><br><span class="line">&#125; zset;</span><br></pre></td></tr></table></figure>
+<p>在redis中p&#x3D;0.25，也就是说redis zskiplist中上层节点数为下层节点数的1&#x2F;4.在插入元素时不会衡量列表的整体数量，而强制按照比例分布元素，而是采用随机的方式决定一个新插入元素的level，在概率上看，大致符合比例分布，这种随机选择level的方式最大的好处在于处理方便高效，可以避免强制比例分布带来繁琐的元素level调整等开销。为了避免出现随机值很大，而元素很少的情况，设置level的上限为32。然后构造新的节点，对level遍历，在每一层上将新节点和每层的前后节点相关联。<br><img src="/2026/03/29/redis/1654346701470-97c8f9ec-5cec-4d43-936b-e270e16f0c9d.png" alt="uTools_1654346692772.png"></p>
+<p>插入、删除、查找以及迭代输出有序序列这几个操作，红黑树也可以完成，时间复杂度跟跳表是一样的。但是，按照区间来查找数据这个操作，红黑树的效率没有跳表高。对于按照区间查找数据这个操作，跳表可以做到 O(logn) 的时间复杂度定位区间的起点，然后在原始链表中顺序往后遍历就可以了。这样做非常高效。<br>当列表元素个数大于128或者列表元素size大于64时，zset 会使用 skiplist 结构；反之会使用 ziplist 结构。<br>​</p>
+<h2 id="Redis中的string对象"><a href="#Redis中的string对象" class="headerlink" title="Redis中的string对象"></a>Redis中的string对象</h2><ol>
+<li>字符串对象的编码可以是int，raw，embstr</li>
+<li>int编码：保存的是可以用long类型标识的整数值</li>
+<li>embstr编码：保存长度小于44字节的字符串（redis3.2版本之前是39字节，之后是44字节）</li>
+<li>raw编码：保存长度大于44字节的字符串（redis3.2版本之前是39字节，之后是44字节）<img src="/2026/03/29/redis/1654428951768-0d7f2837-4cf1-4717-a173-d151f4c55fc8.png" alt="uTools_1654428945383.png"></li>
+</ol>
+<p>int编码中ptr指向一个整数，embstr编码中，redisobj和sds是连续的，raw编码中需要分配两次内存，分别为redisobj和sds分配空间。因此和raw相比，embstr的好处就是创建时少分配一次空间，删除时少释放一次空间，以及对象的所有数据连在一起，寻找方便。而embstr的坏处也很明显，如果字符串的长度增加需要重新分配内存时，整个redisobj和sds都需要重新分配空间，因此redis中的embstr实现为只读</p>
+<ol>
+<li>三种编码之间的转换当int编码保存的值不再是整数，或大小超过long的范围时，自动转化为raw。对于embstr编码，由于redis没有对其编写任何的修改程序（embstr是只读的），在对embstr对象进行修改时，都会先转化为raw再进行修改，因此，只要时修改embstr对象，修改后的对象一定时raw的，无论是否达到了44个字节</li>
+</ol>
+<h2 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h2><p>列表对象的编码时quicklist<br><img src="/2026/03/29/redis/1654430524056-603e1afe-d40c-4b25-ac79-5d15fafcabd3.png" alt="uTools_1654430513734.png"></p>
+<h2 id="hash对象的编码"><a href="#hash对象的编码" class="headerlink" title="hash对象的编码"></a>hash对象的编码</h2><p>hash对象的编码格式有ziplist和hashtable<br>当满足列表保存元素个数小于512个，且每个元素长度小于64字节时，使用ziplist，如果不能满足这两个条件的时候使用hashtable编码</p>
+<h2 id="集合对象的编码"><a href="#集合对象的编码" class="headerlink" title="集合对象的编码"></a>集合对象的编码</h2><p>使用intset和hashatable编码<br>当集合中对象满足集合对象所有元素都是整数，集合对象所有元素个数不超过512，则使用intset编码，不能满足这两个条件就使用hashtable编码。</p>
+<h2 id="有序集合对象的编码"><a href="#有序集合对象的编码" class="headerlink" title="有序集合对象的编码"></a>有序集合对象的编码</h2><p>有序集合的底层实现依然有两种，一种是使用ziplist作为底层实现，另一种比较特殊，底层使用了两种数据结构：dict和skiplist<br>其实有序集合单独使用字典或跳跃表其中一种数据结构都可以实现，但是这里使用两种数据结构组合起来，原因是假如我们单独使用 字典，虽然能以 O(1) 的时间复杂度查找成员的分值，但是因为字典是以无序的方式来保存集合元素，所以每次进行范围操作的时候都要进行排序；假如我们单独使用跳跃表来实现，虽然能执行范围操作，但是查找操作有 O(1)的复杂度变为了O(logN)。因此Redis使用了两种数据结构来共同实现有序集合。<br><img src="/2026/03/29/redis/1654434635012-d56c335e-8185-4558-9010-1ba0c36bd693.png" alt="db-redis-ds-x-26.png"></p>
+<p>有序集合对象同时满足元素数量小于128且保存的所有元素长度都小于64字节时，使用ziplist编码，不满足上面情况时使用skiplist编码</p>
+<h2 id="集合统计"><a href="#集合统计" class="headerlink" title="集合统计"></a>集合统计</h2><ol>
+<li>聚合统计，使用set，交集：sinter指令；并集：sunion指令；差集：sdiff指令</li>
+<li>排序统计，在redis中List和Sorted Set是有序集合，List是按照元素进入List的顺序进行排序的，而SortedSet是按照元素的权重来排序<br>​</li>
+</ol>
+<h2 id="Redis为什么这么快"><a href="#Redis为什么这么快" class="headerlink" title="Redis为什么这么快"></a>Redis为什么这么快</h2><ol>
+<li>基于内存，没有磁盘io上的开销，内存中数据读写速度快</li>
+<li>单线程实现，redis适用单个线程处理请求，避免了多个线程之间线程切换和锁资源争用的开销</li>
+<li>io多路复用模型，</li>
+<li>高效的数据结构，redis每种数据类型底层都做了优化，目的就是为了追求更快的速度### Redis的线程模型</li>
+</ol>
+<h2 id="Redis应用场景有哪些"><a href="#Redis应用场景有哪些" class="headerlink" title="Redis应用场景有哪些"></a>Redis应用场景有哪些</h2><ol>
+<li><strong>缓存热点数据</strong>，缓存数据库的压力</li>
+<li>利用Redis原子性的自增操作，可以<strong>实现计数器</strong>的功能，比如统计用户点赞数，用户访问数等</li>
+<li><strong>简单的消息队列</strong>，利用redis自身的发布&#x2F;订阅模式或者list来实现简单的消息队列，实现异步操作</li>
+<li><strong>限速器</strong>，可用于限制某个用户访问某个接口的频率，比如秒杀场景用于防止用户快速点击带来不必要的压力</li>
+<li>好友关系，利用集合的一些命令，比如交集，并集，差集等，实现共同好友，共同爱好之类的功能###</li>
+</ol>
+<h2 id="Redis事务保证原子性吗，支持回滚吗"><a href="#Redis事务保证原子性吗，支持回滚吗" class="headerlink" title="Redis事务保证原子性吗，支持回滚吗"></a>Redis事务保证原子性吗，支持回滚吗</h2><p>redis单条命令是原子性执行的，但事务不保证原子性，且没有回滚。事务中任意命令执行失败，其余的命令仍会被执行</p>
+<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>快照，RDB持久化就是将当前进程数据生成快照保存到磁盘上的过程，触发RDB持久化的方式有两种，分别为手动触发和自动触发</p>
+<ol>
+<li><p>手动触发：</p>
+</li>
+<li><p>save命令：阻塞当前redis服务器，直到RDB过程完成为止，对于内存比较大的实列会造成长时间阻塞，线上环境不建议使用</p>
+</li>
+<li><p>bgsave命令：redis进程执行fork操作创建子进程，rdb持久化过程由子进程完成，完成后自动结束，阻塞只在fork阶段，一般时间很短</p>
+</li>
+<li><p><img src="/2026/03/29/redis/1654436966956-88c8f162-e67c-4ead-811e-32dbaa08580d.png" alt="redis-x-rdb-1.png"></p>
+</li>
+<li><p>bgsave的具体流程如下：redis客户端执行bgsave命令或者自动触发bgsave命令；主进程判断当前是否以及存在或者正在执行的子进程，如果存在，那么主进程直接返回。如果不存在正在执行的子进程，那么fork一个新的子进程进行持久化数据，fork过程是阻塞的，fork操作完成后主进程即可执行其他操作；子进程先将数据写入到临时的rdb文件中，待快照数据完成后再原子替换旧的rdb文件；同时发送信号给主进程，通知主进程rdb持久化完成，主进程更新相关的统计信息</p>
+</li>
+<li><p>自动触发bgsave：</p>
+</li>
+<li><p>根据配置文件，在一定时间内修改一定次数会触发bgsave生成rdb文件</p>
+</li>
+<li><p>主从复制时，从节点要从主节点进行全量复制时也会触发bgsave操作，生成当时的快照发送到从节点</p>
+</li>
+<li><p>执行debug reload命令重新加载redis时也会触发bgsave操作</p>
+</li>
+<li><p>默认情况下执行shutdown命令时，如果没有开启aof持久化，那么也会触发bgsave命令</p>
+</li>
+<li><p>优点，加载RDB恢复数据远比AOF的方式快；使用子进程来进行持久化，主进程不会进行任何io操作，保证了redis的高性能</p>
+</li>
+<li><p>缺点，RDB方式数据无法做到实时持久化；## rdb快照过程中数据一致性的问题<br>在正常的快照操作中，一方面redis主进程会fork一个新的快照进程专门来做rdb快照，这样保证了redis服务不会停止对客户端包括写请求在内的任何响应。另一方面这段时间发生的数据变化会以副本的方式存放在另一个新的内存区域内，bgsave子进程会把这个副本数据写入rdb文件，主线程仍然可以修改原来位置上的数据。</p>
+</li>
+</ol>
+<h2 id="在进行快照操作的这段时间，如果发生服务崩溃怎么办"><a href="#在进行快照操作的这段时间，如果发生服务崩溃怎么办" class="headerlink" title="在进行快照操作的这段时间，如果发生服务崩溃怎么办"></a>在进行快照操作的这段时间，如果发生服务崩溃怎么办</h2><p>在没有将数据全部写入磁盘前，这次快照操作都不算成功，如果出现了服务崩溃的情况，将以上一次完整的rdb文件作为恢复内存数据的参考，上次rdb文件并没有这次快照操作而销毁，因为只有快照操作成功后才会用这个临时文件替换掉上一次的备份。</p>
+<h2 id="RDB快照时间间隔的把握"><a href="#RDB快照时间间隔的把握" class="headerlink" title="RDB快照时间间隔的把握"></a>RDB快照时间间隔的把握</h2><p>在只是用rdb快照的情况下，如果发生宕机，那么在恢复的时候，只能使用上一次的rdb快照文件，存在丢失数据的可能性，快照间隔时间越长，丢失数据的可能性越大。但也不是间隔的时间越短越好。如果频繁的执行全量快照，也会带来两方面的开销：一方面是频繁的将全量数据写入磁盘，会给磁盘带来很大压力，多个快照竞争有限的磁盘带宽。另一方面，bgsave子进程需要通过fork操作从主线程创建出来，虽然，子进程在创建后不会再阻塞主线程。但是，fork这个创建过程本身会阻塞主线程，而且主线程的内存越大，阻塞时间越长。如果频繁fork出bgsave子进程，这就会频繁阻塞主线程。</p>
+<h2 id="RDB优缺点"><a href="#RDB优缺点" class="headerlink" title="RDB优缺点"></a>RDB优缺点</h2><ol>
+<li><p>优点：RDB文件是某个时间节点的快照，默认使用LZF算法进行压缩，压缩后的文件体积远远小于内存大小，适用于备份，全量复制等场景；Redis加载RDB文件恢复远远快于aof方式</p>
+</li>
+<li><p>缺点：RDB方式实时性不够，无法做到秒级的持久化；每次调用bgsave都需要fork子进程，fork子进程属于重量级操作，频繁执行成本较高；RDB文件是二进制的，没有可读性，aof文件在了解其结构的情况下可以手动修改或补全；版本兼容RDB文件问题## AOF持久化的写后日志aof</p>
+</li>
+<li><p>aof持久化采用<strong>写后日志</strong>，即先写内存后写日志，日志中记录的<strong>是redis收到的每一条命令</strong>，这些命令是以文本形式保存的。采用后写日志的优点有：第一点是 写后日志记录命令的时候可以不对这些命令进行检查，避免额外的检查开销，如果是写前日志的话，就需要对这些命令进行检查，防止记录错误的命令，以免使用日志恢复数据的时候也会出错。第二点是写后日志不会阻塞当前的写操作。写后日志的缺点是：第一个，如果在命令执行完之后，日志记录前宕机，则会丢失数据。第二个是，aof虽然避免了对当前命令的阻塞，但可能会给下一个操作带来阻塞风险，这是因为aof日志虽然也是在主线程中执行的，如果在把日志文件写入磁盘时，磁盘写压力大，就会导致写盘很慢，进而导致后续的操作也无法执行了。## 如何实现aof</p>
+</li>
+<li><p>aof日志记录redis的每个写命令，步骤分为命令追加和文件写入和同步，</p>
+</li>
+<li><p>命令追加，当aof持久化功能打开了，服务器在执行完一个写命令之后，会以协议格式将被执行的写命令追加到服务器的aof_buf缓冲区</p>
+</li>
+<li><p>文件写入和同步，按照一定的策略将aof_buf缓冲区的内容写入aof文件中，redis提供了三种策略，分别是always，everysec，no。always是每次命令执行完立即同步的将日志写回磁盘，everysec是每个写命令执行完，只是先把日志写到aof_buf缓冲区，每隔一秒再把缓冲区中的内容写入磁盘，no是先把日志写入aof_buf缓冲区，由操作系统决定何时将缓冲区内容写回磁盘。这三种策略是在性能和可靠性保证之间做取舍。</p>
+</li>
+<li><p>aof文件需要进行重写，如果任其越来越大，会对redis服务器，甚至对操作系统造成影响，而且aof文件越大，数据恢复越慢。redis通过创建一个新的aof文件来替换现有的aof，新旧两个aof文件保存的数据相同，但新aof文件没有冗余命令</p>
+</li>
+<li><p>有两个配置项控制AOF重写的触发：一个是<code>auto-aof-rewrite-min-size</code>，表示运行AOF重写时文件的最小大小，默认为63MB；另一个是<code>auto-aof-rewrite-percentage</code>,当前aof文件比上一次重写后aof文件的增量大小 与 上一次重写后aof文件大小的比值</p>
+</li>
+<li><p>每次执行重写时，主线程fork出bgrewriteaof进程。此时，fork会把<strong>主线程的内存</strong>拷贝一份给bgrewriteaof子进程，这里面包含了数据库的最新数据。然后，bgrewriteaof子进程就可以在不影响主线程的情况下，逐一把拷贝的数据写成操作，计入重写日志。在这个过程中，主线程依旧可以处理新来的操作，如果是写操作，会把操作记录到aof_buf缓冲区中和重写日志的缓冲区中，这样重写日志也不会丢失最先的操作。等到拷贝数据的所有操作记录重写完成后，重写日志记录的这些最新操作也会写入新的aof文件，以保证数据库最新状态的记录，此时，我们就可以用新的aof文件替换旧文件了。## aof日志重写会阻塞吗<br>在重写的过程中，只有fork bgrewriteaof子进程的时候才会阻塞住主进程。在后面就不会了</p>
+</li>
+</ol>
+<h2 id="主线程fork出子进程是如何复制内存数据的"><a href="#主线程fork出子进程是如何复制内存数据的" class="headerlink" title="主线程fork出子进程是如何复制内存数据的"></a>主线程fork出子进程是如何复制内存数据的</h2><p>fork采用操作系统提供的写时复制（copy on write）机制，就是为了避免一次性拷贝大量内存数据给子进程造成阻塞。fork子进程时，子进程时会拷贝父进程的页表，即虚实映射关系（虚拟内存和物理内存的映射索引表），而不会拷贝物理内存。这个拷贝会消耗大量cpu资源，并且拷贝完成前会阻塞主线程，阻塞时间取决于内存中的数据量，数据量越大，则内存页表越大。拷贝完成后，父子进程使用相同的内存地址空间。<br>但主进程是可以有数据写入的，这时候就会拷贝物理内存中的数据。如下图（进程1看做是主进程，进程2看做是子进程）：<br><img src="/2026/03/29/redis/1654507283623-ad253fad-55e8-49ec-9cb5-6b9d1da9ed3c.png" alt="redis-x-aof-3.png"></p>
+<p>在主进程有数据写入时，而这个数据刚好在页c中，操作系统会创建这个页面的副本（页c的副本），即拷贝当前页的物理数据，将其映射到主进程中，而子进程还是使用原来的的页c。 </p>
+<h2 id="RDB和aof混合方式"><a href="#RDB和aof混合方式" class="headerlink" title="RDB和aof混合方式"></a>RDB和aof混合方式</h2><p>在redis4.0中提出了混合使用aof日志和内存快照的方法，简单的说就是内存快照在一定的频率执行，在两次快照之间，使用aof日志记录这期间的所有命令操作。</p>
+<h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><ol>
+<li><p>当启动一个从节点时，会发送psync命令给主节点</p>
+</li>
+<li><p>如果是从节点初次连接到主节点，那么会触发一次全量复制。此时主节点会启动一个后台线程，开始生成一份RDB快照文件</p>
+</li>
+<li><p>同时还会将从刻划断client新收到的所有写命令缓存在内存中。RDB文件生成完毕后，主节点会将RDB文件发送给从节点，从节点会先将RDB文件写入本地磁盘，然后再从本地磁盘加载到内存中</p>
+</li>
+<li><p>接着主节点会将内存中缓存的写命令发送到从节点，从节点同步这些数据</p>
+</li>
+<li><p>如果从节点跟主节点之间网络出现故障，连接断开，会自动重连，连接之后主节点仅会将部分缺失的数据同步给从节点## 哨兵机制</p>
+</li>
+<li><p>哨兵机制解决的是主从复制不能自动故障转移，达不到高可用的问题</p>
+</li>
+<li><p>工作原理：</p>
+</li>
+<li><p>每个哨兵以每秒钟一次的频率向它所知道的主节点，从节点以及其他哨兵发送一个ping命令</p>
+</li>
+<li><p>如果一个实例距离最后一次有效回复ping命令的时间超过指定值，则这个实例会被sentine标记位主观下线</p>
+</li>
+<li><p>如果一个主节点被标记为主观下线，那正在监视这个主节点的所有哨兵要以每秒一次的频率确认主节点是否真正进入主观下线状态</p>
+</li>
+<li><p>当有足够数量的哨兵（大于等于配置文件指定值）在指定时间范围内确认主节点的确进入主观下线状态，则主节点被标记位客观下线，反之不会被认定为客观下线。若主节点重新向哨兵的ping命令返回有效回复，主节点的主观下线状态就会被移除</p>
+</li>
+<li><p>哨兵节点会选举出哨兵leader，负责新主节点的选举</p>
+</li>
+<li><p>哨兵leader会推选出某个表现良好的从节点成为新的主节点，然后通知其他从接待你更新主节点信息## Redis cluster</p>
+</li>
+<li><p>哨兵模式解决了主从复制不能自动故障转移，达不到高可用的问题，但还是存在主节点的写能力、容量受限于单机配置的问题，集群模式实现了redis的分布式存储，每个节点存储不同的内容，解决了主节点的写能力，容量受限于单机配置的问题</p>
+</li>
+<li><p>集群节点最小配置6个节点（3主3从），其中主节点提供读写操作，从节点作为备用节点，不提供请求，只作为故障转移使用</p>
+</li>
+<li><p>Redis cluster采用虚拟槽分区，所有的键根据哈希函数映射到0~16383个整数槽内，每个节点负责维护一部分槽以及槽所映射的键值数据## 过期键的删除</p>
+</li>
+<li><p>被动删除，在访问key时，如果发现key已经过期，那么将key删除</p>
+</li>
+<li><p>主动删除，定时清理key，每次清理会依次遍历所有db，从db中随机选择20个key，如果过期就删除，如果其中有5个key过期，那么就继续对这个db进行清理，否则开始清理下一个db</p>
+</li>
+<li><p>内存不够时清理，如果使用的内存超过了设置的最大内存，在进行内存释放的时候，会按照配置的淘汰策略清理内存## 如何保证缓存和数据库双写时的数据一致性<br><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/712285">https://developer.aliyun.com/article/712285</a>   阿里云开发社区<br>选择删除缓存而不是更新缓存的原因：如果每次都更新缓存，但如果业务中没有读取的需求，那么这种更新效率就很低。因此更新缓存具有性能问题。</p>
+</li>
+<li><p>先删除缓存再更新数据库（是有问题的，不可采用）</p>
+</li>
+<li><p>删除缓存数据后，更新数据库完成之前，这个时间段内如果有新的读请求过来，就会从数据库读取旧数据重新写到缓存中，会导致缓存数据和数据库数据不一致的问题，如果缓存失效时间很长，那么会导致cache与数据库的数据一直或长时间不一致</p>
+</li>
+<li><p>先更新数据库再删除缓存</p>
+</li>
+<li><p>也会出现问题，就是更新数据库成功，但删除缓存失败。解决方案是订阅Mysql数据库的binlog日志对缓存进行操作</p>
+</li>
+<li><p><strong>异步更新缓存</strong>，数据库的更新操作完成后不直接操作缓存，而是把这个操作命令封装成消息扔到消息队列中，然后由redis自己去消费更新数据，消息队列可以保证数据操作顺序一致性，保保的数据正常## 缓存击穿</p>
+</li>
+<li><p>缓存击穿是<strong>某个热点的key失效</strong>，大并发集中对其进行请求，就会造成大量请求读缓存没有读到数据，从而导致高并发访问数据库，引起数据库压力剧增</p>
+</li>
+<li><p>解决方法：热点数据永不失效，这种永不失效可以是物理不过期，也可以是逻辑不过期。物理不过期是指不设置过期时间，逻辑不过期是指将key的过期时间存放再redis中，如果发现要过期了，通过一个后台异步线程进行缓存的构建## 缓存穿透</p>
+</li>
+<li><p>缓存穿透是指<strong>用户请求的数据在缓存中不存在即没有命中，同时在数据库中也不存在，</strong>导致用户每次请求该数据都要去数据库中查询一遍。如果有恶意攻击者不断请求系统中不存在的数据，会导致短时间大量请求落在数据库上，造成数据库压力过大，甚至导致数据库承受不住而宕机崩溃。</p>
+</li>
+<li><p>解决方法：使用布隆过滤器，如果布隆过滤器判定某个key不存在布隆过滤器中，那么就一定 不存在，如果判定某个key存在，那么很大可能存在（有一定的误判率）。</p>
+</li>
+<li><p>布隆过滤器的原理，通过k个散列函数将这个函数映射成一个位数组中的k个点，把他们置为1.查询时，将元素通过散列函数映射之后得到k个点，如果这些点有任何一个为0，则被检元素一定不在，直接返回；如果为1，则查询元素很可能存在，就会去查询redis和数据库## 缓存雪崩</p>
+</li>
+<li><p>缓存雪崩是指某一个时刻，大规模的key失效，那么就会导致大量的请求打在了数据库上面，导致数据库压力巨大，如果在高并发的情况下，可能瞬间就会导致数据库宕机，雪崩导致的主要原因有redis宕机或者采用了相同的过期时间</p>
+</li>
+<li><p>解决方案：</p>
+</li>
+<li><p>设置不同的过期时间，让缓存失效的时间尽量均匀</p>
+</li>
+<li><p>热点数据缓存永不过期</p>
+</li>
+<li><p>保证redis缓存的高可用</p>
+</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

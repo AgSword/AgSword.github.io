@@ -1,0 +1,223 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      Maven [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      Maven
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h3 id="Maven中的scope"><a href="#Maven中的scope" class="headerlink" title="Maven中的scope"></a>Maven中的scope</h3><p>在maven中，scope用于定义依赖性的作用范围，即指定依赖在项目的哪些阶段（编译、测试、运行）生效，以及是否会被传递到其他依赖中。不同的scope会影响依赖的打包行为、传递性和可用性。</p>
+<table>
+<thead>
+<tr>
+<th>scope</th>
+<th>说明</th>
+<th>典型场景示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>compile</td>
+<td>默认值。依赖在编译、测试、运行时均可用，且会传递到依赖的项目中</td>
+<td>Spring Core、Mybatis等</td>
+</tr>
+<tr>
+<td>provided</td>
+<td>依赖在编译和测试时可用，但运行时由环节提供，不会打包到最终产物</td>
+<td>Servlet API</td>
+</tr>
+<tr>
+<td>runtime</td>
+<td>依赖在测试和运行时可用，但编译时不需要</td>
+<td>​</td>
+</tr>
+<tr>
+<td>test</td>
+<td>依赖仅在测试阶段可用，不会传递到主代码或打包产品中</td>
+<td>Junit、Mockito</td>
+</tr>
+<tr>
+<td>system</td>
+<td>与provided类似，但依赖需要显式指定本地路径（不推荐使用，破坏可移植性）</td>
+<td>本地非Maven仓库的特殊性</td>
+</tr>
+<tr>
+<td>import</td>
+<td>仅在dependencyManagement中使用，用于导入其他POM的依赖管理配置</td>
+<td>​</td>
+</tr>
+<tr>
+<td><strong>关键区别</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>依赖传递性：compile、runtime会传递依赖；provided、test、system不会传递依赖</p>
+</li>
+<li><p>打包行为：compile、runtime会打包到最终产物（如JAR&#x2F;WAR）；provided、test、system不会打包到最终产物中</p>
+</li>
+<li><p>生命周期阶段：test仅影响测试阶段；provided在运行时不生效（由环境提供）### 什么是Maven仓库<br>Maven的仓库只有两大类：</p>
+</li>
+<li><p>本地仓库</p>
+</li>
+<li><p>远程仓库。在远程仓库中又分为三种</p>
+</li>
+</ol>
+<ul>
+<li>中央仓库</li>
+<li>私服</li>
+<li>其他公共库</li>
+</ul>
+<h3 id="对于一个多模块项目，如果管理项目依赖的版本"><a href="#对于一个多模块项目，如果管理项目依赖的版本" class="headerlink" title="对于一个多模块项目，如果管理项目依赖的版本"></a>对于一个多模块项目，如果管理项目依赖的版本</h3><ul>
+<li>方式一，通过在父模块中声明<dependencyManagement>和<pluginManagement>，然后让子模块通过元素指定父模块，这样子模块在定义依赖时就可以只定义groupId和artifactId，自动使用父模块的version，这样统一整个项目的依赖的版本</pluginManagement></dependencyManagement></li>
+<li>方式二，使用<dependency>声明<scope>为import的依赖，从而引入一个pom的<dependencyment><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-framework-bom<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure></dependencyment></scope></dependency></li>
+</ul>
+<h3 id="Maven依赖原则"><a href="#Maven依赖原则" class="headerlink" title="Maven依赖原则"></a>Maven依赖原则</h3><ol>
+<li>依赖路径最短优先原则：一个项目依赖了两个jar包，其中A-B-C-X(1.0)，A-D-X(2.0)。由于X(2.0)路径最短，所以项目使用的是X(2.0)</li>
+<li>pom文件中申明顺序优先：如果A-B-X(1.0)，A-C-X(2.0)，这样的路径长度一样怎么办？这样的情况下，maven会根据pom文件声明的顺序加载，如果先声明了B，后声明了C，那就最终的依就会是X(1.0)</li>
+<li>覆写优先，子项目中pom内声明的优先于父项目pom中的依赖### 如果解决jar冲突<br>遇到冲突的第一步就是 通过mvn dependency:tree 查看依赖树或者idea maven helper插件 找到maven加载的是什么版本的jar包。然后，通过maven的依赖原则来调整坐标在pom文件中的声明顺序是最好的办法，或者将冲突中不想要的jar<exclude>掉。</exclude></li>
+</ol>
+<h3 id="Maven的生命周期"><a href="#Maven的生命周期" class="headerlink" title="Maven的生命周期"></a>Maven的生命周期</h3><p>Maven由三套相互独立的生命周期，分别为Clean，Default，Site。每个生命周期包含了一些极端，阶段是有顺序的，后面的阶段依赖于前面的阶段。</p>
+<ul>
+<li>1、Clean 生命周期：清理项目，包含三个 phase ：</li>
+<li>pre-clean：执行清理前需要完成的工作。</li>
+<li>clean：清理上一次构建生成的文件。</li>
+<li>post-clean：执行清理后需要完成的工作</li>
+<li>2、Default 生命周期：构建项目，重要的 phase 如下：</li>
+<li>validate：验证工程是否正确，所有需要的资源是否可用。</li>
+<li>compile：编译项目的源代码。</li>
+<li>test：使用合适的单元测试框架来测试已编译的源代码。这些测试不需要已打包和布署。</li>
+<li>package：把已编译的代码打包成可发布的格式，比如 jar、war 等。</li>
+<li>integration-test：如有需要，将包处理和发布到一个能够进行集成测试的环境。</li>
+<li>verify：运行所有检查，验证包是否有效且达到质量标准。</li>
+<li>install：把包安装到maven本地仓库，可以被其他工程作为依赖来使用。</li>
+<li>deploy：在集成或者发布环境下执行，将最终版本的包拷贝到远程的repository，使得其他的开发者或者工程可以共享。</li>
+<li>3、Site 生命周期：建立和发布项目站点，phase 如下：</li>
+<li>pre-site：生成项目站点之前需要完成的工作</li>
+<li>site：生成项目站点文档</li>
+<li>post-site：生成项目站点之后需要完成的工作</li>
+<li>site-deploy：将项目站点发布到服务器在ieda中，maven生命周期由九种操作：</li>
+</ul>
+<ol>
+<li>clean，清理自动生成的文件，也就是target目录</li>
+<li>validate，严重maven描述文件是否有效</li>
+<li>compile，编译Java代码</li>
+<li>test，运行测试代码</li>
+<li>package，项目打成jar、war包</li>
+<li>verify，验证构建包是否有效</li>
+<li>install，将构建包安装到本地仓库</li>
+<li>deploy，将构建包部署到远端仓库</li>
+<li>site，生成项目站点​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

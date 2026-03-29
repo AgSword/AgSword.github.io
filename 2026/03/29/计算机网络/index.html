@@ -1,0 +1,261 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      计算机网络 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      计算机网络
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h3 id="OSI网络模型"><a href="#OSI网络模型" class="headerlink" title="OSI网络模型"></a>OSI网络模型</h3><ol>
+<li><p>应用层，负责为应用程序提供统一的接口</p>
+</li>
+<li><p>表示层，负责将数据转换为兼容另一个系统能够识别的格式</p>
+</li>
+<li><p>会话层，负责建立、管理和终止表示层实体之间的通信会话</p>
+</li>
+<li><p>传输层，负责端到端的数据传输</p>
+</li>
+<li><p>网络层，负责数据的路由、转发、分片</p>
+</li>
+<li><p>数据链路层，负责数据的封帧和差错检测，以及MAC寻址</p>
+</li>
+<li><p>物理层，负责在物理网络中传输数据帧### Tcp&#x2F;Ip服务</p>
+</li>
+<li><p>应用层，<strong>为应用程序提供交互服务</strong>，在互联网中的应用层协议很多，比如域名系统DNS、HTTP协议、SMTP协议等</p>
+</li>
+<li><p>传输层，<strong>负责向两台主机进程之间的通信提供数据传输服务</strong>，传输层的协议主要有传输控制协议TCP和用户数据协议UDP</p>
+</li>
+<li><p>网络层，<strong>选择合适的路由和交换节点，确保数据及时传送</strong></p>
+</li>
+<li><p>网络接口层，<strong>负责网络包在物理网络中的传输</strong>### 从键入网址到网页显示，期间发生了什么</p>
+</li>
+<li><p>对url进行解析，生成发送给web服务器的信息，url中包含有应用层的协议、服务器地址、资源路径</p>
+</li>
+<li><p>通过DNS服务器查找服务器对应的ip地址</p>
+</li>
+<li><p>浏览器会先看自身有没有对这个域名的缓存，如果有，就直接返回，如果没有就去问操作系统，操作系统就会去看自己的缓存，如果有，就直接返回，如果没有，再去hosts文件看，也没有，就去问本地DNS服务器，本地DNS服务器会没有就会去根域名以及下面的域名服务器去查找</p>
+</li>
+<li><p>通过DNS获取到IP后，客户端首先向服务器申请建立连接，进行tcp三次握手。第一次握手，客户端向服务器发送同步报文，使用一个随机数u作为序列号，并进入同步已发送状态，等待服务器回应。第二次握手，服务器接收到客户端的连接请求，如果同意建立连接，发送同步确认报文，以u+1为确认号，使用随机数v作为序列号，此时处于同步已接受状态。第三次握手，客户端接收到服务器的同步确认报文，向服务器发送确认报文，确认序号为v+1，发送完成之后客户端进入建立连接状态，服务器接收到确认报文后也进入到建立连接状态。</p>
+</li>
+<li><p>建立连接后，客户端发送http请求，生成http报文，传输层根据最大报文长度对http报文进行分段，在每一段前面加上tcp头，tcp头内有源端口号、目标端口号、序号、确认序列、状态位等。到网络层会再在前面加上ip头，ip头内有源ip地址，目标ip地址，协议，源ip地址就是自身的ip地址，目标ip地址就是刚刚提到的通过url域名解析到的ip地址，这里的协议是指上层网络结构中使用到的协议。到链路层后会再加上MAC头，内有接收方mac地址、发送方mac地址、协议类型，发送方mac地址就是当前网络节点的mac地址，发送方的mac地址首先要通过路由表根据目标ip地址查询到下一个节点的ip地址，然后需要arp协议帮我们找到下一个节点的mac地址（会先在arp缓存中查找，不存在就进行arp广播查询）。网卡驱动器获取到网络包后复制到网卡缓冲区，会在开头加上报头和起始帧分界符，在末尾加上检测错误的帧校验序列，将包转化为电信号，通过网线发送出去。网络包在网络中传输的过程中如果遇到交换机，交换机将电信号转化数字信号，通过帧尾的帧校验序列 校验错误，没有问题放入缓冲区，会根据网络包中的接收方mac地址查询mac地址表得到下面需要将网络包送到的端口，转化为电信号发送出去。需要交换机则根据目标ip地址查询路由表得到对应的网关，也就是下一个节点的ip地址，再通过arp协议得到下一节点的mac地址，生成新的mac头替换掉原有的mac头。这样数据包最终到达服务器，服务器会先扒开数据包的mac头，看mac头中的接收方mac地址是不是和自已一样，一样就将包收起来。接着继续扒开数据包的ip头，发现ip地址符合，根据ip头内协议号得知自己上一层是tcp协议。扒开tcp头，里面有序列号，看看这个序列号是不是自己想要的，是就放入缓存中并返回一个ack，服务器会根据tcp头中的目标端口号将数据包给监听这个端口号的http进程，http进程根据请求生成响应报文，再以同样的方式将报文传输给客户端。</p>
+</li>
+<li><p>浏览器加载，解析和渲染资源。当浏览器获取到一个html文件时，会自上而下加载，并在加载的过程中进行解析渲染，在加载的过程中如果遇到一个css文件，会发送另外一个请求在获取css文件。遇到图片资源，浏览器也会发出一个请求，来获取图片资源，这是异步请求，并不会影响html文档加载。但是当文档加载过程中遇到js文件，html文档会挂起文档中js文件加载完毕，还要等待解析执行完毕，才可以恢复html文档的渲染线程。## http部分</p>
+</li>
+</ol>
+<h3 id="http缓存"><a href="#http缓存" class="headerlink" title="http缓存"></a>http缓存</h3><ol>
+<li><p>分为强制缓存和协商缓存，</p>
+</li>
+<li><p>强制缓存是只要浏览器判断缓存没有过期，就直接使用浏览器的本地缓存，决定是否使用缓存的主动权在浏览器。当浏览器第一次向服务器申请资源时，服务器的响应的响应头中有cache-control字段或者expire字段，这两个字段的值设置了资源的过期时间，其中cache-control字段的优先级高于expire字段，cache-control设置的是相对时间，expire设置的是绝对时间。当浏览器再次请求此资源的时候，会根据过期时间判断此资源是否已过期，如果没有，则使用该资源，否则重新请求服务器，也会更新过期时间</p>
+</li>
+<li><p>协商缓存，在浏览器第一次向服务器发送请求时，浏览器会在响应头中etag字段，为资源在服务器中的唯一标识，和last-modified字段，此字段为服务器资源最后的改动时间，第二次请求时，如果强制缓存过期，则再向服务器发送请求时，会在请求头中设置if-not -match字段，字段值为etag字段值。如果没有etag，则在请求头中设置if-modified-since字段，字段值为last-modified字段值。如果第一次响应头中既有etag和last-modified，etag的优先级高于last-modified，会先判断etag是否变化，如果没有变化，再看last-modified。服务器收到请求后，会判断有没有过期，没有过期返回304，过期了返回200和资源### 加密算法</p>
+</li>
+<li><p>常见的对称加密算法：DES、3DES、AES、Blowfish、IDEA、RC5、RC6### 什么是TCP粘包和拆包<br>假设客户端向服务端发送两个数据包，如果接收端接收到一个包含着这两个数据包的数据包，则发生了粘包，如果接收到的两个数据包一个不完整，一个多出来一块，则发生了粘包拆包。</p>
+</li>
+</ol>
+<h3 id="出现这种情况的原因"><a href="#出现这种情况的原因" class="headerlink" title="出现这种情况的原因"></a>出现这种情况的原因</h3><p>出现这种情况的原因：1、应用程序写入的数据大于套接字缓冲区大小，会发生拆包；2、应用程序写入的数据小于套接字缓冲区的大小，会发生粘包；3、接收方不及时读取套接字缓冲区数据，会发生粘包；4、TCP报文长度过长，会发生拆包。<br>UDP不会发生这种情况，UDP是面向报文的，具有消息保护边界</p>
+<h3 id="解决方法：应用层"><a href="#解决方法：应用层" class="headerlink" title="解决方法：应用层"></a>解决方法：应用层</h3><p>1、在每个数据包的前面添加包首部，在包首部中添加包的长度；2、将每个数据包封装为固定长度，不足部分用0填补；3、在数据包之间设置边界</p>
+<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><p>响应分为响应行，响应头，响应体<br>响应状态码：<br>200，成功<br>301，永久资源转移<br>302，临时资源转移<br>304，使用缓存资源<br>403，拒绝访问<br>404，资源不存在<br>500，服务端错误</p>
+<h3 id="http1-0和http1-1的区别在哪里"><a href="#http1-0和http1-1的区别在哪里" class="headerlink" title="http1.0和http1.1的区别在哪里"></a>http1.0和http1.1的区别在哪里</h3><ol>
+<li><p>长连接：在http1.0中，默认使用短链接，而http1.1中使用长连接，默认开启connection：keep-alive。http1.1的长连接中有流水式和非流水式，流水式是客户端在收到http的响应报文前就能接着发送新的请求报文，而非流水式方式是客户端在收到前一个请求的响应后才能发送后面的请求</p>
+</li>
+<li><p>错误状态响应码：在http1.1中新增错误状态响应码，如409（conflict）表示请求的资源和资源的当前状态不一致；410表示服务器的某个资源被永久性删除</p>
+</li>
+<li><p>缓存处理：在http1.0中主要使用请求头的expires、last-modified、if-modified-since来作为缓存控制策略；etag和if-mot-match等更多可供选择的缓存控制策略</p>
+</li>
+<li><p>带宽优化及网络连接的使用：在http1.0中，存在一些浪费带宽的现象，例如客户端只需要某个对象的一部分，而服务器却将整个对象送过来，http1.1则在请求头中引入range，它允许只请求资源的某个部分，返回的状态码是206### http2.0新特性</p>
+</li>
+<li><p>http1.x的解析是基于文本，而http2.0的解析是采用二进制的方式，实现方便，健壮性更好</p>
+</li>
+<li><p>多路复用：每一个request对应一个id，一个连接上可以有多个request，每个连接的request可以随机混在一起，这样接收方可以根据request的id将request归属到各自不同的服务端请求里</p>
+</li>
+<li><p>header压缩：在http1.x中，header携带大量的信息，并且每次都需要重新发送，http2.0采用编码的方式减少header的大小，同时通信双方各自缓存一份header fields表，避免了header的重复传输</p>
+</li>
+<li><p>服务端推送：客户端在请求一个资源时，会把相关的资源一起发给客户端，这样客户端就不需要再次发起请求### http和https的区别</p>
+</li>
+<li><p>端口：http的默认端口号为80，https的默认端口号为443</p>
+</li>
+<li><p>安全性和资源消耗：http协议运行在tcp协议之上，所有传输的内容都是明文，客户端和服务端都无法验证对方身份；在https协议运行在ssl&#x2F;tls之上，ssl&#x2F;tls运行在tcp之上，所有的传输的内容都经过加密，因此https安全性比http高，但https比http耗费更多服务器资源### https是怎么实现安全的加密传输的<br>https使用的是对称加密和非对称加密的混合加密算法，使用非对称加密传输对称密钥来保证安全性，使用对称加密来保证通信的效率。<br>https加密过程：</p>
+</li>
+<li><p>客户端向服务端发送第一次握手请求，告诉服务端 客户端支持的ssl的指定版本、加密算法及密钥长度等信息</p>
+</li>
+<li><p>服务端将自己的公钥发送给数字证书认证机构，认证机构利用自己的私钥对服务端的公钥进行数字签名，并对服务端颁发数字证书</p>
+</li>
+<li><p>服务端将证书发送给客户端</p>
+</li>
+<li><p>客户端利用认证机构的公钥 验证服务器公开密钥的真实性</p>
+</li>
+<li><p>客户端利用服务端的公钥加密自己生成的对称密钥，发送给服务端</p>
+</li>
+<li><p>服务端利用自己的私钥解密对称密钥，得到客户端发来的对称密钥</p>
+</li>
+<li><p>接下来通信双方就可以使用对称密钥来加解密## tcp部分</p>
+</li>
+</ol>
+<h3 id="tcp三次握手"><a href="#tcp三次握手" class="headerlink" title="tcp三次握手"></a>tcp三次握手</h3><p>tcp三次握手的目的是确认客户端和服务端的接收和发送的能力，同时，确认序列号为后面的可靠性传输做准备。<br>第一次握手，服务端处于监听状态，客户端发送同步报文，tcp首部syn位为1，序列号为随机值x，客户端处于同步已发送状态。<br>第二次握手，服务端收到客户端的连接请求，如果服务端同意连接，发送同步确认报文，tcp头syn，ack位处于1，序列号为随机值y，确认应答号为x+1，服务端处于同步已接收状态<br>第三次握手，客户端收到服务器的同步确认报文，发送确认报文，tcp头部ack为1，确认应答号为y+1，发送完客户端处于连接状态，服务端接收到确认报文，处于连接状态。</p>
+<h3 id="tcp第三次握手失败会怎么样"><a href="#tcp第三次握手失败会怎么样" class="headerlink" title="tcp第三次握手失败会怎么样"></a>tcp第三次握手失败会怎么样</h3><ol>
+<li>第三次的ack在网络中丢失，此时服务端处于同步已接收的状态，如果在一定时间内没有收到ack报文，那么会超时重发同步确认报文，如果重发一定次数后，仍然没有收到客户端的ack应答，那么一定时间后，服务端会自动关闭这次连接</li>
+<li>客户端在第三次握手之后，就处于连接状态，如果发送数据，服务端会发送RST包来通知客户端### 建立连接时，服务端端口上没有应用监听<br>服务端收到同步报文段后，发送RST包</li>
+</ol>
+<h3 id="tcp四次挥手"><a href="#tcp四次挥手" class="headerlink" title="tcp四次挥手"></a>tcp四次挥手</h3><p>第一次挥手，客户端发送连接释放报文，tcp头部fin为1，发送后，客户端处于释放等待1状态<br>第二次挥手，服务端接收到客户端的释放报文后发送确认报文，tcp头部ack为1，服务端处于closewait状态，之后服务端依旧可以向客户端发送数据。客户端处于释放等待2状态。<br>第三次挥手，当服务端没有数据向客户端发送后，发送连接释放报文，tcp头部fin位为1，服务端处于last-ack状态<br>第四次挥手，当客户端收到服务端的释放报文，客户端发送确认报文，处于timewait状态，等待时长为两个最长报文存活时间，在这时间之后，客户端进入关闭状态。服务端接收到确认报文后，进入close状态</p>
+<h3 id="tcp重传机制"><a href="#tcp重传机制" class="headerlink" title="tcp重传机制"></a>tcp重传机制</h3><ol>
+<li>超时重传，定时器过期还没有收到确认报文会进行超时重传</li>
+<li>快速重传</li>
+<li>SACK</li>
+<li>D-SACK### 超时重传机制<br>超时重传时间应该略大于报文往返时间。每当遇到一次超时重传，都会将下一次超时时间间隔设为先前值的两倍</li>
+</ol>
+<h3 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h3><p>不以时间为驱动，而是以数据驱动重传。确认报文的ack值为下一次希望收到的序列号。如果收到了三个确认报文的ack值是一样的，就会在定时器过期之前（定时器到期就会执行超时重传）进行重传丢失的报文<br>但此时重传哪些报文这是不知道的，就产生了下面的重传机制</p>
+<h3 id="SACK-Select-Acknowledgement"><a href="#SACK-Select-Acknowledgement" class="headerlink" title="SACK(Select Acknowledgement)"></a>SACK(Select Acknowledgement)</h3><p>在tcp头部中加上SACK字段，它可以将接收缓冲区内已接受的数据范围告诉发送方，这样发送方就可以知道哪些数据收到了，哪些数据没有收到，只重传丢失的数据</p>
+<h3 id="Duplicate-SACK"><a href="#Duplicate-SACK" class="headerlink" title="Duplicate SACK"></a>Duplicate SACK</h3><p>当发送重复接收时，会通过sack来告诉发送方重复接收的数据的范围<br>D-SACK的好处：</p>
+<ol>
+<li><p>可以让发送方知道，是发出去的包丢了，还是接收方回应的ACK包丢了</p>
+</li>
+<li><p>可以知道是不是发送方的数据包被网络延迟了</p>
+</li>
+<li><p>可以知道网络中是不是把发送方的数据包给复制了	### 滑动窗口</p>
+</li>
+<li><p>接收方滑动窗口窗口大小就是指无需等待确认应答，而可以继续发送数据的最大值。通常，窗口的大小是由接收方的窗口大小来决定的，tcp头里有个字段叫为window，这个决定了窗口的大小，这个字段是接收方告诉发送方自己还有多少缓冲区可以接收数据<br>将已发送并收到ack确认的数据、已发送但未收到ack确认的数据、未发送的数据进行从左到右的排序，随着陆续收到ack确认报文，无形中就有一个窗口向右移动，窗口中为等待收到确认的数据和可以发送的数据的集合<br>通过 窗口大小、已接受但没有确认的第一个字节的序列号（SUD.UDA）、未发送但可发送的第一个字节的序列号 来确定窗口（SUD.NXT）</p>
+</li>
+<li><p>接收方滑动窗口接收方的滑动窗口表示未收到数据但可以接收的数据<br>接收方与发送方的滑动窗口的大小是约等于的关系，这是因为接收方的滑动窗口的大小会随着接收方应用程序读取数据而发生改变，则发送方的滑动窗口的大小也会随着发生改变，而两者的改变会随着传输过程的时延而存在着时延<br>RCV.WND表示接收窗口的大小，RCV.NXT指向期望从发送方发送来的下一个数据字节的序列号</p>
+</li>
+</ol>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>TCP提供一种机制，可以让发送方根据接收方的实际接收能力控制发送的数据量，这就是所谓的流量控制</p>
+<h3 id="操作系统缓冲区和滑动窗口的关系"><a href="#操作系统缓冲区和滑动窗口的关系" class="headerlink" title="操作系统缓冲区和滑动窗口的关系"></a>操作系统缓冲区和滑动窗口的关系</h3><p>接收方滑动窗口的大小会通过ack报文中tcp头部window字段告诉发送方，发送方会调整自己的滑动窗口。而如果接收方操作系统减少了接收缓冲区的大小，却没有确认报文可发送，那么会出现丢包的现象</p>
+<h3 id="窗口关闭"><a href="#窗口关闭" class="headerlink" title="窗口关闭"></a>窗口关闭</h3><p>如果接收方窗口大小为0，就会阻止发送方 向 接收方传递数据，直到窗口变为非0为止，这就是窗口关闭<br>当接收方向发送方通告一个窗口非0的ack报文，如果这个报文在网络中丢失，那么就会出现双方都在等待对方的数据，造成死锁的现象。为了解决这个问题，tcp为每个连接设立一个持续定时器，只要tcp连接一方收到对方的零窗口通知，就会启动持续计时器，如果持续计时器超时，就会发送窗口探测报文，而对方在确认这个探测报文的时候，就会给出自己现在的接收窗口大小，如果接受窗口仍然为0，那么就会重新启动持续计时器，如果不是0，那么死锁的局面就被打破。</p>
+<h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><p>流量控制是为了避免发送方的数据填满了接收方的缓存，而拥塞控制是为了由于网络拥堵，如果继续发送大量数据包，可能会导致数据包时延、丢失等<br>流量控制和拥塞控制的同时作用使得发送窗口为接收窗口和拥塞窗口的最小值。拥塞窗口变化的规则是只要网络中没有出现拥塞，拥塞窗口就会增大，但如果出现了拥塞，拥塞窗口就会减小<br>当发送方没有在规定时间内接收到ack应答报文，也就是出现了超时重传，就会认为网络出现了拥塞</p>
+<h3 id="拥塞控制的四个算法"><a href="#拥塞控制的四个算法" class="headerlink" title="拥塞控制的四个算法"></a>拥塞控制的四个算法</h3><ol>
+<li>慢启动，tcp在刚建立连接完成后，会一点点的提高发送数据包的数量，当发送方每收到一个ack确认报文，拥塞窗口就会加1cwnd，慢启动过程是一个指数级增长。</li>
+<li>拥塞避免，当拥塞窗口的大小大于<strong>慢启动门限</strong>，就会使用拥塞避免算法。进入拥塞避免阶段，每当收到一个ack确认报文，拥塞窗口就会增加1&#x2F;拥塞cwnd，拥塞避免阶段拥塞窗口呈线性增长</li>
+<li>拥塞发生，当发生丢包现象，进行重传，就进入到拥塞发生阶段。重传有超时重传和快速重传两种，超时重传，拥塞窗口变为1，慢启动门限变为原来的一半，一夜回到解放前。如果是快速重传，拥塞窗口变为原来的一半，慢启动门限等于现在拥塞窗口大小</li>
+<li>快速恢复，快速恢复一般和拥塞发生同时起作用。拥塞窗口的大小等于慢启动门限加3（这个3是指快速重传前收到3个相同的ack报文），重传丢失的报文，如果再收到重复的ack，那么拥塞窗口大小+1，如果收到新数据的ack，把拥塞窗口大小调整为慢启动门限的值，恢复过程结束，进入拥塞避免阶段。<img src="/2026/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/1652509019433-744633f0-f110-4c4d-ac0c-d1b0b2809d12.jpeg" alt="拥塞发生-快速重传.drawio.jpg"></li>
+</ol>
+<h2 id="ip部分"><a href="#ip部分" class="headerlink" title="ip部分"></a>ip部分</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@test:~# ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether fa:16:3e:c7:79:75 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.100.122.2/24 brd 10.100.122.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::f816:3eff:fec7:7975/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">### ip(网络层)和mac(数据链路层)之间的区别和关系</span><br><span class="line">ip的作用是主机之间通信，而mac的作用则是实现直连的两个设备之间通信，而ip则复负责在没有直连的两个网络之间进行通信传输</span><br><span class="line">### ip地址的分类</span><br><span class="line">ip地址分为5种类型，分别为A类，B类，C类，D类，E类</span><br><span class="line">![7.jpg](./计算机网络.assert/1652510732535-f1b55e15-a993-4a6c-8b39-27694b6694e7.jpeg)</span><br><span class="line"></span><br><span class="line">A：0.0.0.0-127.255.255.255</span><br><span class="line">B：128.0.0.0-191.255.255.255</span><br><span class="line">C：192.0.0.0-223.255.255.255</span><br><span class="line">D：224.0.0.0-239.255.255.255</span><br><span class="line">E：240.0.0.0-255.255.255.255</span><br><span class="line">主机号全为1指定某个网络下的所有主机，用于广播</span><br><span class="line">主机号全为0指定某个网络</span><br><span class="line">### 上面ip分类的优缺点</span><br><span class="line"></span><br><span class="line">1. 优点：简单明了，选路简单</span><br><span class="line">2. 缺点：各类地址所能包含的最大主机数量差别太大### 无类型域间选路</span><br><span class="line">为了解决上述缺点，提出一种方式，叫做无类型域间选路，简称CIDR。这种方式打破了原先设计的几类地址的做法，将32位的ip地址一分为二，前面的叫网络号，后面的叫主机号。例如10.100.122.2/24，数字24表示32位中，前24位是网络号，后8位是主机号。</span><br><span class="line">### 私有网络地址范围</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">10.0.0.0~10.255.255.255</span><br><span class="line">172.16.0.0~172.31.255.255</span><br><span class="line">192.168.0.0~192.168.255.255</span><br></pre></td></tr></table></figure>
+<pre><code>### 为什么说交换机是二层设备
+
+1. 二层设备是指处于数据链路层
+2. 因为交换机的工作原理是通过根据目标MAC地址去判断是否去进行转发。
+3. 交换机在工作的过程中会在**转发表**中记录下某个 MAC地址应该由哪个端口进行转发。如果MAC地址在转发表中没有记录，会把包转发到除了包来的那个端口外的其余所有端口。当然，由于机器的IP地址是会变的，所在的端口也就会变化，因此转发表是有过期时间的。### 为什么说路由器是三层设备
+
+1. 三层设备处于网络层
+2. 因为路由器在转发的过程中需要将包中的MAC头和IP头都取下来，从而确定如何转发。### 数据包在经过网关后MAC地址和IP地址是否会变化
+
+1. 由于MAC地址是一个局域网中才有效的地址，因此如果数据包在经过网关后，MAC地址一定会发生变化
+2. 不改变IP地址的网关叫做转发网关；改变IP地址的网关叫做NAT网关
+3. 如果两个局域网之间配置的是NAT网关，那么一开始服务器A发送数据包是目标IP地址为服务器B的公网IP。​
+## get请求与post请求的限制大小
+
+1. 理论上get请求的数据大小没有限制，但是浏览器对其长度进行了限制。为了兼容各浏览器的请求长度，get请求URL的长度设定为2083各字符
+2. 理论上post请求的数据大小没有限制，但是tomcat服务器对POST大小限制为2M。解决这个问题可以在Tomcat的配置文件里取消POST大小限制
+</code></pre>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

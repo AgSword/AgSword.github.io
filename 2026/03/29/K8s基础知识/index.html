@@ -1,0 +1,151 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      K8s基础知识 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      K8s基础知识
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <p>K8s是一个开源的容器编排部署管理平台，用于管理云平台中多个主机上的容器化应用。K8s的目标是让部署应用变得简单高效。对于应用开发者而言，可以把K8s看成一个集群操作系统，K8s提供服务发现，伸缩，负载均衡，自愈甚至选举等功能，让开发者从基础设施相关设置等解脱出来。</p>
+<h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><p>容器技术起源于Linux，是一种内核虚拟化技术，提供轻量级的虚拟化，以便隔离进程和资源。容器和虚拟机具备相似的资源隔离和分配方式，容器虚拟化了操作系统而不是硬件，更加便携和高效。</p>
+<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><p>K8s是一个很容易地部署和管理容器化的应用软件系统，使用K8s能够方便对容器进行调度和编排<br>​</p>
+<h2 id="k8s中的组件"><a href="#k8s中的组件" class="headerlink" title="k8s中的组件"></a>k8s中的组件</h2><h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>将service作为pod的访问入口。优点一：将service作为多个pod的访问入口，service会将请求自动转发到健康的pod上（如果直接将pod暴露访问，那么当pod发生故障的时候，就无法响应访问。）优点二：service的ip是固定的。</p>
+<h3 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h3><p>ingress是用来管理集群外部访问集群内部的入口和方式的，可以通过ingress来配置不同的转发规则</p>
+<h3 id="ConfigMap"><a href="#ConfigMap" class="headerlink" title="ConfigMap"></a>ConfigMap</h3><p>将应用的配置信息放到ConfigMap中，这样就可以将应用的镜像和配置分开，从而保持了容器化应用程序的可移植性。</p>
+<h3 id="Secret"><a href="#Secret" class="headerlink" title="Secret"></a>Secret</h3><p>ConfigMap是明文的，不适合存储像密码这样的配置信息。Secret通过Base64对私密配置信息进行了一次编码</p>
+<h3 id="volume"><a href="#volume" class="headerlink" title="volume"></a>volume</h3><p>将pod中一些数据（比如日志等）进行持久化，将pod中的目录挂在到集群本地的磁盘或者远端存储</p>
+<h3 id="depolyment"><a href="#depolyment" class="headerlink" title="depolyment"></a>depolyment</h3><p>定义应用程序的副本数量以及应用程序的更新策略，滚动升级。<strong>提供同一服务的pod是部署在不同的节点上的</strong></p>
+<h3 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a>StatefulSet</h3><p>除了deployment的功能外，还保证了每个pod都有自己稳定的网络标识符和持久化存储</p>
+<h1 id="技术文章摘抄-深入剖析K8s"><a href="#技术文章摘抄-深入剖析K8s" class="headerlink" title="技术文章摘抄-深入剖析K8s"></a>技术文章摘抄-深入剖析K8s</h1><ol>
+<li><p>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而未其创建一个“边界”。其中，namespace技术通过修改进程的视图来，cgroups技术用来制造约束，设置资源限制</p>
+</li>
+<li><p>编排文件中namespace可以生效的底层原理是创建进程时，系统调用的是clone()，此系统调用会为我们创建一个新的进程并返回新进程的pid。如果在参数中指定CLONE_NEWPID参数，即clone(main_function, stack_size, CLONE_NEWPID|SIGCHLD, NULL)，那么新创建的进程将会“看到”一个全新的进程空间。在这个进程空间中，它的PID就是1。之所以说“看到”，是因为这只是一个“障眼法”，在宿主机真实的进程空间里，这个进程的PID还是真实的数值，比如100。</p>
+</li>
+<li><p>除了刚刚说的PID Namespace，Linux系统还提供Mount、UTS、IPC（进程间通信）、Network和User这些Namespace，用来对各种不同的进程上下文进行“障眼法”操作。</p>
+</li>
+<li><p>基于Namespace的隔离机制相比于虚拟化技术也有很多不足之处，其中最主要的问题就是隔离不彻底。由于容器只是运行在宿主机上的一种特殊的进程，那么多个容器之间使用的还是同一个宿主机的操作系统内核。因此无法在Windows宿主机上运行Linux容器或者在低版本的Linux宿主机上运行高版本的Linux容器。此外，在Linux内核中，有很多资源和对象是不能被Namespace化的，最典型的例子就是时间。如果调整容器中的系统时间，宿主机中的系统事件也会被改变。</p>
+</li>
+<li><p>Linux Cgroups的全称是Linux Control Group。它最主要的作用，就是限制一个进程组能够使用的资源的上限，包括CPU、内存、磁盘、网络带宽等等。此外，Cgroups还能对进程进行优先级设置、审计，以及将进程挂起和恢复等操作。</p>
+</li>
+<li><p>在Linux中，Cgroups给用户暴露出来的操作接口是文件系统，即它以文件和目录的方式组织在操作系统的&#x2F;sys&#x2F;fs&#x2F;cgroup路径下。在此目录下有很多诸如cpuset、cpu、memory这样的子目录，也叫子系统。其中cpuset为进程分配单独的cpu核核对应的内存节点；memory为进程设定内存使用的限制；blkio为块设备设定I&#x2F;O限制，一般用户磁盘等设备；cpu为设定cpu使用的限制</p>
+</li>
+<li><p>我们希望容器里的应用进程看到的是一个完全独立的文件系统。其实现基于Linux系统chroot命令，它的作用是改变进程的根目录到指定的位置。这种挂载在容器根目录上，用来为容器进程提供隔离后执行环境的文件系统就是所谓的“容器镜像”，它还有个更加专业的名字，叫做rootfs（根文件系统）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将<span class="variable">$HOME</span>/test作为/bin/bash进程的根目录</span></span><br><span class="line">chroot $HOME/test /bin/bash</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">这时执行<span class="built_in">ls</span>指令，其返回的都是<span class="variable">$HOME</span>/test目录下的内容</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>需要明确的是 rootfs只是一个操作系统所包含的文件、配置和目录，并不包括操作系统内核。同一台机器上的所有容器都共享宿主机操作系统的内核。</p>
+</li>
+<li><p>让容器镜像打包整个操作系统的文件和目录，这样应用以及其运行所需要的所有依赖都被封装在了一起​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​</p>
+</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

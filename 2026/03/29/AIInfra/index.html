@@ -1,0 +1,155 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      AIInfra [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      AIInfra
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h1 id="AIInfra"><a href="#AIInfra" class="headerlink" title="AIInfra"></a>AIInfra</h1><h2 id="AI计算集群概述"><a href="#AI计算集群概述" class="headerlink" title="AI计算集群概述"></a>AI计算集群概述</h2><h2 id="计算集群之路"><a href="#计算集群之路" class="headerlink" title="计算集群之路"></a>计算集群之路</h2><h2 id="高性能计算HPC定义"><a href="#高性能计算HPC定义" class="headerlink" title="高性能计算HPC定义"></a>高性能计算HPC定义</h2><p>算力是衡量计算机处理信息能力的核心单位。算力水平用单位FLOPS(Floating point Operations Per Second)每秒浮点计算次数来衡量。<br>HPC&#x3D;大规模并行×高效并发。并发计算和并行计算是实现高性能计算的重要方法。并行计算提供横向扩展能力，将问题拆分为海量计算单元，实现算力质变。并发计算在硬件层面纵向优化资源利用，通过任务调度减少空闲等待。两者协同高性能计算的高算力。<br>集群计算从分层堆叠走向集群全栈优化，在超算中心、智算中心和云数据中心有专门的应用。</p>
+<h2 id="HPC硬件发展趋势"><a href="#HPC硬件发展趋势" class="headerlink" title="HPC硬件发展趋势"></a>HPC硬件发展趋势</h2><ul>
+<li>高性能处理器：从通用多核架构转向异构计算</li>
+<li>高性能网络：从降低延迟向提升带宽互联演进</li>
+<li>高性能存储器：从单纯容量扩展走向存算协同</li>
+<li>高性能服务器：从追求单机性能转向绿色化集群## HPC基础软件发展趋势<br>在AI集群基础软件领域，编译器与运行时系统是支撑高效计算、资源管理与性能优化的核心组件。编译器负责将Python&#x2F;Pytorch&#x2F;TensorFlow等高级代码，转换为GPU&#x2F;TPU&#x2F;ASIC等底层硬件可执行的高效代码，并完成深度优化；运行时系统则管理程序执行中的动态行为，确保计算任务高效利用集群资源。<br>CUDA(Compute Unified Device Aichitecture, 统一计算设备架构)是NVIDIA2007年发布的并行编程范例，采用类C语言，适用于GPU软件及高并行性的GPU通用应用，属于专有API，仅支持Tesla架构的NVDIA GPU，依赖NVDIA提供的运行时编译器NVCC实现设备代码编译。<br>NVCC(NVDIA CUDA Compiler)的编译流程分为主机（Host）代码和设备（Device）代码两部分：首先分离.cu文件中的C&#x2F;C++主机代码与GPU核函数设备代码；主机代码与GCC、MSVC等主机编译器编译为x86、ARM等目标平台的CPU汇编，最终链接为可执行文件；设备代码由NVCC转换为PTX虚拟GPU指令，或通过JIT编译器生成Ampere&#x2F;Turing等架构的SASS指令；执行时，主机代码调用GPU核函数，PTX或SASS指令由GPU驱动动态加载到显卡运行。<br>Triton是开源GPU编程语言与编译器，旨在平衡AI模型训练中GPU编程的易用性与效率，开发者无需掌握底层CUDA知识，通过python即可编写自定义GPU内核，性能可媲美专家级CUDA代码。<br>相比传统 CUDA C++编程，Triton 的优势在于自动化底层优化：CUDA 开发需手动管理 GPU 内存层次（片外 DRAM、片上 SRAM）、实现内存访问合并、配置共享内存缓存、协调数千并行线程，即使资深开发者也面临挑战；而 Triton 自动处理这些环节，开发者仅需决策最高层任务分区（SM 间工作分配），专注高层算法逻辑，实现类 NumPy 风格的 GPU 编程，同时保持近最优性能。</li>
+</ul>
+<h2 id="L0-L1-AI-集群基建"><a href="#L0-L1-AI-集群基建" class="headerlink" title="L0&#x2F;L1 AI 集群基建"></a>L0&#x2F;L1 AI 集群基建</h2><h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><h2 id="分布式并行基础"><a href="#分布式并行基础" class="headerlink" title="分布式并行基础"></a>分布式并行基础</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>分布式并行技术的核心思想是将大规模计算任务分解为多个子任务，分配到多个计算节点上并行处理，并通过高效的通信与协调机制整合各节点的计算结果，从而快速完成整体任务。在大模型训练中，数据规模庞大、参数众多，单机难以承载如此巨大的计算量，分布式并行提供了有效的解决路径。<br>训练耗时 &#x3D; \frac{训练数据规模 \times 单步计算量}{单设备计算速率 \times 设备数 \times 多设备并行效率}<br><img src="/2026/03/29/AIInfra/d3f8cc81ccbbfbe20fa7d4812778fce9.svg" alt="数学公式"></p>
+<p>训练数据规模和单步计算量由训练数据量和模型结构决定，一般都是固定的。因此可控制的为以下三个因素：</p>
+<ul>
+<li><p>通过混合精度训练、算子融合、梯度累积等方法优化单设备计算速率</p>
+</li>
+<li><p>扩展设备数量，构建计算集群</p>
+</li>
+<li><p>在集群下，需提升并行效率，常用的并行方式包括数据并行、模型并行、流水并行等，这些将在后续章节详细展开。分布式训练框架主要解决三个问题：</p>
+</li>
+<li><p><strong>内存问题</strong>：单个GPU显存容纳整个大模型，分布式框架将模型的不同部分切分到多个设备上，支持部署和训练Transformer类结构的大模型</p>
+</li>
+<li><p><strong>计算问题</strong>：训练大模型需要海量的计算操作，耗时极长。分布式训练提供多种分布式并行模式，包括数据并行、模型并行和流水并行，即所谓的多维并行模式</p>
+</li>
+<li><p>分布式训练框架通过集合通信（Collective Communication）或参数服务器（Parameter Server）方式来优化数据传输，进行资源整合。## SPTD并行与大模型<br>SPTD涵盖了四种策略，分别解决了Transformer大模型不同维度的挑战：</p>
+</li>
+<li><p><strong>序列并行（Sequence Parallelism）</strong> 专注于应用Transformer注意力机制中，序列长度增长带来的显存压力</p>
+</li>
+<li><p><strong>流水线并行（pipline Prarllelism）</strong> 解决了Transformer模型深度过大而无法单机容纳的难题</p>
+</li>
+<li><p><strong>张量并行（Tensor Parallelism）</strong> 则攻克了 Transformer 单层宽度（如注意力头数量、前馈网络维度）过大导致的参数量瓶颈</p>
+</li>
+<li><p><strong>数据并行（Data Parallelism, DP）</strong> 则从根本上扩展了数据吞吐能力，实现 Transformer 大模型训练的规模化加速。通过混合使用这些策略，训练系统能够充分利用硬件资源，实现跨节点、跨设备的高效协同训练</p>
+</li>
+</ul>
+<h3 id="数据并行DP"><a href="#数据并行DP" class="headerlink" title="数据并行DP"></a>数据并行DP</h3><p>训练开始时，一个大的数据批次（batch）会被切分为多个子批次（mini-batch），并分发给不同的GPU。每个GPU独立对自己分到的数据进行前向传播（计算Transformer各层的激活值与损失）、反向传播（计算各层参数的梯度），再通过 All-Reduce 集体通信操作聚合所有梯度并取平均，得到全局梯度。最后，每个 GPU 用全局梯度更新本地模型副本，确保迭代前所有设备的 Transformer 参数完全一致。</p>
+<h3 id="张量并行TP"><a href="#张量并行TP" class="headerlink" title="张量并行TP"></a>张量并行TP</h3><p>当Transformer大模型的单层规模（如注意力头数量过多、前馈网络维度过大）超过单卡容纳能力时，数据并行便无能为力。此时，张量并行通过”层内横向切分”，将单层运算分解到多个GPU协同完成。</p>
+<h3 id="流水线并行PP"><a href="#流水线并行PP" class="headerlink" title="流水线并行PP"></a>流水线并行PP</h3><p>张量并行在 Transformer 层内”横向切分”不同，流水线并行是”纵向切分”策略：将 Transformer 大模型的上百层网络（如 GPT-3 的 96 层）按顺序切分成多个连续阶段，每个阶段由一个或一组 GPU 负责。训练时，数据像流水线一样流经各阶段——前一阶段完成 Transformer 某几层的计算后，将激活值传递给下一阶段，直至完成全量前向传播；反向传播则从最后一个阶段反向传递梯度至第一个阶段。这种模式天然适配 Transformer”多层堆叠”的结构特性，非常适合跨节点、跨服务器场景——阶段间仅需传递激活值&#x2F;梯度，对节点间通信带宽的要求远低于张量并行。</p>
+<h3 id="序列并行SP"><a href="#序列并行SP" class="headerlink" title="序列并行SP"></a>序列并行SP</h3><p>它的核心思想是将一个很长的输入序列（比如一本书、一篇长文）在<strong>序列长度维度</strong>上切分成多个子序列，并分配到不同的计算设备（如GPU）上并行处理。</p>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

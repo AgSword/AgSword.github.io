@@ -1,0 +1,206 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      dubbo [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      dubbo
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p><img src="/2026/03/29/dubbo/1759804534147-2f0b7b7d-ff60-4512-b772-048b92e7caae.png" alt="c1a01883621b459298169a59ec3297f2.png"></p>
+<p>各层说明：</p>
+<ul>
+<li>config配置层：对外配置接口，以ServiceConfig和ReferenceConfig为中心，可以直接初始化配置类，也可以通过Springboot配置文件进行配置</li>
+<li>proxy服务代理层：服务接口透明代理，生成服务的客户端和服务端，以Serviceproxy为中心，扩展接口为ProxyFactory</li>
+<li>registry注册中心层：封装服务地址的注册和发现，以服务URL为中心，扩展接口为RegistryFactory，Registry，RegistryServcie</li>
+<li>cluster路由层：封装多个提供方的路由和负载均衡，并桥接注册中心，以Invoker为中心，扩展接口为Cluster，Directory，Router，LoadBalance</li>
+<li>monitor监控层：RPC调用次数和调用时间监控，以Statistics为中心，扩展接口为MonitorFactory，Monitor，MonitorService</li>
+<li>protocol远程调用层：<strong>封装RPC调用，以invocation，Result为中心</strong>，扩展接口为Protocl，Invoker，Exporter</li>
+<li>exchange信息交换层：<strong>封装请求响应模式，同步转异步，以Request,Response为中心</strong>，扩展接口为 Exchanger , ExchangeChannel , ExchangeClient , ExchangeServer</li>
+<li>transport网络传输层：实现多种网络### 调用过程</li>
+</ul>
+<ol>
+<li>服务提供方启动，开启Netty服务，创建Zookeeper客户端，向注册中心注册服务</li>
+<li>服务消费方启动，通过Zookeeper向注册中心获取服务提供方列表，与服务提供方通过Netty建立长连接。</li>
+<li>服务消费方通过接口开始远程调用服务，ProxyFactory通过初始化Proxy对象，创建动态代理对象</li>
+<li>通过invoke方法，层层包装生成了Invoker对象</li>
+<li>invoker通过路由，负载均衡选择一个最合适的服务提供方，再经过各种过滤器，proxy层将其包装成一个新的DubboInvoker对象</li>
+<li>exchange层将DubboInvoker对象包装成一个Request对象，该对象通过序列化经过NettyClient传输倒服务提供方的NettyServer端</li>
+<li>到了服务提供方之后，再通过反序列化、协议解密等操作生成一个DubboExporter对象，再层层传递处理，会生成一个服务提供端Invoker对象</li>
+<li>这个Invoker对象会调用本地服务，获得结果再通过层层回调返回到服务消费方，服务消费方拿到结果后，再解析获得最终结果## Dubbo中的SPI<br>Dubbo 中某个接口被 @SPI注解修饰时，就表示该接口是<strong>扩展接口****。</strong>@SPI 注解的 value 值指定了默认的扩展名称，例如，在通过 Dubbo SPI 加载 Protocol 接口实现时，如果没有明确指定扩展名，则默认会将 @SPI 注解的 value 值作为扩展名，即加载 dubbo 这个扩展名对应的 org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol 这个<strong>扩展实现类</strong>，相关的 SPI 配置文件在 dubbo-rpc-dubbo 模块中</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Protocol protocol = ExtensionLoader </span><br><span class="line">   .getExtensionLoader(Protocol.class).getExtension(&quot;dubbo&quot;);</span><br></pre></td></tr></table></figure>
+<p>通过遍历DubboInternalLoadingStrategy ，DubboLoadingStrategy ，ServicesLoadingStrateg三个策略中的directory()加载所有扩展类<br><strong>在加载扩展类的过程中会实现Dubbo IOC和AOP</strong>。Dubbo IOC实现原理是执行实现类的set方法。Dubbo AOP的实现原理是判断是否有类的拷贝构造函数的参数为扩展接口，如果有，则认为此类是扩展实现类的装饰者（即此处用到了装饰者模式：在不改变原类以及不适用继承的情况下，动态地将责任附加在对象上，从而实现动态扩展一个对象的功能，装饰真实的对象），实例化这个包装类代替扩展实现类<br>有些扩展不想在框架启动阶段被加载，而是希望在扩展方法被调用时根据运行时参数进行加载，即根据参数动态加载实现类。在dubbo中使用<strong>Adaptive注解来实现动态加载</strong>，此注解可以放在扩展接口上也可以放在扩展接口的函数上<br><strong>dubbo中的自动激活</strong>。org.apache.dubbo.rpc.Filter 接口有非常多的扩展实现类，在一个场景中可能需要某几个 Filter 扩展实现类协同工作，而另一个场景中可能	需要另外几个实现类一起工作。这样，就需要一套配置来指定当前场景中哪些 Filter 实现是可用的，这就是 @Activate 注解要做的事情<br>​</p>
+<h2 id="服务暴露的过程"><a href="#服务暴露的过程" class="headerlink" title="服务暴露的过程"></a>服务暴露的过程</h2><p>Dubbo框架将服务暴露分为两大部分，第一部分时将持有的服务实例通过proxy转换为invoker，第二部分将invoker通过具体的protocol转为exporter。<br>整个 Provider 节点的<strong>启动入口是 DubboBootstrap.start() 方法。</strong>不仅是直接通过 API 启动 Provider 的方式会使用到 DubboBootstrap，在 Spring 与 Dubbo 集成的时候也是使用 DubboBootstrap 作为服务发布入口。具体逻辑在 DubboBootstrapApplicationListener 这个 Spring Context 监听器中。</p>
+<p>​</p>
+<h2 id="服务引用的过程"><a href="#服务引用的过程" class="headerlink" title="服务引用的过程"></a>服务引用的过程</h2><p>​<br>​<br>protocol层：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>服务暴露</th>
+<th>服务引用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重要函数</td>
+<td>exporter export(invoker)</td>
+<td>Invoker<T> protocolBindingRefer(Class<T> serviceType, URL url)</T></T></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

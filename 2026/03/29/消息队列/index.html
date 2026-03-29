@@ -1,0 +1,165 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      消息队列 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      消息队列
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h3 id="为什么使用消息队列"><a href="#为什么使用消息队列" class="headerlink" title="为什么使用消息队列"></a>为什么使用消息队列</h3><ol>
+<li><p>三个原因：解耦，异步，削峰</p>
+</li>
+<li><p>解耦，将业务分为两部分，分别为生产端和消费端</p>
+</li>
+<li><p>异步，将消息放入消息队列，非必要的业务逻辑以异步的方式进行，不影响主流程业务</p>
+</li>
+<li><p>削峰，生产端将请求加入消息队列， 消费端从消息队列中取出请求### 交换机类型</p>
+</li>
+<li><p>direct，将消息中的routing key和交换机关联的所有Binding 中的routing key进行比较，如果相等，则发送到该binding对应的queue中</p>
+</li>
+<li><p>fanout,直接将消息转发到与交换机所有绑定的队列中</p>
+</li>
+<li><p>topic，topic交换机使用binding key和routing key进行模糊匹配，匹配成功将消息发送到相应的队列中，binding key 中存在两种特殊字符<em>与# ，用于做模糊匹配，其中</em>用于匹配一个单词，#用于匹配多个单词</p>
+</li>
+<li><p>headers，headers交换机是根据发送的消息内容中的headers属性进行路由。在绑定Queue与Exchange时指定一组键值对；当消息发送到路由器时，RabbitMQ会取到该消息的headers，对比其中的键值对是否完全匹配队列和路由器绑定时指定的键值对，如果完全匹配则消息会路由到该队列，否则不会路由到该队列### 消息丢失</p>
+</li>
+<li><p>生产者生产消息到RabbitMQ Server消息丢失、RabbitMQ Server存储的消息丢失和RabbitMQ Server到消费者消息丢失</p>
+</li>
+<li><p>消息丢失从三个方面解决：生产者确认机制、消费者手动确认消息和持久化</p>
+</li>
+<li><p>生产者确认机制，只要消息成功发送到交换机之后，RabbitMQ就会发送一个ack给生产者</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">rabbitmq:</span></span><br><span class="line">        <span class="attr">publisher-confirms:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>路由不可达，对于不可路由的消息，有两种处理方式：Return消息机制和备份交换机。Return消息机制提供了回调函数，当消息从交换机路由到Queue失败才会回调这个方法。备份交换机，当发送的消息到对应的交换机，没有匹配到queue，就会自动转移到备份交换机对应的queue，这样消息就不会丢失</p>
+</li>
+<li><p>消费者手动确认消息，因为消费者默认采用自动ack，一旦消费者收到消息后会通知MQ Server这条消息已经处理好了，MQ会移除这条消息</p>
+</li>
+<li><p>持久化，如果RabbitMQ服务异常导致重启，将会导致消息丢失，RabbitMQ提供了持久化机制，将内存中的消息持久化到硬盘上，即使重启RabbitMQ，消息也不会丢失### 重复消费</p>
+</li>
+<li><p>重复消费的原因</p>
+</li>
+<li><p>生产者在给MQ发送消息的时候，在MQ确认的时候出现网络波动，生产者没有收到确认，这时候生产者就会重新发送这条消息，导致MQ会接受到重复消息</p>
+</li>
+<li><p>消费者消费成功后，给MQ确认的时候出现了网络波动，MQ没有接收到确认，为了确保消息不丢失，MQ就会继续给消费者投递之前两条一样的消息</p>
+</li>
+<li><p>解决方法，发哦是那个消息时让每个消息携带一个全局的唯一id，在消费消息时先判断消息是否已经被消息过，保证消息消费逻辑的幂等性### 死信队列<br>消费失败的消息存放的队列</p>
+</li>
+</ol>
+<h3 id="MQ消息怎么路由"><a href="#MQ消息怎么路由" class="headerlink" title="MQ消息怎么路由"></a>MQ消息怎么路由</h3><ol>
+<li>消息路由必须有三部分：交换器、路由、绑定。生产者把消息发布到交换器上；绑定决定了消息如何容路由器路由到特定的队列；消息最终到达队列，并把消费者接收。</li>
+<li>把消息发布到交换器时，消息将拥有一个路由键，在消息创建时设定</li>
+<li>通过队列路由键，可以把队列绑定到交换器上</li>
+<li>消息到达交换器后，MQ会将消息的路由键与队列的路由键进行匹配，如果能够匹配到队列，则消息会投递到相应队列中</li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

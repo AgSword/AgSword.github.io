@@ -1,0 +1,202 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      AgentScope [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      AgentScope
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h1 id="AgentScope"><a href="#AgentScope" class="headerlink" title="AgentScope"></a>AgentScope</h1><h2 id="Model模块"><a href="#Model模块" class="headerlink" title="Model模块"></a>Model模块</h2><p>分别是Model, Message，formater</p>
+<h3 id="Model本身"><a href="#Model本身" class="headerlink" title="Model本身"></a>Model本身</h3><p>model实现类继承ChatModelBase，需要实现doStream()。agent中调用stream()<br>java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">DashScopeChatModel.doStream()</span><br><span class="line">@Override</span><br><span class="line">protected Flux&lt;ChatResponse&gt; doStream(</span><br><span class="line">    List&lt;Msg&gt; messages, List&lt;ToolSchema&gt; tools, GenerateOptions options) &#123;</span><br><span class="line"></span><br><span class="line">    log.debug(</span><br><span class="line">        &quot;DashScope API call: model=&#123;&#125;, multimodal=&#123;&#125;&quot;, modelName,</span><br><span class="line">        requiresMultiModalApi());</span><br><span class="line"></span><br><span class="line">    Flux&lt;ChatResponse&gt; responseFlux = streamWithHttpClient(messages, tools, options);</span><br><span class="line"></span><br><span class="line">    // Apply timeout and retry if configured</span><br><span class="line">    return ModelUtils.applyTimeoutAndRetry(</span><br><span class="line">        responseFlux, options, defaultOptions, modelName, &quot;dashscope&quot;,</span><br><span class="line">        log);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private Flux&lt;ChatResponse&gt; streamWithHttpClient(</span><br><span class="line">    List&lt;Msg&gt; messages, List&lt;ToolSchema&gt; tools, GenerateOptions options) &#123;</span><br><span class="line">    Instant start = Instant.now();</span><br><span class="line">    // 通过模型名称判断是否是多模态模型</span><br><span class="line">    boolean useMultimodal = requiresMultiModalApi();</span><br><span class="line"></span><br><span class="line">    // 生成参数</span><br><span class="line">    GenerateOptions effectiveOptions = options != null ? options : defaultOptions;</span><br><span class="line">    ToolChoice toolChoice = effectiveOptions.getToolChoice();</span><br><span class="line"></span><br><span class="line">    // Format messages using formatter</span><br><span class="line">    // 格式化消息</span><br><span class="line">    List&lt;DashScopeMessage&gt; dashScopeMessages;</span><br><span class="line">    if (useMultimodal) &#123;</span><br><span class="line">        if (formatter instanceof DashScopeChatFormatter chatFormatter) &#123;</span><br><span class="line">            dashScopeMessages = chatFormatter.formatMultiModal(messages);</span><br><span class="line">        &#125; else if (formatter instanceof DashScopeMultiAgentFormatter multiAgentFormatter) &#123;</span><br><span class="line">            dashScopeMessages = multiAgentFormatter.formatMultiModal(messages);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            throw new IllegalStateException(</span><br><span class="line">                &quot;DashScope vision models require DashScopeChatFormatter or&quot;</span><br><span class="line">                + &quot; DashScopeMultiAgentFormatter, but got: &quot;</span><br><span class="line">                + formatter.getClass().getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        dashScopeMessages = formatter.format(messages);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Build request using formatter</span><br><span class="line">    // 构建请求</span><br><span class="line">    DashScopeRequest request;</span><br><span class="line">    if (formatter instanceof DashScopeChatFormatter chatFormatter) &#123;</span><br><span class="line">        request =</span><br><span class="line">            chatFormatter.buildRequest(</span><br><span class="line">                modelName,</span><br><span class="line">                dashScopeMessages,</span><br><span class="line">                stream,</span><br><span class="line">                options,</span><br><span class="line">                defaultOptions,</span><br><span class="line">                tools,</span><br><span class="line">                toolChoice);</span><br><span class="line">    &#125; else if (formatter instanceof DashScopeMultiAgentFormatter multiAgentFormatter) &#123;</span><br><span class="line">        request = multiAgentFormatter.buildRequest(modelName, dashScopeMessages, stream);</span><br><span class="line">        // Apply options and tools manually for multi-agent formatter</span><br><span class="line">        multiAgentFormatter.applyOptions(request, options, defaultOptions);</span><br><span class="line">        multiAgentFormatter.applyTools(request, tools);</span><br><span class="line">        multiAgentFormatter.applyToolChoice(request, toolChoice);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw new IllegalStateException(</span><br><span class="line">            &quot;Unsupported formatter type: &quot; + formatter.getClass().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Apply thinking mode if enabled</span><br><span class="line">    applyThinkingMode(request, effectiveOptions);</span><br><span class="line"></span><br><span class="line">    if (stream) &#123;</span><br><span class="line">        // Streaming mode</span><br><span class="line">        return httpClient.stream(request)</span><br><span class="line">            .map(response -&gt; formatter.parseResponse(response, start));</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // Non-streaming mode</span><br><span class="line">        return Flux.defer(</span><br><span class="line">            () -&gt; &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    // 向大模型请求时是非流式的，但是输出是流式的</span><br><span class="line">                    DashScopeResponse response = httpClient.call(request);</span><br><span class="line">                    ChatResponse chatResponse = formatter.parseResponse(response, start);</span><br><span class="line">                    return Flux.just(chatResponse);</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    log.error(&quot;DashScope HTTP client error: &#123;&#125;&quot;, e.getMessage(), e);</span><br><span class="line">                    return Flux.error(</span><br><span class="line">                        new RuntimeException(</span><br><span class="line">                            &quot;DashScope API call failed: &quot; + e.getMessage(), e));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Formatter"><a href="#Formatter" class="headerlink" title="Formatter"></a>Formatter</h3><p>Formatter实现类需要继承AbstractBaseFormatter，需要实现doFormat(),parseResponse()等方法。此类的作用是构造message，解析模型的响应。<br>typescript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected List&lt;DashScopeMessage&gt; doFormat(List&lt;Msg&gt; msgs) &#123;</span><br><span class="line">    List&lt;DashScopeMessage&gt; result = new ArrayList&lt;&gt;();</span><br><span class="line">    for (Msg msg : msgs) &#123;</span><br><span class="line">        boolean hasMedia = hasMediaContent(msg);</span><br><span class="line">        DashScopeMessage dsMsg = messageConverter.convertToMessage(msg, hasMedia);</span><br><span class="line">        if (dsMsg != null) &#123;</span><br><span class="line">            result.add(dsMsg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public ChatResponse parseResponse(DashScopeResponse result, Instant startTime) &#123;</span><br><span class="line">    return responseParser.parseResponse(result, startTime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h3><p>有Msg类来实现，内容content支持多种类型</p>
+<ul>
+<li>TextBlock - 纯文本</li>
+<li>ImageBlock &#x2F; AudioBlock &#x2F; VideoBlock - 多模态内容</li>
+<li>ThinkingBlock - 推理过程（用于推理模型）</li>
+<li>ToolUseBlock - LLM 发起的工具调用</li>
+<li>ToolResultBlock - 工具执行结果java</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class Msg &#123;</span><br><span class="line"></span><br><span class="line">    private static final DateTimeFormatter TIMESTAMP_FORMATTER =</span><br><span class="line">        DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;).withZone(ZoneId.systemDefault());</span><br><span class="line"></span><br><span class="line">    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();</span><br><span class="line"></span><br><span class="line">    private final String id;</span><br><span class="line"></span><br><span class="line">    private final String name;</span><br><span class="line"></span><br><span class="line">    private final MsgRole role;</span><br><span class="line"></span><br><span class="line">    private final List&lt;ContentBlock&gt; content;</span><br><span class="line"></span><br><span class="line">    private final Map&lt;String, Object&gt; metadata;</span><br><span class="line"></span><br><span class="line">    private final String timestamp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="RAG模块"><a href="#RAG模块" class="headerlink" title="RAG模块"></a>RAG模块</h2><h3 id="Knowledge"><a href="#Knowledge" class="headerlink" title="Knowledge"></a>Knowledge</h3><p>knowledge有多种实现，本地知识库(SimpleKnowleged)、云托管知识库(BailianKnowledge)、Dify知识库(DifyKnowledge)、RAGFlow知识库(RAGFlowKnowledge)<br>java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">RAGFlowKnowledge.retrieve()</span><br><span class="line">@Override</span><br><span class="line">public Mono&lt;List&lt;Document&gt;&gt; retrieve(String query, RetrieveConfig config) &#123;</span><br><span class="line">    if (query == null || query.trim().isEmpty()) &#123;</span><br><span class="line">        logger.warn(&quot;Empty query provided, returning empty result&quot;);</span><br><span class="line">        return Mono.just(new ArrayList&lt;&gt;());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    logger.debug(&quot;RAGFlow retrieve: query=&#123;&#125;, config=&#123;&#125;&quot;, query, config);</span><br><span class="line"></span><br><span class="line">    // Extract retrieval parameters</span><br><span class="line">    Integer topK = config != null ? config.getLimit() : null;</span><br><span class="line">    Double similarityThreshold = config != null ? config.getScoreThreshold() : null;</span><br><span class="line"></span><br><span class="line">    // Call RAGFlow API (metadata condition from config)</span><br><span class="line">    // 使用客户端接口进行召回</span><br><span class="line">    return client.retrieve(query, topK, similarityThreshold, null)</span><br><span class="line">        .map(</span><br><span class="line">            response -&gt; &#123;</span><br><span class="line">                if (response.getData() == null</span><br><span class="line">                    || response.getData().getChunks() == null) &#123;</span><br><span class="line">                    logger.warn(&quot;RAGFlow returned empty response for query: &#123;&#125;&quot;, query);</span><br><span class="line">                    return new ArrayList&lt;Document&gt;();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                List&lt;Document&gt; documents =</span><br><span class="line">                    RAGFlowDocumentConverter.convertToDocuments(</span><br><span class="line">                        response.getData().getChunks());</span><br><span class="line"></span><br><span class="line">                logger.debug(</span><br><span class="line">                    &quot;RAGFlow retrieved &#123;&#125; documents for query: &#123;&#125;&quot;,</span><br><span class="line">                    documents.size(),</span><br><span class="line">                    query);</span><br><span class="line"></span><br><span class="line">                return documents;</span><br><span class="line">            &#125;)</span><br><span class="line">        .onErrorResume(</span><br><span class="line">            e -&gt; &#123;</span><br><span class="line">                logger.error(&quot;RAGFlow retrieval failed for query: &#123;&#125;&quot;, query, e);</span><br><span class="line">                return Mono.error(e);</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Tool"><a href="#Tool" class="headerlink" title="Tool"></a>Tool</h2><p>核心类为Toolkit，核心接口为AgentTool<br>typescript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">Toolkit.registerToolMethod()</span><br><span class="line">private void registerToolMethod(</span><br><span class="line">    Object toolObject,</span><br><span class="line">    Method method,</span><br><span class="line">    String groupName,</span><br><span class="line">    ExtendedModel extendedModel,</span><br><span class="line">    Map&lt;String, Object&gt; presetParameters) &#123;</span><br><span class="line">    Tool toolAnnotation = method.getAnnotation(Tool.class);</span><br><span class="line"></span><br><span class="line">    String toolName =</span><br><span class="line">        !toolAnnotation.name().isEmpty() ? toolAnnotation.name() : method.getName();</span><br><span class="line">    String description =</span><br><span class="line">        !toolAnnotation.description().isEmpty()</span><br><span class="line">            ? toolAnnotation.description()</span><br><span class="line">            : &quot;Tool: &quot; + toolName;</span><br><span class="line">    // 根据method上的注解创建AgentTool实现类</span><br><span class="line">    AgentTool tool =</span><br><span class="line">        new AgentTool() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String getName() &#123;</span><br><span class="line">                return toolName;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public String getDescription() &#123;</span><br><span class="line">                return description;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public Map&lt;String, Object&gt; getParameters() &#123;</span><br><span class="line">                // Exclude preset parameters from the schema</span><br><span class="line">                Set&lt;String&gt; excludeParams =</span><br><span class="line">                    presetParameters != null</span><br><span class="line">                        ? presetParameters.keySet()</span><br><span class="line">                        : Collections.emptySet();</span><br><span class="line">                return schemaGenerator.generateParameterSchema(method, excludeParams);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public Mono&lt;ToolResultBlock&gt; callAsync(ToolCallParam param) &#123;</span><br><span class="line">                return methodInvoker.invokeAsync(toolObject, method, param);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    registerAgentTool(tool, groupName, extendedModel, null, presetParameters);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Tool的使用"><a href="#Tool的使用" class="headerlink" title="Tool的使用"></a>Tool的使用</h3><p><strong>同步工具</strong><br>直接返回结果，适合快速操作：<br>java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Tool(description = &quot;计算两数之和&quot;)</span><br><span class="line">public int add(</span><br><span class="line">    @ToolParam(name = &quot;a&quot;, description = &quot;第一个数&quot;) int a,</span><br><span class="line">    @ToolParam(name = &quot;b&quot;, description = &quot;第二个数&quot;) int b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>异步工具</strong><br>返回 Mono<T> 或 Flux<T>，适合 I&#x2F;O 操作：<br>java</T></T></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Tool(description = &quot;异步搜索&quot;)</span><br><span class="line">public Mono&lt;String&gt; search(</span><br><span class="line">    @ToolParam(name = &quot;query&quot;, description = &quot;搜索词&quot;) String query) &#123;</span><br><span class="line">    return webClient.get()</span><br><span class="line">        .uri(&quot;/search?q=&quot; + query)</span><br><span class="line">        .retrieve()</span><br><span class="line">        .bodyToMono(String.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>流式工具</strong><br>使用 ToolEmitter 发送中间进度，适合长时间任务：<br>java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Tool(description = &quot;生成数据&quot;)</span><br><span class="line">public ToolResultBlock generate(</span><br><span class="line">    @ToolParam(name = &quot;count&quot;) int count,</span><br><span class="line">    ToolEmitter emitter) &#123; // 自动注入，无需 @ToolParam</span><br><span class="line">    for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">        emitter.emit(ToolResultBlock.text(&quot;进度 &quot; + i));</span><br><span class="line">    &#125;</span><br><span class="line">    return ToolResultBlock.text(&quot;完成&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>返回类型</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>返回类型</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>String, int, Object 等</td>
+<td>同步执行，自动转换为 ToolResultBlock</td>
+</tr>
+<tr>
+<td>Mono<T></T></td>
+<td>异步执行</td>
+</tr>
+<tr>
+<td>Flux<T></T></td>
+<td>流式执行</td>
+</tr>
+<tr>
+<td>ToolResultBlock</td>
+<td>直接控制返回格式（文本、图片、错误等）</td>
+</tr>
+<tr>
+<td><strong>工具组</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>按场景管理工具，支持动态激活&#x2F;停用：</td>
+<td></td>
+</tr>
+<tr>
+<td>java</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 创建工具组</span><br><span class="line">toolkit.createToolGroup(&quot;basic&quot;, &quot;基础工具&quot;, true); // 默认激活</span><br><span class="line">toolkit.createToolGroup(&quot;admin&quot;, &quot;管理工具&quot;, false); // 默认停用</span><br><span class="line"></span><br><span class="line">// 注册到工具组</span><br><span class="line">toolkit.registration()</span><br><span class="line">    .tool(new BasicTools())</span><br><span class="line">    .group(&quot;basic&quot;)</span><br><span class="line">    .apply();</span><br><span class="line"></span><br><span class="line">// 动态切换</span><br><span class="line">toolkit.updateToolGroups(List.of(&quot;admin&quot;), true); // 激活</span><br><span class="line">toolkit.updateToolGroups(List.of(&quot;basic&quot;), false); // 停用</span><br></pre></td></tr></table></figure>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>权限控制：根据用户角色激活不同工具</li>
+<li>场景切换：不同对话阶段使用不同工具集</li>
+<li>性能优化：减少 LLM 可见的工具数量<strong>工具执行上下文</strong><br>传递业务对象（如用户信息）给工具，无需暴露给 LLM：<br>java</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 1. 定义上下文类</span><br><span class="line">public class UserContext &#123;</span><br><span class="line">    private final String userId;</span><br><span class="line">    public UserContext(String userId) &#123; this.userId = userId; &#125;</span><br><span class="line">    public String getUserId() &#123; return userId; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 2. 注册到 Agent</span><br><span class="line">ToolExecutionContext context = ToolExecutionContext.builder()</span><br><span class="line">    .register(new UserContext(&quot;user-123&quot;))</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">ReActAgent agent = ReActAgent.builder()</span><br><span class="line">    .name(&quot;助手&quot;)</span><br><span class="line">    .model(model)</span><br><span class="line">    .toolkit(toolkit)</span><br><span class="line">    .toolExecutionContext(context)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">// 3. 工具中使用（自动注入）</span><br><span class="line">@Tool(description = &quot;查询用户数据&quot;)</span><br><span class="line">public String query(</span><br><span class="line">    @ToolParam(name = &quot;sql&quot;) String sql,</span><br><span class="line">    UserContext ctx) &#123; // 自动注入，无需 @ToolParam</span><br><span class="line">    return &quot;用户 &quot; + ctx.getUserId() + &quot; 的数据&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MCP"><a href="#MCP" class="headerlink" title="MCP"></a>MCP</h2><p>核心类为McpClientWrapper</p>
+<h3 id="MCP的使用"><a href="#MCP的使用" class="headerlink" title="MCP的使用"></a>MCP的使用</h3><p>java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// StdIO 传输 - 连接到本地 MCP 服务器</span><br><span class="line">McpClientWrapper mcpClient =</span><br><span class="line">    McpClientBuilder.create(&quot;filesystem-mcp&quot;)</span><br><span class="line">        .stdioTransport(&quot;npx&quot;, &quot;-y&quot;,</span><br><span class="line">            &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;)</span><br><span class="line">        .buildAsync()</span><br><span class="line">        .block();</span><br><span class="line"></span><br><span class="line">Toolkit toolkit = new Toolkit();</span><br><span class="line"></span><br><span class="line">// 注册 MCP 服务器的所有工具</span><br><span class="line">toolkit.registerMcpClient(mcpClient).block();</span><br><span class="line"></span><br><span class="line">ReActAgent agent = ReActAgent.builder()</span><br><span class="line">    .name(&quot;Assistant&quot;)</span><br><span class="line">    .model(model)</span><br><span class="line">    .toolkit(toolkit) // MCP 工具现已可用</span><br><span class="line">    .memory(new InMemoryMemory())</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<h2 id="ReAct"><a href="#ReAct" class="headerlink" title="ReAct"></a>ReAct</h2><p>ReAct示例代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">async def creating_react_agent() -&gt; None:</span><br><span class="line">    &quot;&quot;&quot;创建一个 ReAct 智能体并运行一个简单任务。&quot;&quot;&quot;</span><br><span class="line">    # 准备工具</span><br><span class="line">    toolkit = Toolkit()</span><br><span class="line">    toolkit.register_tool_function(execute_python_code)</span><br><span class="line"></span><br><span class="line">    jarvis = ReActAgent(</span><br><span class="line">        name=&quot;Jarvis&quot;,</span><br><span class="line">        sys_prompt=&quot;你是一个名为 Jarvis 的助手&quot;,</span><br><span class="line">        model=DashScopeChatModel(</span><br><span class="line">            model_name=&quot;qwen-max&quot;,</span><br><span class="line">            api_key=os.environ[&quot;DASHSCOPE_API_KEY&quot;],</span><br><span class="line">            stream=True,</span><br><span class="line">            enable_thinking=False,</span><br><span class="line">        ),</span><br><span class="line">        formatter=DashScopeChatFormatter(),</span><br><span class="line">        toolkit=toolkit,</span><br><span class="line">        memory=InMemoryMemory(),</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    msg = Msg(</span><br><span class="line">        name=&quot;user&quot;,</span><br><span class="line">        content=&quot;你好！Jarvis，用 Python 运行 Hello World。&quot;,</span><br><span class="line">        role=&quot;user&quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    await jarvis(msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(creating_react_agent())</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>
