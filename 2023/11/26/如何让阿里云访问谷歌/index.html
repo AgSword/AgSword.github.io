@@ -90,14 +90,16 @@ replay-btn" aria-hidden="true"></i></a>
   </div>
   <div class="post-content">
     <ol>
-<li><p>软件准备</p>
+<li>软件准备
 <ol>
 <li>软件下载</li>
-<li>使用gunzip命令解压，并重命名为clash<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gunzip clash-linux-amd64-v1.18.0.gz</span><br><span class="line">mv clash-linux-amd64-v1.18.0 clash</span><br></pre></td></tr></table></figure></li>
+<li>使用gunzip命令解压，并重命名为clash</li>
 </ol>
 </li>
-<li><p>初步运行软件</p>
-</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gunzip clash-linux-amd64-v1.18.0.gz</span><br><span class="line">mv clash-linux-amd64-v1.18.0 clash</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>初步运行软件</li>
 </ol>
 <p>赋予软件运行权限，第一次执行</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod u+x clash</span><br><span class="line">./clash</span><br></pre></td></tr></table></figure>
@@ -109,28 +111,27 @@ replay-btn" aria-hidden="true"></i></a>
 <ol start="4">
 <li>配置systemd服务</li>
 </ol>
-<p>Linux系统使用systemd作为启动服务器管理机制，首先将clash可执行文件拷贝到&#x2F;usr&#x2F;local&#x2F;bin目录，相关配置拷贝到&#x2F;etc&#x2F;clash目录</p>
+<p>Linux系统使用systemd作为启动服务器管理机制，首先将clash可执行文件拷贝到/usr/local/bin目录，相关配置拷贝到/etc/clash目录</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mkdir /etc/clash</span><br><span class="line">sudo cp clash /usr/local/bin</span><br><span class="line">sudo cp config.yaml /etc/clash/</span><br><span class="line">sudo cp Country.mmdb /etc/clash/</span><br></pre></td></tr></table></figure>
 <p>创建systemd服务配置文件</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/clash.service</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Clash daemon, A rule-based proxy in Go.</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">Restart=always</span><br><span class="line">ExecStart=/usr/local/bin/clash -d /etc/clash</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <p>编辑完后重载systemctl，开启服务，设置开机自启动</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl start clash</span><br><span class="line">systemctl enable clash</span><br></pre></td></tr></table></figure>
-
 <ol start="5">
 <li>开启http代理</li>
 </ol>
 <p>查看config.yaml中的mixed-port，假设mixed-port为7890，则</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891</span><br></pre></td></tr></table></figure>
-
 <ol start="6">
 <li>设置云服务的防火墙</li>
 </ol>
 <p>将mixed-port对应的端口打开</p>
 <ol start="7">
-<li>测试是否成功<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -I www.google.com</span><br></pre></td></tr></table></figure>
-如果能够返回报文，则成功</li>
+<li>测试是否成功</li>
 </ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -I www.google.com</span><br></pre></td></tr></table></figure>
+<p>如果能够返回报文，则成功</p>
 
   </div>
   

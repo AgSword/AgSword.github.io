@@ -89,9 +89,13 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h2 id="CUDA编程入门极简教程"><a href="#CUDA编程入门极简教程" class="headerlink" title="CUDA编程入门极简教程"></a>CUDA编程入门极简教程</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34587739">知乎原文链接</a></p>
-<h3 id="CUDA编程基于异构编程平台"><a href="#CUDA编程基于异构编程平台" class="headerlink" title="CUDA编程基于异构编程平台"></a>CUDA编程基于异构编程平台</h3><p>GPU并不是一个独立运行的计算平台，而需要与CPU协同工作，可以看成CCPU的协处理器，因此当我们说在GPU并行计算时，其实是指基于CPU+GPU的异构计算架构。在异构计算架构中，GPU与CPU通过PCIe总线连接在一起来协同工作，CPU所在位置称之为主机端（host），而GPU所在位置称之为设备端（device）。<br>GPU擅长于并行计算，适合于数据并行的计算密集型任务，CPU擅长于逻辑运算，适合控制密集型任务。</p>
-<h3 id="CUDA编程基础"><a href="#CUDA编程基础" class="headerlink" title="CUDA编程基础"></a>CUDA编程基础</h3><ol>
+    <h2 id="CUDA编程入门极简教程">CUDA编程入门极简教程</h2>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34587739">知乎原文链接</a></p>
+<h3 id="CUDA编程基于异构编程平台">CUDA编程基于异构编程平台</h3>
+<p>GPU并不是一个独立运行的计算平台，而需要与CPU协同工作，可以看成CCPU的协处理器，因此当我们说在GPU并行计算时，其实是指基于CPU+GPU的异构计算架构。在异构计算架构中，GPU与CPU通过PCIe总线连接在一起来协同工作，CPU所在位置称之为主机端（host），而GPU所在位置称之为设备端（device）。<br>
+GPU擅长于并行计算，适合于数据并行的计算密集型任务，CPU擅长于逻辑运算，适合控制密集型任务。</p>
+<h3 id="CUDA编程基础">CUDA编程基础</h3>
+<ol>
 <li>在CUDA编程中，host和device是比较基础的概念，host指CPU及其内存，device指GPU及其内存。CUDA程序中既包含host程序，也包含device程序，他们分别在CPU和GPU上运行。</li>
 <li>典型的CUDA程序的执行流程如下：</li>
 <li>分配host内存，并进行数据初始化</li>
@@ -103,16 +107,19 @@ replay-btn" aria-hidden="true"></i></a>
 <li>CUDA中的函数限定词如下__global__, <strong>devcie</strong>, <strong>host</strong></li>
 </ol>
 <ul>
-<li>__global__：在device上执行，从host中调用（一些特定的GPU也可以从device上调用），返回类型必须是void，不支持可变参数参数，不能成为类成员函数。注意用__global__定义的kernel是异步的，这意味着host不会等待kernel执行完就执行下一步。</li>
-<li>__device__：在device上执行，单仅可以从device中调用，不可以和__global__同时用。</li>
-<li>__host__：在host上执行，仅可以从host上调用，一般省略不写，不可以和__global__同时用，但可和__device__，此时函数会在device和host都编译。### cuda中的内存种类<br>按照访问速度由快到慢排序</li>
+<li><strong>global</strong>：在device上执行，从host中调用（一些特定的GPU也可以从device上调用），返回类型必须是void，不支持可变参数参数，不能成为类成员函数。注意用__global__定义的kernel是异步的，这意味着host不会等待kernel执行完就执行下一步。</li>
+<li><strong>device</strong>：在device上执行，单仅可以从device中调用，不可以和__global__同时用。</li>
+<li><strong>host</strong>：在host上执行，仅可以从host上调用，一般省略不写，不可以和__global__同时用，但可和__device__，此时函数会在device和host都编译。### cuda中的内存种类<br>
+按照访问速度由快到慢排序</li>
 </ul>
 <ol>
 <li>寄存器内存：可见性为单个线程，单个线程可以使用的寄存器数上限为255（每个寄存器可以存放4个字节数据）</li>
 <li>共享内存：访问速度仅次于寄存器内存，但是它的数量和可见访问也十分有限。一个线程块内的线程可以访问到本线程块的共享内存，不可以访问其他线程块的共享内存</li>
 <li>​## cuda编程中常见的性能问题</li>
 </ol>
-<h3 id="warp-divergence线程束分化"><a href="#warp-divergence线程束分化" class="headerlink" title="warp divergence线程束分化"></a>warp divergence线程束分化</h3><p>同一个warp内所有线程某一时刻执行的指令是一样的，这就导致如果不是所有线程的数据满足分支的条件，那么就会有部分线程进入阻塞。这个问题就被称为线程束分化（warp divergence）<br>​</p>
+<h3 id="warp-divergence线程束分化">warp divergence线程束分化</h3>
+<p>同一个warp内所有线程某一时刻执行的指令是一样的，这就导致如果不是所有线程的数据满足分支的条件，那么就会有部分线程进入阻塞。这个问题就被称为线程束分化（warp divergence）<br>
+​</p>
 <p>​</p>
 
   </div>

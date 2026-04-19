@@ -89,7 +89,8 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p><img src="/2026/03/29/dubbo/1759804534147-2f0b7b7d-ff60-4512-b772-048b92e7caae.png" alt="c1a01883621b459298169a59ec3297f2.png"></p>
+    <h2 id="整体架构">整体架构</h2>
+<p><img src="/2026/03/29/dubbo/1759804534147-2f0b7b7d-ff60-4512-b772-048b92e7caae.png" alt="c1a01883621b459298169a59ec3297f2.png"></p>
 <p>各层说明：</p>
 <ul>
 <li>config配置层：对外配置接口，以ServiceConfig和ReferenceConfig为中心，可以直接初始化配置类，也可以通过Springboot配置文件进行配置</li>
@@ -109,13 +110,23 @@ replay-btn" aria-hidden="true"></i></a>
 <li>invoker通过路由，负载均衡选择一个最合适的服务提供方，再经过各种过滤器，proxy层将其包装成一个新的DubboInvoker对象</li>
 <li>exchange层将DubboInvoker对象包装成一个Request对象，该对象通过序列化经过NettyClient传输倒服务提供方的NettyServer端</li>
 <li>到了服务提供方之后，再通过反序列化、协议解密等操作生成一个DubboExporter对象，再层层传递处理，会生成一个服务提供端Invoker对象</li>
-<li>这个Invoker对象会调用本地服务，获得结果再通过层层回调返回到服务消费方，服务消费方拿到结果后，再解析获得最终结果## Dubbo中的SPI<br>Dubbo 中某个接口被 @SPI注解修饰时，就表示该接口是<strong>扩展接口****。</strong>@SPI 注解的 value 值指定了默认的扩展名称，例如，在通过 Dubbo SPI 加载 Protocol 接口实现时，如果没有明确指定扩展名，则默认会将 @SPI 注解的 value 值作为扩展名，即加载 dubbo 这个扩展名对应的 org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol 这个<strong>扩展实现类</strong>，相关的 SPI 配置文件在 dubbo-rpc-dubbo 模块中</li>
+<li>这个Invoker对象会调用本地服务，获得结果再通过层层回调返回到服务消费方，服务消费方拿到结果后，再解析获得最终结果## Dubbo中的SPI<br>
+Dubbo 中某个接口被 @SPI注解修饰时，就表示该接口是<strong>扩展接口****。</strong>@SPI 注解的 value 值指定了默认的扩展名称，例如，在通过 Dubbo SPI 加载 Protocol 接口实现时，如果没有明确指定扩展名，则默认会将 @SPI 注解的 value 值作为扩展名，即加载 dubbo 这个扩展名对应的 org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol 这个<strong>扩展实现类</strong>，相关的 SPI 配置文件在 dubbo-rpc-dubbo 模块中</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Protocol protocol = ExtensionLoader </span><br><span class="line">   .getExtensionLoader(Protocol.class).getExtension(&quot;dubbo&quot;);</span><br></pre></td></tr></table></figure>
-<p>通过遍历DubboInternalLoadingStrategy ，DubboLoadingStrategy ，ServicesLoadingStrateg三个策略中的directory()加载所有扩展类<br><strong>在加载扩展类的过程中会实现Dubbo IOC和AOP</strong>。Dubbo IOC实现原理是执行实现类的set方法。Dubbo AOP的实现原理是判断是否有类的拷贝构造函数的参数为扩展接口，如果有，则认为此类是扩展实现类的装饰者（即此处用到了装饰者模式：在不改变原类以及不适用继承的情况下，动态地将责任附加在对象上，从而实现动态扩展一个对象的功能，装饰真实的对象），实例化这个包装类代替扩展实现类<br>有些扩展不想在框架启动阶段被加载，而是希望在扩展方法被调用时根据运行时参数进行加载，即根据参数动态加载实现类。在dubbo中使用<strong>Adaptive注解来实现动态加载</strong>，此注解可以放在扩展接口上也可以放在扩展接口的函数上<br><strong>dubbo中的自动激活</strong>。org.apache.dubbo.rpc.Filter 接口有非常多的扩展实现类，在一个场景中可能需要某几个 Filter 扩展实现类协同工作，而另一个场景中可能	需要另外几个实现类一起工作。这样，就需要一套配置来指定当前场景中哪些 Filter 实现是可用的，这就是 @Activate 注解要做的事情<br>​</p>
-<h2 id="服务暴露的过程"><a href="#服务暴露的过程" class="headerlink" title="服务暴露的过程"></a>服务暴露的过程</h2><p>Dubbo框架将服务暴露分为两大部分，第一部分时将持有的服务实例通过proxy转换为invoker，第二部分将invoker通过具体的protocol转为exporter。<br>整个 Provider 节点的<strong>启动入口是 DubboBootstrap.start() 方法。</strong>不仅是直接通过 API 启动 Provider 的方式会使用到 DubboBootstrap，在 Spring 与 Dubbo 集成的时候也是使用 DubboBootstrap 作为服务发布入口。具体逻辑在 DubboBootstrapApplicationListener 这个 Spring Context 监听器中。</p>
+<p>通过遍历DubboInternalLoadingStrategy ，DubboLoadingStrategy ，ServicesLoadingStrateg三个策略中的directory()加载所有扩展类<br>
+<strong>在加载扩展类的过程中会实现Dubbo IOC和AOP</strong>。Dubbo IOC实现原理是执行实现类的set方法。Dubbo AOP的实现原理是判断是否有类的拷贝构造函数的参数为扩展接口，如果有，则认为此类是扩展实现类的装饰者（即此处用到了装饰者模式：在不改变原类以及不适用继承的情况下，动态地将责任附加在对象上，从而实现动态扩展一个对象的功能，装饰真实的对象），实例化这个包装类代替扩展实现类<br>
+有些扩展不想在框架启动阶段被加载，而是希望在扩展方法被调用时根据运行时参数进行加载，即根据参数动态加载实现类。在dubbo中使用<strong>Adaptive注解来实现动态加载</strong>，此注解可以放在扩展接口上也可以放在扩展接口的函数上<br>
+<strong>dubbo中的自动激活</strong>。org.apache.dubbo.rpc.Filter 接口有非常多的扩展实现类，在一个场景中可能需要某几个 Filter 扩展实现类协同工作，而另一个场景中可能	需要另外几个实现类一起工作。这样，就需要一套配置来指定当前场景中哪些 Filter 实现是可用的，这就是 @Activate 注解要做的事情<br>
+​</p>
+<h2 id="服务暴露的过程">服务暴露的过程</h2>
+<p>Dubbo框架将服务暴露分为两大部分，第一部分时将持有的服务实例通过proxy转换为invoker，第二部分将invoker通过具体的protocol转为exporter。<br>
+整个 Provider 节点的**启动入口是 DubboBootstrap.start() 方法。**不仅是直接通过 API 启动 Provider 的方式会使用到 DubboBootstrap，在 Spring 与 Dubbo 集成的时候也是使用 DubboBootstrap 作为服务发布入口。具体逻辑在 DubboBootstrapApplicationListener 这个 Spring Context 监听器中。</p>
 <p>​</p>
-<h2 id="服务引用的过程"><a href="#服务引用的过程" class="headerlink" title="服务引用的过程"></a>服务引用的过程</h2><p>​<br>​<br>protocol层：</p>
+<h2 id="服务引用的过程">服务引用的过程</h2>
+<p>​<br>
+​<br>
+protocol层：</p>
 <table>
 <thead>
 <tr>
@@ -124,7 +135,8 @@ replay-btn" aria-hidden="true"></i></a>
 <th>服务引用</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>重要函数</td>
 <td>exporter export(invoker)</td>
 <td>Invoker<T> protocolBindingRefer(Class<T> serviceType, URL url)</T></T></td>
@@ -174,7 +186,8 @@ replay-btn" aria-hidden="true"></i></a>
 <td></td>
 <td></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 
   </div>
   

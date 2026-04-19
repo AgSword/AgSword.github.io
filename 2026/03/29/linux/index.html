@@ -89,122 +89,160 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h3 id="终端命令格式"><a href="#终端命令格式" class="headerlink" title="终端命令格式"></a>终端命令格式</h3><p>命令 [-选项][参数]<br><img src="/2026/03/29/linux/1656044479706-fde9664a-891e-4bb3-83a5-60a195d1835c.png" alt="uTools_1656044430017.png"></p>
-<h2 id="基础指令"><a href="#基础指令" class="headerlink" title="基础指令"></a>基础指令</h2><ol>
-<li><p>ls查找当前目录下的内容</p>
+    <h3 id="终端命令格式">终端命令格式</h3>
+<p>命令 [-选项][参数]<br>
+<img src="/2026/03/29/linux/1656044479706-fde9664a-891e-4bb3-83a5-60a195d1835c.png" alt="uTools_1656044430017.png"></p>
+<h2 id="基础指令">基础指令</h2>
+<ol>
+<li>ls查找当前目录下的内容</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls -l ./  </span><br><span class="line">选项 -l 表示以详细列表的形式进行展示</span><br><span class="line">     -a 表示显示所有的文件/文件夹</span><br><span class="line">路径  以./开头表示为相对路径,./表示当前路径, ../表示以当前路径的父路径</span><br></pre></td></tr></table></figure>
 <p>ll指令的执行结果详解</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. 文件类型，-表示普通文件，d表示目录，l表示链接文件，p表示管理文件，b表示块设备文件，</span><br><span class="line">c表示字符设备文件，s表示套接字文件</span><br><span class="line">2. 文件属性，分别表示文件所有者权限、群组用户的权限、其他用户的权限</span><br><span class="line">3. 目录/链接个数，对于目录文件，表示它的第一级子目录的个数，这个个数要减去2才是其真实的子目录的</span><br><span class="line">数量，对于其他文件，表示指向它的链接文件的个数</span><br><span class="line">4. 后面两列表示所有者及其组</span><br><span class="line">5. 文件大小</span><br><span class="line">6. 文件名称</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>pwd指令</strong> 打印当前工作目录，当我们一开始进入服务器的时候，可以通过这条指令直到我们目前所在 的位置</p>
-</li>
-<li><p>cd指令  改变目录</p>
+<ol>
+<li><strong>pwd指令</strong> 打印当前工作目录，当我们一开始进入服务器的时候，可以通过这条指令直到我们目前所在 的位置</li>
+<li>cd指令  改变目录</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd 路径</span><br><span class="line">路径可以是相对路径，可以是绝对路径</span><br><span class="line">还有一种  ~表示当前用户的家目录home</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>mkdir 创建目录</p>
+<ol>
+<li>mkdir 创建目录</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir 目录</span><br><span class="line">目录可以是文件夹，可以是包含文件夹的路径；可以同时创建多个目录，</span><br><span class="line">中间用空格分开</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>touch 创建文件</p>
+<ol>
+<li>touch 创建文件</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">touch 文件路径</span><br><span class="line">可以同时创建多个文件，各文件用空格分开</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>cp指令 复制文件</p>
+<ol>
+<li>cp指令 复制文件</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cp 被复制的文件路径 文档被复制到的路径</span><br><span class="line">选项有  </span><br><span class="line">  -r 当资源是一个文件夹时</span><br></pre></td></tr></table></figure>
 <p><img src="/2026/03/29/linux/1650027679211-908995be-b602-4a18-b89f-b0d45916045c.png" alt="image.png"></p>
-</li>
-<li><p>mv指令   移动文件</p>
+<ol>
+<li>mv指令   移动文件</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mv 待移动的文档路径 需要保存的位置路径</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>rm指令 删除文件</p>
+<ol>
+<li>rm指令 删除文件</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm 选项 文件路径</span><br><span class="line">选项 -f 强制删除，</span><br><span class="line">     -r 表示递归  当要删除文件夹的时候，必须要选择r这个选项</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>vim指令 编辑指令</p>
+<ol>
+<li>vim指令 编辑指令</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim 文件的路径</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>输出重定向将原本输出在终端上的内容添加到文件中去，在原来的指令后面加上&gt;&#x2F;&gt;&gt;</p>
-</li>
+<ol>
+<li>输出重定向将原本输出在终端上的内容添加到文件中去，在原来的指令后面加上&gt;/&gt;&gt;</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">指令 &gt;/&gt;&gt; 选项 路径</span><br><span class="line">其中 &gt; 会覆盖掉原先的文件内容</span><br><span class="line">    &gt;&gt; 不会覆盖掉，会在原始内容末尾继续添加</span><br></pre></td></tr></table></figure>
-
 <ol>
-<li>cat指令 具有直接打开文件的功能，也具有合并文件的功能<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat 文件路径 </span><br><span class="line">直接在终端打开文件</span><br><span class="line">cat 待合并文件路径1  带合并文件路径2 &gt; 合并后的文件</span><br><span class="line">完成合并文件的功能</span><br></pre></td></tr></table></figure></li>
+<li>cat指令 具有直接打开文件的功能，也具有合并文件的功能</li>
 </ol>
-<h3 id="进阶指令"><a href="#进阶指令" class="headerlink" title="进阶指令"></a>进阶指令</h3><ol>
-<li><p>df指令 查看磁盘的空间</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat 文件路径 </span><br><span class="line">直接在终端打开文件</span><br><span class="line">cat 待合并文件路径1  带合并文件路径2 &gt; 合并后的文件</span><br><span class="line">完成合并文件的功能</span><br></pre></td></tr></table></figure>
+<h3 id="进阶指令">进阶指令</h3>
+<ol>
+<li>df指令 查看磁盘的空间</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">df -h 表示以可读性较高的形式展开大小</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>free指令 查看内存使用情况</p>
-</li>
-<li><p>head指令 查看一个文件的前n行</p>
+<ol>
+<li>free指令 查看内存使用情况</li>
+<li>head指令 查看一个文件的前n行</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">head -n</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>tail指令 查看一个文件的后n行</p>
-</li>
-<li><p>more 指令，与cat指令不同的时，它可以以一页一页查看文件内容，比较适合大文件的查看</p>
-</li>
-<li><p>less指令 以较少的内容进行输出，按下辅助功能键查看更多</p>
+<ol>
+<li>tail指令 查看一个文件的后n行</li>
+<li>more 指令，与cat指令不同的时，它可以以一页一页查看文件内容，比较适合大文件的查看</li>
+<li>less指令 以较少的内容进行输出，按下辅助功能键查看更多</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">less 需要查看的文件路径</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>wc指令 统计文件内容信息（包含函数，字符数，字节数）</p>
 </li>
-<li><p>wc指令 统计文件内容信息（包含函数，字符数，字节数）</p>
+<li>
+<p>date指令 表示操作时间日期</p>
 </li>
-<li><p>date指令 表示操作时间日期</p>
+<li>
+<p>clear指令 清除终端中已经存在的命令和结果</p>
 </li>
-<li><p>clear指令 清除终端中已经存在的命令和结果</p>
+<li>
+<p>管道符 | ，一般为过滤作用，管道符前面的输出为管道符的输入</p>
 </li>
-<li><p>管道符 | ，一般为过滤作用，管道符前面的输出为管道符的输入</p>
+<li>
+<p>grep指令主要用于过滤### 高级指令</p>
 </li>
-<li><p>grep指令主要用于过滤### 高级指令</p>
+<li>
+<p>id指令 查看一个用户的一些基本信息</p>
 </li>
-<li><p>id指令 查看一个用户的一些基本信息</p>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">id </span><br><span class="line">默认显示当前执行该命令的用户的基本信息</span><br><span class="line">id 用户名 </span><br><span class="line">显示指定用户的基本信息</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>whoami 查看当前登录的用户名</p>
-</li>
-<li><p>ps -ef指令 主要查看服务器的进程信息</p>
+<ol>
+<li>whoami 查看当前登录的用户名</li>
+<li>ps -ef指令 主要查看服务器的进程信息</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -ef </span><br><span class="line">ps -ef | grep firefox 查看火狐浏览器的进程</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>top指令 查看服务器的进程占的资源进入命令：top<br>
+推出命令：按下q键<br>
+可以动态查看进程信息</p>
 </li>
-<li><p>top指令 查看服务器的进程占的资源进入命令：top<br>推出命令：按下q键<br>可以动态查看进程信息</p>
+<li>
+<p>du -sh指令 查看目录的真实大小</p>
 </li>
-<li><p>du -sh指令 查看目录的真实大小</p>
+<li>
+<p>find指令 用于查找文件</p>
 </li>
-<li><p>find指令 用于查找文件</p>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find 路径范围 选项 选项的值</span><br><span class="line">选项 -name 按照文档名称进行搜索</span><br><span class="line">     -type 按照文档的类型进行搜索 文档类型：一般情况下</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>service指令 用于控制一些软件的服务启动&#x2F;停止&#x2F;重启</p>
+<ol>
+<li>service指令 用于控制一些软件的服务启动/停止/重启</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service 服务名 start/stop/restart</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>kill指令 表示杀死进程</p>
+<ol>
+<li>kill指令 表示杀死进程</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kill 进程名称</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ifconfig指令 获取网卡信息</p>
-</li>
-<li><p>reboot 重启计算机</p>
-</li>
-<li><p>shutdown 关机</p>
-</li>
-<li><p>netstat指令</p>
+<ol>
+<li>ifconfig指令 获取网卡信息</li>
+<li>reboot 重启计算机</li>
+<li>shutdown 关机</li>
+<li>netstat指令</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -tnlp</span><br><span class="line">-t 表示只列出tcp协议的连接</span><br><span class="line">-n 表示将地址从字母组合转化为ip地址，将协议转化为端口号来显示</span><br><span class="line">-l 表示过滤出state状态列中其值为监听的连接</span><br><span class="line">-p 表示显示发起连接的进程pid和进程名称</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>man指令 查看指令的用法</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">man command</span><br></pre></td></tr></table></figure></li>
+<ol>
+<li>man指令 查看指令的用法</li>
 </ol>
-<h3 id="端口号"><a href="#端口号" class="headerlink" title="端口号"></a>端口号</h3><p>在同一台计算机上不能出现多个程序占用同一个端口号，因此在运行程序时，如果提示端口号被占用，那需要先找到占用端口号的程序被结束掉，然后才能运行目标程序。<br>常见的端口号，http:80，https:443，mysql:3306，redis：6379，ssh：22</p>
-<h3 id="查看系统监听的端口"><a href="#查看系统监听的端口" class="headerlink" title="查看系统监听的端口"></a>查看系统监听的端口</h3><ol>
-<li><p>netstat命令<img src="/2026/03/29/linux/1656070210350-a1df4068-f00f-4ab2-a88f-e92b90c1cff4.png" alt="uTools_1656070190943.png"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">man command</span><br></pre></td></tr></table></figure>
+<h3 id="端口号">端口号</h3>
+<p>在同一台计算机上不能出现多个程序占用同一个端口号，因此在运行程序时，如果提示端口号被占用，那需要先找到占用端口号的程序被结束掉，然后才能运行目标程序。<br>
+常见的端口号，http:80，https:443，mysql:3306，redis：6379，ssh：22</p>
+<h3 id="查看系统监听的端口">查看系统监听的端口</h3>
+<ol>
+<li>
+<p>netstat命令<img src="/2026/03/29/linux/1656070210350-a1df4068-f00f-4ab2-a88f-e92b90c1cff4.png" alt="uTools_1656070190943.png"></p>
 </li>
-<li><p>lsof指令，这个指令</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">lsof -i 端口号</span><br></pre></td></tr></table></figure></li>
+<li>
+<p>lsof指令，这个指令</p>
+</li>
 </ol>
-<h3 id="查看程序存放位置"><a href="#查看程序存放位置" class="headerlink" title="查看程序存放位置"></a>查看程序存放位置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">which 程序或者指令</span><br></pre></td></tr></table></figure>
-<h3 id="用户切换"><a href="#用户切换" class="headerlink" title="用户切换"></a>用户切换</h3><ol>
-<li><p>从其他用户到root</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">lsof -i 端口号</span><br></pre></td></tr></table></figure>
+<h3 id="查看程序存放位置">查看程序存放位置</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">which 程序或者指令</span><br></pre></td></tr></table></figure>
+<h3 id="用户切换">用户切换</h3>
+<ol>
+<li>从其他用户到root</li>
+</ol>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cu -</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>从root到其他用户</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cu - 用户名</span><br><span class="line">-与用户名之间有空格</span><br></pre></td></tr></table></figure></li>
+<ol>
+<li>从root到其他用户</li>
 </ol>
-<h3 id="文献权限修改"><a href="#文献权限修改" class="headerlink" title="文献权限修改"></a>文献权限修改</h3><p>chmod<br><img src="/2026/03/29/linux/1656077486697-49e8d8ca-f6ea-44b0-a723-eb83e4e112f8.png" alt="uTools_1656077478688.png"></p>
-<h3 id="压缩和解压"><a href="#压缩和解压" class="headerlink" title="压缩和解压"></a>压缩和解压</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -cvf 打包文件.tar 被打包的文件/路径</span><br><span class="line">tar -xvf 待解包的包</span><br><span class="line"></span><br><span class="line">zip [-r] 打包文件 被压缩的文件</span><br><span class="line">unzip -d 解压后的目录 打包文件.zip</span><br></pre></td></tr></table></figure>
-<h3 id><a href="#" class="headerlink" title></a></h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cu - 用户名</span><br><span class="line">-与用户名之间有空格</span><br></pre></td></tr></table></figure>
+<h3 id="文献权限修改">文献权限修改</h3>
+<p>chmod<br>
+<img src="/2026/03/29/linux/1656077486697-49e8d8ca-f6ea-44b0-a723-eb83e4e112f8.png" alt="uTools_1656077478688.png"></p>
+<h3 id="压缩和解压">压缩和解压</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -cvf 打包文件.tar 被打包的文件/路径</span><br><span class="line">tar -xvf 待解包的包</span><br><span class="line"></span><br><span class="line">zip [-r] 打包文件 被压缩的文件</span><br><span class="line">unzip -d 解压后的目录 打包文件.zip</span><br></pre></td></tr></table></figure>
+<h3 id></h3>
+
   </div>
   
 </div>

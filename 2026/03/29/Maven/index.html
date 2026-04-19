@@ -89,7 +89,8 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h3 id="Maven中的scope"><a href="#Maven中的scope" class="headerlink" title="Maven中的scope"></a>Maven中的scope</h3><p>在maven中，scope用于定义依赖性的作用范围，即指定依赖在项目的哪些阶段（编译、测试、运行）生效，以及是否会被传递到其他依赖中。不同的scope会影响依赖的打包行为、传递性和可用性。</p>
+    <h3 id="Maven中的scope">Maven中的scope</h3>
+<p>在maven中，scope用于定义依赖性的作用范围，即指定依赖在项目的哪些阶段（编译、测试、运行）生效，以及是否会被传递到其他依赖中。不同的scope会影响依赖的打包行为、传递性和可用性。</p>
 <table>
 <thead>
 <tr>
@@ -98,7 +99,8 @@ replay-btn" aria-hidden="true"></i></a>
 <th>典型场景示例</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>compile</td>
 <td>默认值。依赖在编译、测试、运行时均可用，且会传递到依赖的项目中</td>
 <td>Spring Core、Mybatis等</td>
@@ -133,17 +135,24 @@ replay-btn" aria-hidden="true"></i></a>
 <td></td>
 <td></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ol>
-<li><p>依赖传递性：compile、runtime会传递依赖；provided、test、system不会传递依赖</p>
+<li>
+<p>依赖传递性：compile、runtime会传递依赖；provided、test、system不会传递依赖</p>
 </li>
-<li><p>打包行为：compile、runtime会打包到最终产物（如JAR&#x2F;WAR）；provided、test、system不会打包到最终产物中</p>
+<li>
+<p>打包行为：compile、runtime会打包到最终产物（如JAR/WAR）；provided、test、system不会打包到最终产物中</p>
 </li>
-<li><p>生命周期阶段：test仅影响测试阶段；provided在运行时不生效（由环境提供）### 什么是Maven仓库<br>Maven的仓库只有两大类：</p>
+<li>
+<p>生命周期阶段：test仅影响测试阶段；provided在运行时不生效（由环境提供）### 什么是Maven仓库<br>
+Maven的仓库只有两大类：</p>
 </li>
-<li><p>本地仓库</p>
+<li>
+<p>本地仓库</p>
 </li>
-<li><p>远程仓库。在远程仓库中又分为三种</p>
+<li>
+<p>远程仓库。在远程仓库中又分为三种</p>
 </li>
 </ol>
 <ul>
@@ -151,16 +160,21 @@ replay-btn" aria-hidden="true"></i></a>
 <li>私服</li>
 <li>其他公共库</li>
 </ul>
-<h3 id="对于一个多模块项目，如果管理项目依赖的版本"><a href="#对于一个多模块项目，如果管理项目依赖的版本" class="headerlink" title="对于一个多模块项目，如果管理项目依赖的版本"></a>对于一个多模块项目，如果管理项目依赖的版本</h3><ul>
+<h3 id="对于一个多模块项目，如果管理项目依赖的版本">对于一个多模块项目，如果管理项目依赖的版本</h3>
+<ul>
 <li>方式一，通过在父模块中声明<dependencyManagement>和<pluginManagement>，然后让子模块通过元素指定父模块，这样子模块在定义依赖时就可以只定义groupId和artifactId，自动使用父模块的version，这样统一整个项目的依赖的版本</pluginManagement></dependencyManagement></li>
-<li>方式二，使用<dependency>声明<scope>为import的依赖，从而引入一个pom的<dependencyment><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-framework-bom<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure></dependencyment></scope></dependency></li>
+<li>方式二，使用<dependency>声明<scope>为import的依赖，从而引入一个pom的<dependencyment></dependencyment></scope></dependency></li>
 </ul>
-<h3 id="Maven依赖原则"><a href="#Maven依赖原则" class="headerlink" title="Maven依赖原则"></a>Maven依赖原则</h3><ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-framework-bom<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Maven依赖原则">Maven依赖原则</h3>
+<ol>
 <li>依赖路径最短优先原则：一个项目依赖了两个jar包，其中A-B-C-X(1.0)，A-D-X(2.0)。由于X(2.0)路径最短，所以项目使用的是X(2.0)</li>
 <li>pom文件中申明顺序优先：如果A-B-X(1.0)，A-C-X(2.0)，这样的路径长度一样怎么办？这样的情况下，maven会根据pom文件声明的顺序加载，如果先声明了B，后声明了C，那就最终的依就会是X(1.0)</li>
-<li>覆写优先，子项目中pom内声明的优先于父项目pom中的依赖### 如果解决jar冲突<br>遇到冲突的第一步就是 通过mvn dependency:tree 查看依赖树或者idea maven helper插件 找到maven加载的是什么版本的jar包。然后，通过maven的依赖原则来调整坐标在pom文件中的声明顺序是最好的办法，或者将冲突中不想要的jar<exclude>掉。</exclude></li>
+<li>覆写优先，子项目中pom内声明的优先于父项目pom中的依赖### 如果解决jar冲突<br>
+遇到冲突的第一步就是 通过mvn dependency:tree 查看依赖树或者idea maven helper插件 找到maven加载的是什么版本的jar包。然后，通过maven的依赖原则来调整坐标在pom文件中的声明顺序是最好的办法，或者将冲突中不想要的jar<exclude>掉。</exclude></li>
 </ol>
-<h3 id="Maven的生命周期"><a href="#Maven的生命周期" class="headerlink" title="Maven的生命周期"></a>Maven的生命周期</h3><p>Maven由三套相互独立的生命周期，分别为Clean，Default，Site。每个生命周期包含了一些极端，阶段是有顺序的，后面的阶段依赖于前面的阶段。</p>
+<h3 id="Maven的生命周期">Maven的生命周期</h3>
+<p>Maven由三套相互独立的生命周期，分别为Clean，Default，Site。每个生命周期包含了一些极端，阶段是有顺序的，后面的阶段依赖于前面的阶段。</p>
 <ul>
 <li>1、Clean 生命周期：清理项目，包含三个 phase ：</li>
 <li>pre-clean：执行清理前需要完成的工作。</li>
@@ -190,7 +204,26 @@ replay-btn" aria-hidden="true"></i></a>
 <li>verify，验证构建包是否有效</li>
 <li>install，将构建包安装到本地仓库</li>
 <li>deploy，将构建包部署到远端仓库</li>
-<li>site，生成项目站点​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​</li>
+<li>site，生成项目站点​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​<br>
+​</li>
 </ol>
 
   </div>

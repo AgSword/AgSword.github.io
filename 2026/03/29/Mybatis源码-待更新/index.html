@@ -90,46 +90,78 @@ replay-btn" aria-hidden="true"></i></a>
   </div>
   <div class="post-content">
     <p>学习Mybatis从解析、绑定、反射、缓存，到会话和事务操作，以及如何与Spring进行关联注册Bean对象，完成整合部分功能逻辑。通过这些内容的拆解实现，可以非常清楚知道这些核心功能都是如何实现的</p>
-<h1 id="创建简单的映射器代理工厂"><a href="#创建简单的映射器代理工厂" class="headerlink" title="创建简单的映射器代理工厂"></a>创建简单的映射器代理工厂</h1><p>对于Mapper接口，创建一个MapperProxy，其实现了InvocationHandler接口，重写其invoke方法。这种方式采用了动态代理的方法，从而针对不同的Mapper接口，可以方便的实现其实现类重写接口的方法<br>创建代理类工厂MapperProxyFactory，实现通过接口名创建代理类MapperProxy</p>
-<h1 id="实现映射器的注册和使用"><a href="#实现映射器的注册和使用" class="headerlink" title="实现映射器的注册和使用"></a>实现映射器的注册和使用</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>对Mapper的注册提供注册机处理，满足用户可以在使用的时候提供一个包的路径即可完成扫描和注册。于此同时需要对SqlSession进行规范化处理，让它可以把我们的映射器代理和方法调用进行包装，建立一个生命周期模型结构，便于后续内容的添加</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p><img src="/2026/03/29/Mybatis%E6%BA%90%E7%A0%81-%E5%BE%85%E6%9B%B4%E6%96%B0/1694922931051-fedf697c-9a31-4213-a7c6-b5127fae738b.png" alt="mybatis-220404-02.png"></p>
+<h1>创建简单的映射器代理工厂</h1>
+<p>对于Mapper接口，创建一个MapperProxy，其实现了InvocationHandler接口，重写其invoke方法。这种方式采用了动态代理的方法，从而针对不同的Mapper接口，可以方便的实现其实现类重写接口的方法<br>
+创建代理类工厂MapperProxyFactory，实现通过接口名创建代理类MapperProxy</p>
+<h1>实现映射器的注册和使用</h1>
+<h2 id="目标">目标</h2>
+<p>对Mapper的注册提供注册机处理，满足用户可以在使用的时候提供一个包的路径即可完成扫描和注册。于此同时需要对SqlSession进行规范化处理，让它可以把我们的映射器代理和方法调用进行包装，建立一个生命周期模型结构，便于后续内容的添加</p>
+<h2 id="实现">实现</h2>
+<p><img src="/2026/03/29/Mybatis%E6%BA%90%E7%A0%81-%E5%BE%85%E6%9B%B4%E6%96%B0/1694922931051-fedf697c-9a31-4213-a7c6-b5127fae738b.png" alt="mybatis-220404-02.png"></p>
 <ul>
-<li><p>MapperRegistry提供包路径的扫描和映射器代理类注册机服务，完成接口对象的代理类注册处理</p>
+<li>
+<p>MapperRegistry提供包路径的扫描和映射器代理类注册机服务，完成接口对象的代理类注册处理</p>
 </li>
-<li><p>SqlSession、DefaultSqlSession用于定义执行SQL标准、获取映射器以及将来管理事务等方面的操作。基本我们平时使用Mybatis的API接口也是从这个接口类定义的方法进行使用的</p>
+<li>
+<p>SqlSession、DefaultSqlSession用于定义执行SQL标准、获取映射器以及将来管理事务等方面的操作。基本我们平时使用Mybatis的API接口也是从这个接口类定义的方法进行使用的</p>
 </li>
-<li><p>SqlSessionFactory是一个简单工厂模式，用于提供SqlSession服务，屏蔽创建细节，延迟创建过程### MapperRegistry</p>
+<li>
+<p>SqlSessionFactory是一个简单工厂模式，用于提供SqlSession服务，屏蔽创建细节，延迟创建过程### MapperRegistry</p>
 </li>
-<li><p>MapperRegistry映射器注册类的核心主要在于提供了ClassScanner.scanPackage扫描包路径，调用addMapper方法，给接口类创建MapperProxyFactory注册器代理类，并写入到knownMappers的HashMap缓存中。</p>
+<li>
+<p>MapperRegistry映射器注册类的核心主要在于提供了ClassScanner.scanPackage扫描包路径，调用addMapper方法，给接口类创建MapperProxyFactory注册器代理类，并写入到knownMappers的HashMap缓存中。</p>
 </li>
-<li><p>这个类也提供了对应的getMapper获取MapperProxty的方法，其实这一步就包装了MapperProxyFactory### SqlSession</p>
+<li>
+<p>这个类也提供了对应的getMapper获取MapperProxty的方法，其实这一步就包装了MapperProxyFactory### SqlSession</p>
 </li>
-<li><p>在SqlSession中定义用来执行SQL，获取映射器对象以及后续管理事务操作的标准接口### DefaultSqlSession</p>
+<li>
+<p>在SqlSession中定义用来执行SQL，获取映射器对象以及后续管理事务操作的标准接口### DefaultSqlSession</p>
 </li>
-<li><p>通过DefaultSqlSession实现类对SqlSession接口进行实现</p>
+<li>
+<p>通过DefaultSqlSession实现类对SqlSession接口进行实现</p>
 </li>
-<li><p>getMapper方法中获取映射器对象是通过MapperRegistry类进行获取的，后续这部分会被配置类进行替换### SqlSessionFactory工厂定义与实现<br>SqlSessionFactory提供了开启SqlSession的能力，SqlSessionFactory实现类DefaultSqlSessionFactory起到了创建DefaultSqlSession，传递MapperRegistry。这样就可以在使用SqlSession时获取每个MapperProxty</p>
+<li>
+<p>getMapper方法中获取映射器对象是通过MapperRegistry类进行获取的，后续这部分会被配置类进行替换### SqlSessionFactory工厂定义与实现<br>
+SqlSessionFactory提供了开启SqlSession的能力，SqlSessionFactory实现类DefaultSqlSessionFactory起到了创建DefaultSqlSession，传递MapperRegistry。这样就可以在使用SqlSession时获取每个MapperProxty</p>
 </li>
 </ul>
-<h1 id="Mapper-XML的解析和注册使用"><a href="#Mapper-XML的解析和注册使用" class="headerlink" title="Mapper XML的解析和注册使用"></a>Mapper XML的解析和注册使用</h1><h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><p>其实我们可以把一个ORM框架的目标，简单的描述为给一个接口提供代理类，类中包括了对Mapper也就是xml文件中的SQL信息（类型、入参、出参、条件）进行解析和处理，这个处理过程就是对数据库的操作以及返回对应的结果给到接口。<br>扩展对Mapper文件的解析以及提取出对应的SQL文件，做到在当前阶段，可以满足我们调用DAO接口方法的时候，可以返回Mapper中对应的待执行SQL语句<br>XMLConfigBuilder用于解析xml，向MapperRegistery中添加MapperProxy<br>Configuration则贯穿整个流程<br>使用Configuration包装MapperRegister和mappedStatements</p>
-<h1 id="MyBatis初始化"><a href="#MyBatis初始化" class="headerlink" title="MyBatis初始化"></a>MyBatis初始化</h1><p>在<strong>Mybatis初始化</strong>过程中，会<strong>加载mybatis-config.xml配置文件、映射配置文件及Mapper接口中的注解信息</strong>，解析后的配置信息会形成相应的对象并保存在<strong>Configuration对象</strong>中。例如：<resultMap>节点（即ResultSet的映射规则）会被解析为ResultMap对象。<result>节点（即属性映射）会被映射成ResultMapping对象。之后，利用Configuration对象创建SqlSessionFactory对象。待MaBatis初始化之后，开发人员可以通过初始化得到SqlSessionFactory创建SqlSession对象并完成数据库的操作</result></resultMap></p>
-<h2 id="MyBatis初始化之加载mybatis-config"><a href="#MyBatis初始化之加载mybatis-config" class="headerlink" title="MyBatis初始化之加载mybatis-config"></a>MyBatis初始化之加载mybatis-config</h2><p>MyBatis的初始化流程的入口是SqlSessionFactoryBuilder的build方法<br>SqlSessionFactoryBuilder中的build方法</p>
+<h1>Mapper XML的解析和注册使用</h1>
+<h3 id="目标-2">目标</h3>
+<p>其实我们可以把一个ORM框架的目标，简单的描述为给一个接口提供代理类，类中包括了对Mapper也就是xml文件中的SQL信息（类型、入参、出参、条件）进行解析和处理，这个处理过程就是对数据库的操作以及返回对应的结果给到接口。<br>
+扩展对Mapper文件的解析以及提取出对应的SQL文件，做到在当前阶段，可以满足我们调用DAO接口方法的时候，可以返回Mapper中对应的待执行SQL语句<br>
+XMLConfigBuilder用于解析xml，向MapperRegistery中添加MapperProxy<br>
+Configuration则贯穿整个流程<br>
+使用Configuration包装MapperRegister和mappedStatements</p>
+<h1>MyBatis初始化</h1>
+<p>在<strong>Mybatis初始化</strong>过程中，会<strong>加载mybatis-config.xml配置文件、映射配置文件及Mapper接口中的注解信息</strong>，解析后的配置信息会形成相应的对象并保存在<strong>Configuration对象</strong>中。例如：<resultMap>节点（即ResultSet的映射规则）会被解析为ResultMap对象。<result>节点（即属性映射）会被映射成ResultMapping对象。之后，利用Configuration对象创建SqlSessionFactory对象。待MaBatis初始化之后，开发人员可以通过初始化得到SqlSessionFactory创建SqlSession对象并完成数据库的操作</result></resultMap></p>
+<h2 id="MyBatis初始化之加载mybatis-config">MyBatis初始化之加载mybatis-config</h2>
+<p>MyBatis的初始化流程的入口是SqlSessionFactoryBuilder的build方法<br>
+SqlSessionFactoryBuilder中的build方法</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> SqlSessionFactory <span class="title function_">build</span><span class="params">(Reader reader, String environment, Properties properties)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建XMLConfigBuilder对象</span></span><br><span class="line">        <span class="type">XMLConfigBuilder</span> <span class="variable">parser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XMLConfigBuilder</span>(reader, environment, properties);</span><br><span class="line">        <span class="comment">// XMLConfigBuilder对象执行parse函数进行XML解析，返回的是Configuration对象</span></span><br><span class="line">        <span class="comment">// Configuration对象的build函数，返回的是DefaultSqlSessionFactory对象</span></span><br><span class="line">        <span class="keyword">return</span> build(parser.parse());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> ExceptionFactory.wrapException(<span class="string">&quot;Error building SqlSession.&quot;</span>, e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        ErrorContext.instance().reset();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (reader != <span class="literal">null</span>) &#123;</span><br><span class="line">                reader.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="comment">// Intentionally ignore. Prefer previous error.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="XMLConfigBuilder"><a href="#XMLConfigBuilder" class="headerlink" title="XMLConfigBuilder"></a>XMLConfigBuilder</h3><p>org.apache.ibatis.builder.xml.XMLConfigBuilder ，继承 BaseBuilder 抽象类，<strong>XML 配置构建器，主要负责解析 mybatis-config.xml 配置文件</strong>。<br>在解析各种标签的时候，都会将解析的结果赋值到XMLConfigBuilder的configuration属性的对应的属性中。XMLConfigBuilder的父类BaseBuilder中存在configuration属性<br>XMLConfigBuilder中的parseConfiguration方法</p>
+<h3 id="XMLConfigBuilder">XMLConfigBuilder</h3>
+<p>org.apache.ibatis.builder.xml.XMLConfigBuilder ，继承 BaseBuilder 抽象类，<strong>XML 配置构建器，主要负责解析 mybatis-config.xml 配置文件</strong>。<br>
+在解析各种标签的时候，都会将解析的结果赋值到XMLConfigBuilder的configuration属性的对应的属性中。XMLConfigBuilder的父类BaseBuilder中存在configuration属性<br>
+XMLConfigBuilder中的parseConfiguration方法</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">/ XMLConfigBuilder.java</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">parseConfiguration</span><span class="params">(XNode root)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//issue #117 read properties first</span></span><br><span class="line">        <span class="comment">// &lt;1&gt; 解析 &lt;properties /&gt; 标签</span></span><br><span class="line">        propertiesElement(root.evalNode(<span class="string">&quot;properties&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;2&gt; 解析 &lt;settings /&gt; 标签</span></span><br><span class="line">        <span class="type">Properties</span> <span class="variable">settings</span> <span class="operator">=</span> settingsAsProperties(root.evalNode(<span class="string">&quot;settings&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;3&gt; 加载自定义 VFS 实现类</span></span><br><span class="line">        loadCustomVfs(settings);</span><br><span class="line">        <span class="comment">// &lt;4&gt; 解析 &lt;typeAliases /&gt; 标签</span></span><br><span class="line">        typeAliasesElement(root.evalNode(<span class="string">&quot;typeAliases&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;5&gt; 解析 &lt;plugins /&gt; 标签</span></span><br><span class="line">        pluginElement(root.evalNode(<span class="string">&quot;plugins&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;6&gt; 解析 &lt;objectFactory /&gt; 标签</span></span><br><span class="line">        objectFactoryElement(root.evalNode(<span class="string">&quot;objectFactory&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;7&gt; 解析 &lt;objectWrapperFactory /&gt; 标签</span></span><br><span class="line">        objectWrapperFactoryElement(root.evalNode(<span class="string">&quot;objectWrapperFactory&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;8&gt; 解析 &lt;reflectorFactory /&gt; 标签</span></span><br><span class="line">        reflectorFactoryElement(root.evalNode(<span class="string">&quot;reflectorFactory&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;9&gt; 赋值 &lt;settings /&gt; 到 Configuration 属性</span></span><br><span class="line">        settingsElement(settings);</span><br><span class="line">        <span class="comment">// read it after objectFactory and objectWrapperFactory issue #631</span></span><br><span class="line">        <span class="comment">// &lt;10&gt; 解析 &lt;environments /&gt; 标签</span></span><br><span class="line">        environmentsElement(root.evalNode(<span class="string">&quot;environments&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;11&gt; 解析 &lt;databaseIdProvider /&gt; 标签</span></span><br><span class="line">        databaseIdProviderElement(root.evalNode(<span class="string">&quot;databaseIdProvider&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;12&gt; 解析 &lt;typeHandlers /&gt; 标签</span></span><br><span class="line">        typeHandlerElement(root.evalNode(<span class="string">&quot;typeHandlers&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;13&gt; 解析 &lt;mappers /&gt; 标签</span></span><br><span class="line">        mapperElement(root.evalNode(<span class="string">&quot;mappers&quot;</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BuilderException</span>(<span class="string">&quot;Error parsing SQL Mapper Configuration. Cause: &quot;</span> + e, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>​</p>
-<h2 id="MyBatis初始化之加载Mapper映射配置文件"><a href="#MyBatis初始化之加载Mapper映射配置文件" class="headerlink" title="MyBatis初始化之加载Mapper映射配置文件"></a>MyBatis初始化之加载Mapper映射配置文件</h2><p>MyBatis初始化的第二步是加载Mapper映射配置文件（即我们项目中自建的Mapper.xml文件），这一步骤的入口是<strong>XMLMapperBuilder。</strong>此类继承了BaseBuilder<br><img src="/2026/03/29/Mybatis%E6%BA%90%E7%A0%81-%E5%BE%85%E6%9B%B4%E6%96%B0/1710651528966-2ce964dc-2ba9-4023-be10-8feaae8d3aee.png" alt="01.png"></p>
+<h2 id="MyBatis初始化之加载Mapper映射配置文件">MyBatis初始化之加载Mapper映射配置文件</h2>
+<p>MyBatis初始化的第二步是加载Mapper映射配置文件（即我们项目中自建的Mapper.xml文件），这一步骤的入口是**XMLMapperBuilder。**此类继承了BaseBuilder<br>
+<img src="/2026/03/29/Mybatis%E6%BA%90%E7%A0%81-%E5%BE%85%E6%9B%B4%E6%96%B0/1710651528966-2ce964dc-2ba9-4023-be10-8feaae8d3aee.png" alt="01.png"></p>
 <p>XMLMapperBuilder对象中的parse方法</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// XMLMapperBuilder.java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">parse</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// &lt;1&gt; 判断当前 Mapper 是否已经加载过</span></span><br><span class="line">    <span class="keyword">if</span> (!configuration.isResourceLoaded(resource)) &#123;</span><br><span class="line">        <span class="comment">// &lt;2&gt; 解析 `&lt;mapper /&gt;` 节点</span></span><br><span class="line">        configurationElement(parser.evalNode(<span class="string">&quot;/mapper&quot;</span>));</span><br><span class="line">        <span class="comment">// &lt;3&gt; 标记该 Mapper 已经加载过</span></span><br><span class="line">        configuration.addLoadedResource(resource);</span><br><span class="line">        <span class="comment">// &lt;4&gt; 绑定 Mapper</span></span><br><span class="line">        bindMapperForNamespace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &lt;5&gt; 解析待定的 &lt;resultMap /&gt; 节点</span></span><br><span class="line">    parsePendingResultMaps();</span><br><span class="line">    <span class="comment">// &lt;6&gt; 解析待定的 &lt;cache-ref /&gt; 节点</span></span><br><span class="line">    parsePendingCacheRefs();</span><br><span class="line">    <span class="comment">// &lt;7&gt; 解析待定的 SQL 语句的节点</span></span><br><span class="line">    parsePendingStatements();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>XMLMapperBuilder对象中的parse方法用来解析mapper.xml文件<br>​</p>
-<h2 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h2><p>使用池化技术缓存数据库连接会带来很多好处：</p>
+<p>XMLMapperBuilder对象中的parse方法用来解析mapper.xml文件<br>
+​</p>
+<h2 id="数据库连接池">数据库连接池</h2>
+<p>使用池化技术缓存数据库连接会带来很多好处：</p>
 <ol>
 <li>在空闲时段缓存一定数量的数据库连接备用，防止被突发流量冲垮</li>
 <li>重用数据库连接，提高系统的响应速度</li>
 <li>控制数据库连接上限，防止连接过多造成数据库假死</li>
-<li>统一管理数据库连接，避免连接泄漏在连接池初始化时，会初始化一定数量的连接放入连接池中。需要操作数据库时获取，使用完放回。需要注意的是连接池中的总连接数是有上限的，空闲连接数量也是有上限的<br>​</li>
+<li>统一管理数据库连接，避免连接泄漏在连接池初始化时，会初始化一定数量的连接放入连接池中。需要操作数据库时获取，使用完放回。需要注意的是连接池中的总连接数是有上限的，空闲连接数量也是有上限的<br>
+​</li>
 </ol>
-<h2 id="mybatis中的缓存"><a href="#mybatis中的缓存" class="headerlink" title="mybatis中的缓存"></a>mybatis中的缓存</h2>
+<h2 id="mybatis中的缓存">mybatis中的缓存</h2>
+
   </div>
   
 </div>

@@ -89,17 +89,17 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h2 id="电脑配置"><a href="#电脑配置" class="headerlink" title="电脑配置"></a>电脑配置</h2><ol>
+    <h2 id="电脑配置">电脑配置</h2>
+<ol>
 <li>使用nvidia-smi查看显存为4G</li>
 <li>内存大小为16G</li>
 </ol>
-<h2 id="安装Ollama"><a href="#安装Ollama" class="headerlink" title="安装Ollama"></a>安装Ollama</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不要直接双击OllamaSetup.exe，会默认安装在C盘</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">准备一个安装目录后，在OllamaSetup.exe所在目录cmd</span></span><br><span class="line">OllamaSetup.exe /DIR=&quot;D:\Your\Path&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在Windows环境变量中新增OLLAMA_MODELS，用于配置模型下载地址</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="启动qwen3-5官方模型"><a href="#启动qwen3-5官方模型" class="headerlink" title="启动qwen3.5官方模型"></a>启动qwen3.5官方模型</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ollama run qwen3.5:2b</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="通过Modelfile启动模型"><a href="#通过Modelfile启动模型" class="headerlink" title="通过Modelfile启动模型"></a>通过Modelfile启动模型</h2><p>Modelfile就像Dockerfile一样，本质上是一个文本文件。Modelfile中常见的指令如下</p>
+<h2 id="安装Ollama">安装Ollama</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不要直接双击OllamaSetup.exe，会默认安装在C盘</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">准备一个安装目录后，在OllamaSetup.exe所在目录cmd</span></span><br><span class="line">OllamaSetup.exe /DIR=&quot;D:\Your\Path&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在Windows环境变量中新增OLLAMA_MODELS，用于配置模型下载地址</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动qwen3-5官方模型">启动qwen3.5官方模型</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ollama run qwen3.5:2b</span><br></pre></td></tr></table></figure>
+<h2 id="通过Modelfile启动模型">通过Modelfile启动模型</h2>
+<p>Modelfile就像Dockerfile一样，本质上是一个文本文件。Modelfile中常见的指令如下</p>
 <table>
 <thead>
 <tr>
@@ -107,7 +107,8 @@ replay-btn" aria-hidden="true"></i></a>
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>FROM（必需）</td>
 <td>定义要使用的基线模型。</td>
 </tr>
@@ -135,15 +136,15 @@ replay-btn" aria-hidden="true"></i></a>
 <td>MESSAGE</td>
 <td>指定消息历史。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>from指令用于指定基线模型，可以是ollama官网的现有模型，也可以是Safetensors 模型，也可以是GGUF 文件构建</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ollama官网的现有模型</span></span><br><span class="line">FROM llama3.2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Safetensor模型</span></span><br><span class="line">FROM &lt;model directory&gt; # 模型目录应包含受支持架构的Safetensors权重文件。</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 GGUF 文件构建</span></span><br><span class="line">FROM ./ollama-model.gguf # GGUF 文件路径应指定为绝对路径，或相对于 Modelfile 目录的相对路径。</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.编写Modelfile文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.创建model</span></span><br><span class="line">ollama create choose-a-model-name -f &lt;location of the file e.g. ./Modelfile&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">3.运行模型</span></span><br><span class="line">ollama run choose-a-model-name</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看给定的模型"><a href="#查看给定的模型" class="headerlink" title="查看给定的模型"></a>查看给定的模型</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ollama show --modelfile llama3.2</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何知道下载的模型的精度"><a href="#如何知道下载的模型的精度" class="headerlink" title="如何知道下载的模型的精度"></a>如何知道下载的模型的精度</h2><ol>
+<h2 id="查看给定的模型">查看给定的模型</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ollama show --modelfile llama3.2</span><br></pre></td></tr></table></figure>
+<h2 id="如何知道下载的模型的精度">如何知道下载的模型的精度</h2>
+<ol>
 <li>下载前可官网查看</li>
 </ol>
 <!-- 这是一张图片，ocr 内容为： -->
@@ -151,14 +152,15 @@ replay-btn" aria-hidden="true"></i></a>
 <ol>
 <li>下载后可通过ollama show model_name指令查看</li>
 </ol>
-<h2 id="大模型常见精度"><a href="#大模型常见精度" class="headerlink" title="大模型常见精度"></a>大模型常见精度</h2><ol>
+<h2 id="大模型常见精度">大模型常见精度</h2>
+<ol>
 <li>FP32：单精度浮点数，32位浮点数，最高精度</li>
 <li>FP16：半精度浮点数，16位浮点数</li>
 <li>BF16：16位格式，动态范围与FP32接近</li>
-<li>混合精度：结合FP16&#x2F;FP32，用FP16加速计算，用FP32保存关键参数（如权重、梯度），通常配合NVIDIA的AMP（自动混合精度）使用</li>
+<li>混合精度：结合FP16/FP32，用FP16加速计算，用FP32保存关键参数（如权重、梯度），通常配合NVIDIA的AMP（自动混合精度）使用</li>
 <li>INT8：8位整数量化，将模型权重和激活值量化位8位整数，卓著减少内存占用和计算成本，但可能损失精度</li>
 <li>INT4：4位整数量化，更激进的量化方式，模型体积进一步缩小，但对精度影响较大，常用于边缘设备推理</li>
-<li>GPTQ：基于梯度的后训练量化方法，支持4&#x2F;3&#x2F;2位量化</li>
+<li>GPTQ：基于梯度的后训练量化方法，支持4/3/2位量化</li>
 <li>AWQ：通过保留关键权重的高精度提升效果</li>
 <li>GGUF：Ollama使用的量化格式，如Q4_K_V</li>
 </ol>

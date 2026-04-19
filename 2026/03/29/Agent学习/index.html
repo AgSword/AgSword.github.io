@@ -89,7 +89,8 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h2 id="学习计划"><a href="#学习计划" class="headerlink" title="学习计划"></a>学习计划</h2><table>
+    <h2 id="学习计划">学习计划</h2>
+<table>
 <thead>
 <tr>
 <th>时间</th>
@@ -97,40 +98,93 @@ replay-btn" aria-hidden="true"></i></a>
 <th>具体内容</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>Week1</td>
 <td>搭建一个naive RAG系统</td>
-<td><del>了解fastapi~~~~了解langchain</del>掌握不同格式文档 (PDF, MD) 的加载和文本分块策略理解 Embedding 原理，使用 FAISS&#x2F;Chroma 构建本地向量索引手撕Naive RAG系统</td>
+<td><s>了解fastapi</s><s>了解langchain</s>掌握不同格式文档 (PDF, MD) 的加载和文本分块策略理解 Embedding 原理，使用 FAISS/Chroma 构建本地向量索引手撕Naive RAG系统</td>
 </tr>
-</tbody></table>
-<h2 id="以上下文工程为核心的Agent开发"><a href="#以上下文工程为核心的Agent开发" class="headerlink" title="以上下文工程为核心的Agent开发"></a>以上下文工程为核心的Agent开发</h2><p><strong>Q：Agent工作过程简述</strong><br>Agent根据用户的输入利用大模型。进行规划Plan，如果需要外部信息，则从知识库中检索；如果需要执行操作，则调用tool。检索或者调用tool过程中出现问题会进行重新规划，执行。Agent在拿到知识库知识和tool结果后，整合prompt，发送给大模型，生成Answer。对话上下文被存入Short-Term Memory。最终回答结果被存入Long-Term Memory<br>这个流程体系了智能体Agent”接受请求-&gt;决策调用资源-&gt;整合信息-&gt;生成反馈-&gt;沉淀记忆”<br><strong>Q：上下文由哪几个核心内容组成</strong><br>上下文工程主要由系统提示词System Prompt，用户提示词User Prompt，短期记忆Short-term Memory，长期记忆Long-term Memory，检索信息RAG，工具调用Tools，机构化输出Structured Output<br><strong>Q：Context-Rot问题</strong><br>随着上下文内容的增加，大模型的注意力机制可能会出现”腐蚀”现象，导致对关键信息的关注度下降。<br><strong>Q：系统性的上下文工程方法论</strong></p>
+</tbody>
+</table>
+<h2 id="以上下文工程为核心的Agent开发">以上下文工程为核心的Agent开发</h2>
+<p><strong>Q：Agent工作过程简述</strong><br>
+Agent根据用户的输入利用大模型。进行规划Plan，如果需要外部信息，则从知识库中检索；如果需要执行操作，则调用tool。检索或者调用tool过程中出现问题会进行重新规划，执行。Agent在拿到知识库知识和tool结果后，整合prompt，发送给大模型，生成Answer。对话上下文被存入Short-Term Memory。最终回答结果被存入Long-Term Memory<br>
+这个流程体系了智能体Agent&quot;接受请求-&gt;决策调用资源-&gt;整合信息-&gt;生成反馈-&gt;沉淀记忆&quot;<br>
+<strong>Q：上下文由哪几个核心内容组成</strong><br>
+上下文工程主要由系统提示词System Prompt，用户提示词User Prompt，短期记忆Short-term Memory，长期记忆Long-term Memory，检索信息RAG，工具调用Tools，机构化输出Structured Output<br>
+<strong>Q：Context-Rot问题</strong><br>
+随着上下文内容的增加，大模型的注意力机制可能会出现&quot;腐蚀&quot;现象，导致对关键信息的关注度下降。<br>
+<strong>Q：系统性的上下文工程方法论</strong></p>
 <ul>
-<li><strong>offload</strong>：将信息保存在上下文窗口之外，以帮助Agent完成任务。不要把工具返回的全部原始信息都直接喂给LLM。相反，应将其放到外部存储（如文件系统、数据库或一个专门的代理状态对象中），然后只将一个轻量级的”指针”返回给模型</li>
+<li><strong>offload</strong>：将信息保存在上下文窗口之外，以帮助Agent完成任务。不要把工具返回的全部原始信息都直接喂给LLM。相反，应将其放到外部存储（如文件系统、数据库或一个专门的代理状态对象中），然后只将一个轻量级的&quot;指针&quot;返回给模型</li>
 <li><strong>Retrieve</strong>：通过检索和过滤相关信息，来控制进入Context的数量与质量</li>
 <li><strong>Compress</strong>：通过总结来压缩上下文内容</li>
-<li><strong>Isolate</strong>：如果一个任务的Context压力太过巨大，我们就将这个任务分配给不同的SubAgent来完成各个子任务。<strong>Q：ClaudeCode的工程实践</strong><br><a target="_blank" rel="noopener" href="https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md">https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md</a><br><strong>Q：Manus中的工程实践</strong><br><a target="_blank" rel="noopener" href="https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md">https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md</a></li>
+<li><strong>Isolate</strong>：如果一个任务的Context压力太过巨大，我们就将这个任务分配给不同的SubAgent来完成各个子任务。<strong>Q：ClaudeCode的工程实践</strong><br>
+<a target="_blank" rel="noopener" href="https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md">https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md</a><br>
+<strong>Q：Manus中的工程实践</strong><br>
+<a target="_blank" rel="noopener" href="https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md">https://github.com/adongwanai/AgentGuide/blob/main/docs/02-tech-stack/11-context-engineering-practices.md</a></li>
 </ul>
-<h2 id="Agent中的记忆"><a href="#Agent中的记忆" class="headerlink" title="Agent中的记忆"></a>Agent中的记忆</h2><p><strong>Q：如何设计Agent Memory</strong><br>我会采用三层记忆架构</p>
+<h2 id="Agent中的记忆">Agent中的记忆</h2>
+<p><strong>Q：如何设计Agent Memory</strong><br>
+我会采用三层记忆架构</p>
 <ul>
-<li><p><strong>工作记忆</strong>：存储当前会话的最近十轮对话历史，存储在内存中。</p>
+<li>
+<p><strong>工作记忆</strong>：存储当前会话的最近十轮对话历史，存储在内存中。</p>
 </li>
-<li><p><strong>情节记忆</strong>：存储当前会话的关键信息，每次对话都将根据对话内容和现有的情节记忆进行摘要，更新情节记忆，存储在向量数据库中。</p>
+<li>
+<p><strong>情节记忆</strong>：存储当前会话的关键信息，每次对话都将根据对话内容和现有的情节记忆进行摘要，更新情节记忆，存储在向量数据库中。</p>
 </li>
-<li><p><strong>语义记忆</strong>：存储用户长期偏好、历史知识，存储在知识图谱、向量库中。## RAG<br><strong>Q：native RAG的执行过程</strong><br>首先是准备阶段：将数据预处理后进行分块，然后用embedding模型将分块内容向量化。将上一步生成的（向量、原始数据、元数据）对，存储到专门的向量数据库中。<br>其次是查询与生成阶段：使用准备阶段的Embedding模型将用户的问题向量化，生成一个查询向量。在向量库中，使用相似度搜索算法，找到与查询向量最相似的K个向量。将这k个向量对应的原始数据与user prompt拼装在一个prompt，发送给大模型。返回给用户大模型生成的文本。<br><strong>Q：为什么要有RAG</strong><br>一是因为大模型训练时的训练数据没有办法覆盖用户的私有数据，大模型无法很好的回答用户的问题。二是大模型的上下文窗口无法容纳所有的私有数据，即使能放得下，也容易让大模型出现幻觉。<br><strong>Q：分块大小应该如何设计</strong><br>分块要足够长，让大模型在推理时由足够的上下文，同时分块又要足够的具体，以便生成的向量能更准确地表达语义，从而搜索更高效。因此分块大小权衡需要根据具体的场景去考虑，同时结合一下使用的embedding模型的最大token数<br><strong>Q：假设性问题和假设性文档</strong><br>假设性问题是指在准备阶段对于文档块，让大模型生成几个有可能被问的问题，存入向量库。在检索阶段，将用户的问题与准备的问题进行匹配，找到匹配到的准备问题对应的文档块。<br>假设性文档是指先由大模型根据用户问题生成答案，再将答案拿去在向量库中进行检索<br><strong>Q：为什么要有上下文增强，上下文增强是什么</strong><br>当匹配到的文本块很小的时候，大模型无法知道具体的信息，此时需要补充周围的上下文，以让大模型可以更好的推理。<br>目前上下文增强有两种实现的方式，一种是句子扩展，另一种是父文档检索。</p>
+<li>
+<p><strong>语义记忆</strong>：存储用户长期偏好、历史知识，存储在知识图谱、向量库中。## RAG<br>
+<strong>Q：native RAG的执行过程</strong><br>
+首先是准备阶段：将数据预处理后进行分块，然后用embedding模型将分块内容向量化。将上一步生成的（向量、原始数据、元数据）对，存储到专门的向量数据库中。<br>
+其次是查询与生成阶段：使用准备阶段的Embedding模型将用户的问题向量化，生成一个查询向量。在向量库中，使用相似度搜索算法，找到与查询向量最相似的K个向量。将这k个向量对应的原始数据与user prompt拼装在一个prompt，发送给大模型。返回给用户大模型生成的文本。<br>
+<strong>Q：为什么要有RAG</strong><br>
+一是因为大模型训练时的训练数据没有办法覆盖用户的私有数据，大模型无法很好的回答用户的问题。二是大模型的上下文窗口无法容纳所有的私有数据，即使能放得下，也容易让大模型出现幻觉。<br>
+<strong>Q：分块大小应该如何设计</strong><br>
+分块要足够长，让大模型在推理时由足够的上下文，同时分块又要足够的具体，以便生成的向量能更准确地表达语义，从而搜索更高效。因此分块大小权衡需要根据具体的场景去考虑，同时结合一下使用的embedding模型的最大token数<br>
+<strong>Q：假设性问题和假设性文档</strong><br>
+假设性问题是指在准备阶段对于文档块，让大模型生成几个有可能被问的问题，存入向量库。在检索阶段，将用户的问题与准备的问题进行匹配，找到匹配到的准备问题对应的文档块。<br>
+假设性文档是指先由大模型根据用户问题生成答案，再将答案拿去在向量库中进行检索<br>
+<strong>Q：为什么要有上下文增强，上下文增强是什么</strong><br>
+当匹配到的文本块很小的时候，大模型无法知道具体的信息，此时需要补充周围的上下文，以让大模型可以更好的推理。<br>
+目前上下文增强有两种实现的方式，一种是句子扩展，另一种是父文档检索。</p>
 </li>
-<li><p><strong>句子扩展</strong>：在检索到较小的片段的时候，将该片段的上下的片段都加上，组合成为一个完整的上下文块给大模型</p>
+<li>
+<p><strong>句子扩展</strong>：在检索到较小的片段的时候，将该片段的上下的片段都加上，组合成为一个完整的上下文块给大模型</p>
 </li>
-<li><p><strong>父文档检索</strong>：先把文档分割为较大的父级片段，每个父级片段再包含更小的子片段，检索的时候使用子片段组成的向量数据库，但在使用的时候回溯到相应的父级片段，把父级片段周围上下文输入给LLM，子片段只做中间的检索步骤。<strong>Q：什么是混合检索</strong><br>分别使用基于关键词的传统检索和可实现语义分析的向量检索，混合检索希望能够结合这两种方式的优点，做到融合这两种方式的结果。<br><strong>Q：RAG中的过滤与重排序</strong><br>过滤是指根据元信息中的时间、用户id等数据进行过滤筛选<br>重排序可以使用re-ranking模型，也可以让大模型完成<br><strong>Q：如何实现RAG的结果中包含引用来源</strong><br>有两种方式：<br>一是再提示词中加入引用任务，要求LLM再答案中提到所使用来源的ID。这种方式快捷方便，但是可能存在幻觉<br>二是将LLM生成的响应与向量库中检索出的原始文本块进行匹配<br><strong>Q：数据导入的实现</strong></p>
+<li>
+<p><strong>父文档检索</strong>：先把文档分割为较大的父级片段，每个父级片段再包含更小的子片段，检索的时候使用子片段组成的向量数据库，但在使用的时候回溯到相应的父级片段，把父级片段周围上下文输入给LLM，子片段只做中间的检索步骤。<strong>Q：什么是混合检索</strong><br>
+分别使用基于关键词的传统检索和可实现语义分析的向量检索，混合检索希望能够结合这两种方式的优点，做到融合这两种方式的结果。<br>
+<strong>Q：RAG中的过滤与重排序</strong><br>
+过滤是指根据元信息中的时间、用户id等数据进行过滤筛选<br>
+重排序可以使用re-ranking模型，也可以让大模型完成<br>
+<strong>Q：如何实现RAG的结果中包含引用来源</strong><br>
+有两种方式：<br>
+一是再提示词中加入引用任务，要求LLM再答案中提到所使用来源的ID。这种方式快捷方便，但是可能存在幻觉<br>
+二是将LLM生成的响应与向量库中检索出的原始文本块进行匹配<br>
+<strong>Q：数据导入的实现</strong></p>
 </li>
 </ul>
-<h2 id="FastAPI"><a href="#FastAPI" class="headerlink" title="FastAPI"></a>FastAPI</h2><p>函数的参数约束参数类型，是一种规范，也可以让编译器知道变量的类型，进行自动补全，进行错误检查<br>async和await可以使用python中的协程<br>python中的特殊方法:</p>
+<h2 id="FastAPI">FastAPI</h2>
+<p>函数的参数约束参数类型，是一种规范，也可以让编译器知道变量的类型，进行自动补全，进行错误检查<br>
+async和await可以使用python中的协程<br>
+python中的特殊方法:</p>
 <ul>
 <li><code>__init__</code>用于初始化，在对象被创建的时候被调用，常用于设置对象属性</li>
 <li><code>__call__</code>让对象可以向函数一样被调用</li>
 <li><code>__str__</code>，功能与Java中的toString()一样</li>
-<li><code>__new__</code>，用于创建对象，继承自object查询参数如果不是必须的，那么参数类型为 <code>Something | None</code><br>请求体内的参数应该用继承自 <code>BaseModel</code> 的类来表示，不是必须的属性的类型应为 <code>Something | None</code><br><code>Annotated</code>内可以约束变量的类型和变量在请求中的位置（Path, Query, Body, Cookie, Header, Form，File, UploadFile）<br><strong>FastAPI CLI</strong> 内部使用了 <a target="_blank" rel="noopener" href="https://www.uvicorn.dev/">Uvicorn</a>，这是一个高性能、生产级别的 ASGI 服务器。<br><code>fastapi dev</code>会启动开发模式。默认情况下，自动重新加载是启动的，这会在你修改代码时自动重新加载服务器，且只监听127.0.0.1。<code>fastapi run</code>是生成模式启动指令，默认情况下，自动重新加载是禁用的，监听IP地址0.0.0.0</li>
+<li><code>__new__</code>，用于创建对象，继承自object查询参数如果不是必须的，那么参数类型为 <code>Something | None</code><br>
+请求体内的参数应该用继承自 <code>BaseModel</code> 的类来表示，不是必须的属性的类型应为 <code>Something | None</code><br>
+<code>Annotated</code>内可以约束变量的类型和变量在请求中的位置（Path, Query, Body, Cookie, Header, Form，File, UploadFile）<br>
+<strong>FastAPI CLI</strong> 内部使用了 <a target="_blank" rel="noopener" href="https://www.uvicorn.dev/">Uvicorn</a>，这是一个高性能、生产级别的 ASGI 服务器。<br>
+<code>fastapi dev</code>会启动开发模式。默认情况下，自动重新加载是启动的，这会在你修改代码时自动重新加载服务器，且只监听127.0.0.1。<code>fastapi run</code>是生成模式启动指令，默认情况下，自动重新加载是禁用的，监听IP地址0.0.0.0</li>
 </ul>
-<h2 id="Langchain"><a href="#Langchain" class="headerlink" title="Langchain"></a>Langchain</h2><p>可以配置动态模型（）<br><code>@tool</code>装饰器放在tool实现函数上，在create_agent中的tools中加上tool函数<br><code>@wrap_tool_call</code>修饰器放在函数上，函数内处理工具调用时异常情况，在create_agent中的middleware加上函数<br><code>@dynamic_prompt</code>修饰器放在函数上，函数内设置动态的系统prompt</p>
+<h2 id="Langchain">Langchain</h2>
+<p>可以配置动态模型（）<br>
+<code>@tool</code>装饰器放在tool实现函数上，在create_agent中的tools中加上tool函数<br>
+<code>@wrap_tool_call</code>修饰器放在函数上，函数内处理工具调用时异常情况，在create_agent中的middleware加上函数<br>
+<code>@dynamic_prompt</code>修饰器放在函数上，函数内设置动态的系统prompt</p>
 
   </div>
   

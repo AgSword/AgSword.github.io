@@ -89,33 +89,55 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h1 id="go的内存管理"><a href="#go的内存管理" class="headerlink" title="go的内存管理"></a>go的内存管理</h1><p><img src="/2026/03/29/golang/1652514136960-7d308cb3-6aec-4ecf-a1fe-cb8827a2fe6a.png" alt="uTools_1652514122860.png"><br><img src="/2026/03/29/golang/1652514400983-40464ab3-00ba-4d63-8335-ef652a1e52ab.png" alt="uTools_1652514394434.png"></p>
-<h1 id="go连接mysql数据库"><a href="#go连接mysql数据库" class="headerlink" title="go连接mysql数据库"></a>go连接mysql数据库</h1><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//driverName:&quot;mysql&quot;</span></span><br><span class="line">	<span class="comment">//数据源：固定格式=》用户名：密码@tcp(ip:port)/数据库名</span></span><br><span class="line">	<span class="comment">// db, err := sql.Open(&quot;mysql&quot;, &quot;root:liyinjian320623,@tcp(localhost:3306)/data&quot;)</span></span><br><span class="line">	<span class="comment">// if err != nil &#123;</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(&quot;数据库连接错误！&quot;)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">	<span class="comment">// defer db.Close()</span></span><br><span class="line">	<span class="comment">// rows, err := db.Query(&quot;select * from account&quot;)</span></span><br><span class="line">	<span class="comment">// if err != nil &#123;</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(&quot;数据库查询错误&quot;)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">	<span class="comment">// var (</span></span><br><span class="line">	<span class="comment">// 	id    int</span></span><br><span class="line">	<span class="comment">// 	usrId int</span></span><br><span class="line">	<span class="comment">// 	money int</span></span><br><span class="line">	<span class="comment">// )</span></span><br><span class="line">	<span class="comment">// for rows.Next() &#123;</span></span><br><span class="line">	<span class="comment">// 	rows.Scan(&amp;id, &amp;usrId, &amp;money)</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(id, usrId, money)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="go中是值传递还是引用传递"><a href="#go中是值传递还是引用传递" class="headerlink" title="go中是值传递还是引用传递"></a>go中是值传递还是引用传递</h3><p><img src="/2026/03/29/golang/1653466128145-70813906-28aa-4ddb-bd1c-2998ef9866d6.png" alt="uTools_1653466085329.png"></p>
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> 接口变量 <span class="keyword">interface</span>&#123;</span><br><span class="line">    方法的声明</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> 实现类名 <span class="keyword">struct</span>&#123;</span><br><span class="line">    结构体变量</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(实现类 类名)</span></span> 接口中的方法() 方法返回类型&#123;</span><br><span class="line">    方法的实现</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    p1:=实现类名&#123;&#125; <span class="comment">//构造一个实现类</span></span><br><span class="line">    <span class="keyword">var</span> p 接口类型</span><br><span class="line">    p=p1</span><br><span class="line">    p.调用接口方法</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//代表实现类的结构体必须实现接口的所有方法，结构体定义的其他方法只能用结构体调用，</span></span><br><span class="line"><span class="comment">//而不能用接口调用</span></span><br><span class="line"><span class="comment">//空接口可以作为函数的形参，来表示任意类型</span></span><br></pre></td></tr></table></figure>
-<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><ol>
-<li><p>x.(T)其中x为变量，T是断言的变量类型</p>
+    <h1>go的内存管理</h1>
+<p><img src="/2026/03/29/golang/1652514136960-7d308cb3-6aec-4ecf-a1fe-cb8827a2fe6a.png" alt="uTools_1652514122860.png"><br>
+<img src="/2026/03/29/golang/1652514400983-40464ab3-00ba-4d63-8335-ef652a1e52ab.png" alt="uTools_1652514394434.png"></p>
+<h1>go连接mysql数据库</h1>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//driverName:&quot;mysql&quot;</span></span><br><span class="line">	<span class="comment">//数据源：固定格式=》用户名：密码@tcp(ip:port)/数据库名</span></span><br><span class="line">	<span class="comment">// db, err := sql.Open(&quot;mysql&quot;, &quot;root:liyinjian320623,@tcp(localhost:3306)/data&quot;)</span></span><br><span class="line">	<span class="comment">// if err != nil &#123;</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(&quot;数据库连接错误！&quot;)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">	<span class="comment">// defer db.Close()</span></span><br><span class="line">	<span class="comment">// rows, err := db.Query(&quot;select * from account&quot;)</span></span><br><span class="line">	<span class="comment">// if err != nil &#123;</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(&quot;数据库查询错误&quot;)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">	<span class="comment">// var (</span></span><br><span class="line">	<span class="comment">// 	id    int</span></span><br><span class="line">	<span class="comment">// 	usrId int</span></span><br><span class="line">	<span class="comment">// 	money int</span></span><br><span class="line">	<span class="comment">// )</span></span><br><span class="line">	<span class="comment">// for rows.Next() &#123;</span></span><br><span class="line">	<span class="comment">// 	rows.Scan(&amp;id, &amp;usrId, &amp;money)</span></span><br><span class="line">	<span class="comment">// 	fmt.Println(id, usrId, money)</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="go中是值传递还是引用传递">go中是值传递还是引用传递</h3>
+<p><img src="/2026/03/29/golang/1653466128145-70813906-28aa-4ddb-bd1c-2998ef9866d6.png" alt="uTools_1653466085329.png"></p>
+<h3 id="接口">接口</h3>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> 接口变量 <span class="keyword">interface</span>&#123;</span><br><span class="line">    方法的声明</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> 实现类名 <span class="keyword">struct</span>&#123;</span><br><span class="line">    结构体变量</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(实现类 类名)</span></span> 接口中的方法() 方法返回类型&#123;</span><br><span class="line">    方法的实现</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    p1:=实现类名&#123;&#125; <span class="comment">//构造一个实现类</span></span><br><span class="line">    <span class="keyword">var</span> p 接口类型</span><br><span class="line">    p=p1</span><br><span class="line">    p.调用接口方法</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//代表实现类的结构体必须实现接口的所有方法，结构体定义的其他方法只能用结构体调用，</span></span><br><span class="line"><span class="comment">//而不能用接口调用</span></span><br><span class="line"><span class="comment">//空接口可以作为函数的形参，来表示任意类型</span></span><br></pre></td></tr></table></figure>
+<h3 id="类型断言">类型断言</h3>
+<ol>
+<li>
+<p>x.(T)其中x为变量，T是断言的变量类型</p>
 </li>
-<li><p>使用switch语句<img src="/2026/03/29/golang/1653728409398-ec76c86f-e3c6-4d5b-853e-d39ac9f3525d.png" alt="uTools_1653728387070.png"></p>
+<li>
+<p>使用switch语句<img src="/2026/03/29/golang/1653728409398-ec76c86f-e3c6-4d5b-853e-d39ac9f3525d.png" alt="uTools_1653728387070.png"></p>
 </li>
 </ol>
-<h3 id="结构体与接口"><a href="#结构体与接口" class="headerlink" title="结构体与接口"></a>结构体与接口</h3><ol>
+<h3 id="结构体与接口">结构体与接口</h3>
+<ol>
 <li>结构体值接收者实例化后的结构体值类型和结构体指针类型都可以赋值给接口变量</li>
 <li>如果结构体中的方法是指针接收者，那么实例化后结构体指针类型都可以赋值给接口变量</li>
 </ol>
-<h2 id="gin"><a href="#gin" class="headerlink" title="gin"></a>gin</h2><h3 id="启动一个web服务"><a href="#启动一个web服务" class="headerlink" title="启动一个web服务"></a>启动一个web服务</h3><p><img src="/2026/03/29/golang/1653798262627-cc7b7644-1d50-48dc-8175-178a993e2ab5.png" alt="uTools_1653798214342.png"></p>
-<h3 id="热加载"><a href="#热加载" class="headerlink" title="热加载"></a>热加载</h3><p><img src="/2026/03/29/golang/1653798387118-52537a7a-3424-4d45-a6c1-096dff019069.png" alt="uTools_1653798386854.png"></p>
-<h3 id="以json的形式返回"><a href="#以json的形式返回" class="headerlink" title="以json的形式返回"></a>以json的形式返回</h3><p><img src="/2026/03/29/golang/1653803293340-cce179cf-f3ac-4e28-b8bf-e85b686d4304.png" alt="1653803275(1).png"></p>
-<h3 id="jsonp请求"><a href="#jsonp请求" class="headerlink" title="jsonp请求"></a>jsonp请求</h3><p><img src="/2026/03/29/golang/1653807281385-8f2ac953-1219-4d5a-a2d4-4ca95ade2f06.png" alt="uTools_1653807281276.png"></p>
-<h3 id="go-html模板渲染"><a href="#go-html模板渲染" class="headerlink" title="go html模板渲染"></a>go html模板渲染</h3><p><img src="/2026/03/29/golang/1653807937116-d6aa1fc0-9178-4946-a2c7-13a1ea8cb7e7.png" alt="1653807925(1).png"></p>
+<h2 id="gin">gin</h2>
+<h3 id="启动一个web服务">启动一个web服务</h3>
+<p><img src="/2026/03/29/golang/1653798262627-cc7b7644-1d50-48dc-8175-178a993e2ab5.png" alt="uTools_1653798214342.png"></p>
+<h3 id="热加载">热加载</h3>
+<p><img src="/2026/03/29/golang/1653798387118-52537a7a-3424-4d45-a6c1-096dff019069.png" alt="uTools_1653798386854.png"></p>
+<h3 id="以json的形式返回">以json的形式返回</h3>
+<p><img src="/2026/03/29/golang/1653803293340-cce179cf-f3ac-4e28-b8bf-e85b686d4304.png" alt="1653803275(1).png"></p>
+<h3 id="jsonp请求">jsonp请求</h3>
+<p><img src="/2026/03/29/golang/1653807281385-8f2ac953-1219-4d5a-a2d4-4ca95ade2f06.png" alt="uTools_1653807281276.png"></p>
+<h3 id="go-html模板渲染">go html模板渲染</h3>
+<p><img src="/2026/03/29/golang/1653807937116-d6aa1fc0-9178-4946-a2c7-13a1ea8cb7e7.png" alt="1653807925(1).png"></p>
 <p><img src="/2026/03/29/golang/1653808220706-bf0c353c-44b4-4b00-bfe5-729b1a06f1b3.png" alt="1653808206(1).png"></p>
-<p>随着html文件的增多，可以在html开头可以给html定义一个名称，在go文件中调用<br><img src="/2026/03/29/golang/1653808524524-9569bcb4-186b-4e48-8113-275f2fc07ae8.png" alt="uTools_1653808521938.png"></p>
-<h3 id="get传值"><a href="#get传值" class="headerlink" title="get传值"></a>get传值</h3><p><img src="/2026/03/29/golang/1653814572548-83d7e21e-a82e-450d-81d6-bad2da677305.png" alt="1653814562(1).png"></p>
-<h3 id="post传值"><a href="#post传值" class="headerlink" title="post传值"></a>post传值</h3><p><img src="/2026/03/29/golang/1653814961006-301df8ea-c4e3-41bc-96ae-2276948a1cff.png" alt="uTools_1653814961387.png"></p>
-<h3 id="get数据解析到结构体"><a href="#get数据解析到结构体" class="headerlink" title="get数据解析到结构体"></a>get数据解析到结构体</h3><p><img src="/2026/03/29/golang/1653820234914-16c4d1be-8b23-4538-815b-9945fff2a858.png" alt="uTools_1653820235325.png"></p>
+<p>随着html文件的增多，可以在html开头可以给html定义一个名称，在go文件中调用<br>
+<img src="/2026/03/29/golang/1653808524524-9569bcb4-186b-4e48-8113-275f2fc07ae8.png" alt="uTools_1653808521938.png"></p>
+<h3 id="get传值">get传值</h3>
+<p><img src="/2026/03/29/golang/1653814572548-83d7e21e-a82e-450d-81d6-bad2da677305.png" alt="1653814562(1).png"></p>
+<h3 id="post传值">post传值</h3>
+<p><img src="/2026/03/29/golang/1653814961006-301df8ea-c4e3-41bc-96ae-2276948a1cff.png" alt="uTools_1653814961387.png"></p>
+<h3 id="get数据解析到结构体">get数据解析到结构体</h3>
+<p><img src="/2026/03/29/golang/1653820234914-16c4d1be-8b23-4538-815b-9945fff2a858.png" alt="uTools_1653820235325.png"></p>
 <p><img src="/2026/03/29/golang/1653820288433-00a194fb-7288-425c-b4a3-9b292bd5837a.png" alt="1653820282.png"></p>
-<h3 id="接口分组"><a href="#接口分组" class="headerlink" title="接口分组"></a>接口分组</h3><p><img src="/2026/03/29/golang/1653821467417-7ea0fc1d-f99b-4c67-9e0f-2160245b7879.png" alt="87ee9b03-4422-4002-ad35-c444e1481c87.png"></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h4><ol>
+<h3 id="接口分组">接口分组</h3>
+<p><img src="/2026/03/29/golang/1653821467417-7ea0fc1d-f99b-4c67-9e0f-2160245b7879.png" alt="87ee9b03-4422-4002-ad35-c444e1481c87.png"></p>
+<h3 id="问题">问题</h3>
+<h4 id="publish">publish</h4>
+<ol>
 <li>publish列表无法正确显示</li>
 </ol>
 

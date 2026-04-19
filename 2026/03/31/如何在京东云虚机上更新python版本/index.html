@@ -89,13 +89,13 @@ replay-btn" aria-hidden="true"></i></a>
     <hr>
   </div>
   <div class="post-content">
-    <h2 id="更新京东云的apt源"><a href="#更新京东云的apt源" class="headerlink" title="更新京东云的apt源"></a>更新京东云的apt源</h2><p>当前服务器镜像为Ubunt20.04(LTS)</p>
+    <h2 id="更新京东云的apt源">更新京东云的apt源</h2>
+<p>当前服务器镜像为Ubunt20.04(LTS)</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份之前的apt源配置文件</span></span><br><span class="line">mv /etc/apt/sources.list /etc/apt/sources.list.backup</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编写新的apt配置文件</span></span><br><span class="line">vi /etc/apt/sources.list</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将内容替换为需要更换的源，使用清华源可参考清华源官网(https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)编辑源文件，编辑后保存。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新apt本地</span></span><br><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装新版本的python"><a href="#安装新版本的python" class="headerlink" title="安装新版本的python"></a>安装新版本的python</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt install python3.11</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="查看已安装的python"><a href="#查看已安装的python" class="headerlink" title="查看已安装的python"></a>查看已安装的python</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看已安装的python版本</span></span><br><span class="line"> ls /usr/bin/python*</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新软连接</span></span><br><span class="line">ln -nsf /usr/bin/python3.11 /usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h2 id="安装新版本的python">安装新版本的python</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt install python3.11</span><br></pre></td></tr></table></figure>
+<h2 id="查看已安装的python">查看已安装的python</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看已安装的python版本</span></span><br><span class="line"> ls /usr/bin/python*</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新软连接</span></span><br><span class="line">ln -nsf /usr/bin/python3.11 /usr/bin/python3</span><br></pre></td></tr></table></figure>
 
   </div>
   
