@@ -1,0 +1,149 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      vllm学习材料（一） [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      vllm学习材料（一）
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h2 id="4P是什么"><a href="#4P是什么" class="headerlink" title="4P是什么"></a>4P是什么</h2><h4 id="数据并行DP"><a href="#数据并行DP" class="headerlink" title="数据并行DP"></a>数据并行DP</h4><p><strong>模型全量复制，数据切分。</strong>每张显卡上都有一份完整的模型，训练时，数据被分为N份（N为显卡数）</p>
+<h4 id="张量并行TP"><a href="#张量并行TP" class="headerlink" title="张量并行TP"></a>张量并行TP</h4><p><strong>层内切分，张量分割。</strong>针对模型某一层内部的矩阵乘法（如 <code>Y = W X</code>）。权重矩阵 <code>W</code> 太大放不进一张卡，就把 <code>W</code> 竖着切一刀或横着切一刀，放在两张卡上。计算时，两张卡分别算自己那一半，然后再拼接或求和。</p>
+<h4 id="流水线并行PP"><a href="#流水线并行PP" class="headerlink" title="流水线并行PP"></a>流水线并行PP</h4><p><strong>层间切分，按阶段接力。</strong>显卡1负责第1-10层，显卡2负责第11-20层…，数据像流水线上的零件，经过卡1算完传给卡2，以此类推。</p>
+<h4 id="专家并行EP"><a href="#专家并行EP" class="headerlink" title="专家并行EP"></a>专家并行EP</h4><p><strong>针对MoE架构的特殊切分。</strong>模型中有N个不同的前馈网络（叫专家），每个Token只激活其中Top-K个，EP将不同的专家放置在不同的显卡上。</p>
+<h2 id="vLLM的使用"><a href="#vLLM的使用" class="headerlink" title="vLLM的使用"></a>vLLM的使用</h2><h3 id="离线批量处理"><a href="#离线批量处理" class="headerlink" title="离线批量处理"></a>离线批量处理</h3><p>离线推理是vLLM最基础的使用模式，通过<code>LLM</code>类在Python脚本中批量生成文本，无需启动网络服务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> vllm <span class="keyword">import</span> LLM, SamplingParams</span><br><span class="line"><span class="comment"># 定义输入提示</span></span><br><span class="line">prompts = [</span><br><span class="line">    <span class="string">&quot;Hello, my name is&quot;</span>,</span><br><span class="line">    <span class="string">&quot;The president of the United States is&quot;</span>,</span><br><span class="line">    <span class="string">&quot;The capital of France is&quot;</span>,</span><br><span class="line">    <span class="string">&quot;The future of AI is&quot;</span>,</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 配置采样参数：温度 0.8，核采样概率 0.95</span></span><br><span class="line">sampling_params = SamplingParams(temperature=<span class="number">0.8</span>, top_p=<span class="number">0.95</span>)</span><br><span class="line"><span class="comment"># 初始化 LLM 引擎并加载模型</span></span><br><span class="line">llm = LLM(model=<span class="string">&quot;facebook/opt-125m&quot;</span>)</span><br><span class="line"><span class="comment"># 执行批量推理</span></span><br><span class="line">outputs = llm.generate(prompts, sampling_params)</span><br><span class="line"><span class="comment"># 打印结果</span></span><br><span class="line"><span class="keyword">for</span> output <span class="keyword">in</span> outputs:</span><br><span class="line">    prompt = output.prompt</span><br><span class="line">    generated_text = output.outputs[<span class="number">0</span>].text</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Prompt: <span class="subst">&#123;prompt!r&#125;</span>, Generated text: <span class="subst">&#123;generated_text!r&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ul>
+<li>vLLM 默认从 Hugging Face 下载模型。如需使用 ModelScope，需设置环境变量 export VLLM_USE_MODELSCOPE&#x3D;True</li>
+<li>llm.generate() 不会自动应用聊天模板。若使用 Instruct&#x2F;Chat 模型，应改用 llm.chat() 方法</li>
+<li>vLLM 默认使用模型仓库中 generation_config.json 推荐的采样参数。若需使用 vLLM 自身默认值，请设置 generation_config&#x3D;”vllm”</li>
+</ul>
+<h4 id="批量推理最佳实践"><a href="#批量推理最佳实践" class="headerlink" title="批量推理最佳实践"></a>批量推理最佳实践</h4><h3 id="OpenAI兼容API服务器"><a href="#OpenAI兼容API服务器" class="headerlink" title="OpenAI兼容API服务器"></a>OpenAI兼容API服务器</h3><p>vllm可以启动一个兼容OpenAI API协议的HTTP服务器，使其成为OpenAI API的直接替代品，无需修改现有客户端代码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">启动服务器</span><br><span class="line">vllm serve Qwen/Qwen2.5-1.5B-Instruct</span><br></pre></td></tr></table></figure>
+<h4 id="curl调用"><a href="#curl调用" class="headerlink" title="curl调用"></a>curl调用</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">文本补全</span></span><br><span class="line">curl http://localhost:8000/v1/completions \</span><br><span class="line">    -H &quot;Content-Type: application/json&quot; \</span><br><span class="line">    -d &#x27;&#123;</span><br><span class="line">        &quot;model&quot;: &quot;Qwen/Qwen2.5-1.5B-Instruct&quot;,</span><br><span class="line">        &quot;prompt&quot;: &quot;San Francisco is a&quot;,</span><br><span class="line">        &quot;max_tokens&quot;: 7,</span><br><span class="line">        &quot;temperature&quot;: 0</span><br><span class="line">    &#125;&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">聊天补全</span></span><br><span class="line">curl http://localhost:8000/v1/chat/completions \</span><br><span class="line">    -H &quot;Content-Type: application/json&quot; \</span><br><span class="line">    -d &#x27;&#123;</span><br><span class="line">        &quot;model&quot;: &quot;Qwen/Qwen2.5-1.5B-Instruct&quot;,</span><br><span class="line">        &quot;messages&quot;: [</span><br><span class="line">            &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful assistant.&quot;&#125;,</span><br><span class="line">            &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Who won the world series in 2020?&quot;&#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="vllm其他重要cli指令"><a href="#vllm其他重要cli指令" class="headerlink" title="vllm其他重要cli指令"></a>vllm其他重要cli指令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行基准测试（延迟/吞吐量/服务）</span></span><br><span class="line">vllm bench</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如  vllm bench latency --model ...</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">收集环境信息用于问题诊断</span></span><br><span class="line">vllm collect-env</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">批量运行推理请求</span></span><br><span class="line">vllm run-batch</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如 vllm run-batch -i input.jsonl -o output.jsonl</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>
