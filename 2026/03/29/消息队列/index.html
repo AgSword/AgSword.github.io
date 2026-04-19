@@ -111,7 +111,7 @@ replay-btn" aria-hidden="true"></i></a>
 <li><p>消息丢失从三个方面解决：生产者确认机制、消费者手动确认消息和持久化</p>
 </li>
 <li><p>生产者确认机制，只要消息成功发送到交换机之后，RabbitMQ就会发送一个ack给生产者</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">rabbitmq:</span></span><br><span class="line">        <span class="attr">publisher-confirms:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">rabbitmq:</span></span><br><span class="line">        <span class="attr">publisher-confirms:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>路由不可达，对于不可路由的消息，有两种处理方式：Return消息机制和备份交换机。Return消息机制提供了回调函数，当消息从交换机路由到Queue失败才会回调这个方法。备份交换机，当发送的消息到对应的交换机，没有匹配到queue，就会自动转移到备份交换机对应的queue，这样消息就不会丢失</p>
 </li>
