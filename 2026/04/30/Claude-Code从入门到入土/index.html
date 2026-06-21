@@ -1,0 +1,196 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      Claude Code从入门到入土 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      Claude Code从入门到入土
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h2 id="Agent-teams最佳实践">Agent teams最佳实践</h2>
+<ol>
+<li>先定义接口</li>
+<li>Team Leader使用能力强的模型，teammets使用能力弱一点的模型</li>
+<li>不同的teammets负责不同的文件，防止多个成员同时修改同一个文件导致合并冲突</li>
+<li>不要让成员直接开始编码，先让他们研究和设计方案</li>
+<li><code>/tasks</code>可以查看所有任务的状态</li>
+</ol>
+<h3 id="适合Agent-Teams的场景">适合Agent Teams的场景</h3>
+<ol>
+<li>复杂系统重构</li>
+<li>多角度代码审查</li>
+<li>前后端并行开发</li>
+</ol>
+<h3 id="如何在不同成员之间切换">如何在不同成员之间切换</h3>
+<ol>
+<li><code>shift+up</code> 切换到上一个成员</li>
+<li><code>shift+down</code> 切换到下一个成员</li>
+<li><code>shift+o</code> 回到Team Lead</li>
+</ol>
+<h2 id="Claude-Code-Superpowers">Claude Code + Superpowers</h2>
+<p>Superpowers用于让AI写出“工程级”的代码，而不是“玩具级”的代码，强调它遵循完整的软件开发流程</p>
+<h3 id="Superpowers完整工作流程">Superpowers完整工作流程</h3>
+<ol>
+<li>Brainstorming(头脑风暴)  通过问答澄清真实需求</li>
+<li>Design Plans(编写计划) 分解为2-5分钟的小任务</li>
+<li>Subagent Development(子代理开发) 每个任务启动独立子代理；两阶段审查：规格符合性+代码质量</li>
+<li>TDD(测试驱动开发) 强制RED-GREEN-REFACTOR</li>
+<li>Code Review(代码审查) 质量把关</li>
+</ol>
+<h2 id="Claude-Code工作流最佳实践">Claude Code工作流最佳实践</h2>
+<p>不同类型的项目，开发方式和ai使用策略也不同。选择合适的策略可以大大提高开发效率</p>
+<h3 id="全新项目">全新项目</h3>
+<ol>
+<li>规划项目结构（推荐合适的技术栈、设计项目目录结构、规划数据库表结构）</li>
+<li>搭建基础框架（创建项目目录、初始化配置文件、搭建基础的服务器代码【启动脚本、Dockerfile】）</li>
+<li>逐个实现功能</li>
+</ol>
+<h3 id="成熟项目">成熟项目</h3>
+<ol>
+<li>了解项目结构</li>
+<li>找到参考代码</li>
+<li>模型现有风格来实现新的功能</li>
+</ol>
+<h3 id="维护项目">维护项目</h3>
+<ol>
+<li>定位问题（找到相关的代码、分析可能的原因）</li>
+<li>分析根因（看看这个错误在什么情况下产生）</li>
+<li>实施修复</li>
+</ol>
+<h2 id="Claude-md的维护">Claude.md的维护</h2>
+<ol>
+<li>/init初始化Claude.md</li>
+<li>在.claude/rules目录创建多个规则文件</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">.claude/rules</span><br><span class="line">|—— auth.md <span class="comment"># 认证相关规则</span></span><br><span class="line">|—— database.md <span class="comment"># 数据库相关规则</span></span><br><span class="line">|—— api.md <span class="comment"># API设计规范</span></span><br><span class="line">|—— testing.md <span class="comment"># 测试规范</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Claude.md的AI进化机制<br>
+在项目开发的过程中，<a target="_blank" rel="noopener" href="http://xn--claude-ox8i3355b.md">迭代claude.md</a></li>
+<li><a target="_blank" rel="noopener" href="http://xn--gitclaude-9c9nq823al3ct93a.md">使用git管理claude.md</a></li>
+</ol>
+<h2 id="高级功能">高级功能</h2>
+<h3 id="plan模式">plan模式</h3>
+<p>plan模式是一种先规划后执行的工作模式，当遇到复杂功能开发、架构重构、性能优化、代码迁移、不熟悉的项目的时候适合使用此模式<br>
+按两次shift+table进入plan模式</p>
+<h3 id="Headless模式">Headless模式</h3>
+<p>Headless模式是非交互式运行方式，输出结构直接输出标准输出，可集成到shell脚本或CI/CD流程中。<br>
+基本用法如下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从管道输入</span></span><br><span class="line">git diff | claude -p &quot;解释这些改动&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从文件输入</span></span><br><span class="line">cat file.txt | claude -p &quot;总结这个文件&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接指定</span></span><br><span class="line">claude -p &quot;检查代码质量&quot; &lt; src/main.js</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="vim模式">vim模式</h3>
+<p>vim模式主要用于编辑用户发给claude的提示词，与编辑项目中文件无关</p>
+<h3 id="slash-commands自定义命令">slash commands自定义命令</h3>
+<p>将高频工作流封装成可复用的斜杠命令，将复杂的人际对话变为简单的命令行指令<br>
+可以通过/commands指令或者在.claude/commands目录下创建对应的md文件来新增自定义command</p>
+<h3 id="扩展思考模式">扩展思考模式</h3>
+<p>当需要设计复杂的缓存层或者重构架构时，在提示词中加上ultrathink</p>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

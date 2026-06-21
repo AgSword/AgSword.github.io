@@ -1,0 +1,153 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      vllm学习详解 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      vllm学习详解
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h1>理论知识提要</h1>
+<h2 id="4P是什么">4P是什么</h2>
+<h4 id="数据并行DP">数据并行DP</h4>
+<p>**模型全量复制，数据切分。**每张显卡上都有一份完整的模型，训练时，数据被分为N份（N为显卡数）</p>
+<h4 id="张量并行TP">张量并行TP</h4>
+<p>**层内切分，张量分割。**针对模型某一层内部的矩阵乘法（如 <code>Y = W X</code>）。权重矩阵 <code>W</code> 太大放不进一张卡，就把 <code>W</code> 竖着切一刀或横着切一刀，放在两张卡上。计算时，两张卡分别算自己那一半，然后再拼接或求和。</p>
+<h4 id="流水线并行PP">流水线并行PP</h4>
+<p>**层间切分，按阶段接力。**显卡1负责第1-10层，显卡2负责第11-20层…，数据像流水线上的零件，经过卡1算完传给卡2，以此类推。</p>
+<h4 id="专家并行EP">专家并行EP</h4>
+<p>**针对MoE架构的特殊切分。**模型中有N个不同的前馈网络（叫专家），每个Token只激活其中Top-K个，EP将不同的专家放置在不同的显卡上。</p>
+<h1>调试环境搭建</h1>
+<h2 id="autodl启动机器并升级cuda和cudnn版本">autodl启动机器并升级cuda和cudnn版本</h2>
+<p>autodl中选择cuda13.0的机器，进行选择miniconda最高版本的镜像（最高cuda版本仅为11.8）,<code>nvidia-smi</code>只是表示NVIDIA驱动支持的最高cuda版本，并不代表系统里实际安装的CUDA版本，因此机器启动后需要我们自己去升级cuda版本。采用手动升级cuda和cudnn的方式</p>
+<p>升级cuda<br>
+CUDA下载地址：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a><br>
+选择合适的run文件进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://developer.download.nvidia.com/compute/cuda/13.0.0/local_installers/cuda_13.0.0_580.65.06_linux.run</span><br><span class="line">sudo sh cuda_13.0.0_580.65.06_linux.run</span><br></pre></td></tr></table></figure>
+<p>升级cudnn<br>
+cuDNN下载地址：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cudnn">https://developer.nvidia.com/cudnn</a><br>
+选择与cuda版本对应的cudnn，选择合适的deb文件进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://developer.download.nvidia.com/compute/cudnn/9.23.2/local_installers/cudnn-local-repo-ubuntu2204-9.23.2_1.0-1_amd64.deb</span><br><span class="line">sudo dpkg -i cudnn-local-repo-ubuntu2204-9.23.2_1.0-1_amd64.deb</span><br><span class="line">sudo cp /var/cudnn-local-repo-ubuntu2204-9.23.2/cudnn-*-keyring.gpg /usr/share/keyrings/</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install cudnn</span><br></pre></td></tr></table></figure>
+<h2 id="升级cuda并创建cuda虚拟环境">升级cuda并创建cuda虚拟环境</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看升级前的conda版本</span><br><span class="line">conda --version</span><br><span class="line"># 升级cuda</span><br><span class="line">conda update -n base -c conda-forge conda</span><br><span class="line"># 查看升级后conda版本</span><br><span class="line">conda --version</span><br><span class="line"></span><br><span class="line"># 创建conda环境</span><br><span class="line">conda create -n vllm python=3.12</span><br><span class="line"># 激活conda环境</span><br><span class="line">conda activate vllm</span><br><span class="line"># 查看cuda版本</span><br><span class="line">nvcc --version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="git下载vllm源码并构建">git下载vllm源码并构建</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /root/autodl-tmp</span><br><span class="line">git clone https://github.com/vllm-project/vllm.git</span><br><span class="line"># 切换分支</span><br><span class="line">cd vllm</span><br><span class="line">git checkout -b my-v0.20.0 v0.20.0</span><br><span class="line"></span><br><span class="line"># 安装pytorch</span><br><span class="line">pip install torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu130</span><br><span class="line"></span><br><span class="line"># 调整并行编译数，避免出现oom</span><br><span class="line">export CMAKE_BUILD_PARALLEL_LEVEL=16</span><br><span class="line">export MAX_JOBS=16</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 可编辑安装vllm</span><br><span class="line">pip install -e . -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="手动下载模型">手动下载模型</h2>
+<p>使用镜像网站<a target="_blank" rel="noopener" href="https://hf-mirror.com/">https://hf-mirror.com/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 下载hfd</span><br><span class="line">wget https://hf-mirror.com/hfd/hfd.sh</span><br><span class="line">chmod a+x hfd.sh</span><br><span class="line"></span><br><span class="line">export HF_ENDPOINT=https://hf-mirror.com</span><br><span class="line"></span><br><span class="line">./hfd.sh $&#123;模型名称&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="pycharm中调试">pycharm中调试</h2>
+<ol>
+<li>配置环境变量PYTHONUNBUFFERED=1;PATH=/root/miniconda3/envs/vllm/bin:$PATH</li>
+<li></li>
+</ol>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>

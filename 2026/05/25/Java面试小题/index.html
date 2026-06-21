@@ -11,7 +11,7 @@
 
   <head>
     <title>
-      Archives: 2026 [ Hexo ]
+      Java面试小题 [ Hexo ]
     </title>
   <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -78,111 +78,35 @@
 
         <div id="content-outer">
           <div class="content-inner">
-            
-
-
-
-
-  <h1>undefined/2026</h1>
-
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/C++/">
-        C++
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/Docker/">
-        Docker
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/K8s%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-        K8s基础知识
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/JVM/">
-        JVM
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/CUDA%E7%BC%96%E7%A8%8B/">
-        CUDA编程
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/Maven/">
-        Maven
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/MySQL/">
-        MySQL
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/Mybatis%E6%BA%90%E7%A0%81-%E5%BE%85%E6%9B%B4%E6%96%B0/">
-        Mybatis源码-待更新
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/golang/">
-        golang
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-    <div class="archive-item">
-      <a href="/2026/03/29/dubbo/">
-        dubbo
-      </a>
-      <time datetime="2026-03-29T04:22:42.000Z">
-        2026-03-29
-      </time>
-    </div>
-  
-
-  <div id="paginator">
-    <a class="extend prev" rel="prev" href="/archives/2026/">Prev</a><a class="page-number" href="/archives/2026/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2026/page/3/">3</a><a class="page-number" href="/archives/2026/page/4/">4</a><a class="extend next" rel="next" href="/archives/2026/page/3/">Next</a>
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      Java面试小题
+    </p>
+    <hr>
   </div>
+  <div class="post-content">
+    <h2 id="java">java</h2>
+<h3 id="线程池核心参数有哪些">线程池核心参数有哪些</h3>
+<p>1、核心线程大小：线程池一致运行，核心线程就不会停止<br>
+2、线程大小：线程池最大线程数量，线程池中非核心线程数量等于线程池中最大线程数量减去核心线程数量<br>
+3、非核心线程的存活时间：非核心线程在这个存活时间内没有运行任务，则会消亡<br>
+4、存活时间的计量单位<br>
+5、任务队列：用来存放线程任务<br>
+6、饱和策略：当线程池中线程数量等于线程池的最大线程数量且任务队列满了，将会执行饱和策略。有四种：线程任务丢弃报错；线程任务丢弃不报错；任务队列中首任务丢弃，最新线程任务入队；线程池外的线程直接调用run方法执行<br>
+7、线程工厂，新建一个线程时所使用到的工厂</p>
+<h3 id="当线程池收到一个任务，线程池中的线程数量是如何变化的">当线程池收到一个任务，线程池中的线程数量是如何变化的</h3>
+<p>执行execute/submit方法向线程池中*添加任务，当任务数小于线程池中的核心线程数量，创建线程执行任务。当任务数大于最大核心线程数但小于最大线程数，会将任务放入阻塞队列中。如果阻塞队列满了，会新建非核心线程来运行任务。如果任务数量等于了最大线程数，会运用饱和策略中的策略。</p>
+<h2 id="linux">linux</h2>
+<h3 id="chmod和chown的区别是什么">chmod和chown的区别是什么</h3>
+<h2 id="dockerfile">dockerfile</h2>
 
-
-
+  </div>
+  
+</div>
           </div>
         </div>
 
