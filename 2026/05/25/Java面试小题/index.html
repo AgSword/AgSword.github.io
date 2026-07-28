@@ -103,6 +103,17 @@ replay-btn" aria-hidden="true"></i></a>
 <h2 id="linux">linux</h2>
 <h3 id="chmod和chown的区别是什么">chmod和chown的区别是什么</h3>
 <h2 id="dockerfile">dockerfile</h2>
+<h3 id="ADD和COPY的区别是什么">ADD和COPY的区别是什么</h3>
+<p>COPY：简单直接，只做一件事<br>
+COPY 指令功能非常单一，就是将构建上下文中的文件或目录，原封不动地复制到镜像的指定路径。它不会对文件做任何额外处理。</p>
+<p>ADD：功能更强，但有“魔法”<br>
+ADD 指令在 COPY 的基础上，多了两个容易造成困惑的“增强”功能：</p>
+<p>自动解压压缩包：如果 ADD 的源文件是一个本地的压缩包（如 .tar.gz），它会自动将其解压到目标目录。这可能在你不希望解压时造成意外。<br>
+支持远程URL：ADD 可以直接从互联网URL下载文件并放入镜像。</p>
+<h3 id="docker构建上下文是什么">docker构建上下文是什么</h3>
+<p>构建镜像时，Docker 会将<strong>当前目录</strong>（构建上下文）<strong>的所有文件</strong>发送给 Docker 守护进程。</p>
+<p>有什么办法避免不将当前目录中的某个文件发送给Docker守护进程</p>
+<p>在目录中创建 .dockerignore</p>
 
   </div>
   
