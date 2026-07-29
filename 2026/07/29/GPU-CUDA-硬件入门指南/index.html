@@ -1,0 +1,682 @@
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content=嘿，我是Tanger～这是我的子站，用于展示写的Hexo主题：MiHoYo。欢迎访问！ >
+  <meta name="keywords" content=hexo,theme,MiHoYo >
+
+  <head>
+    <title>
+      GPU-CUDA-硬件入门指南 [ Hexo ]
+    </title>
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+
+    <link rel="stylesheet" href="/css/header.css">
+<div class="header">
+  <div class="logo">
+    <span class="pull-left">
+      <a id="site-name" href="/">
+        AgSword&#39;s blog
+      </a>
+    </span>
+  </div>
+  <ul class="nav-list">
+    
+      <li>
+        <a href="/">
+          首页
+        </a>
+      </li>
+      
+      <li>
+        <a href="/about">
+          关于
+        </a>
+      </li>
+      
+  </ul>
+</div>
+
+      <!--<link rel="stylesheet" href="/css/top-header.css">
+<div id="top-bar" class="fixed">
+
+  <a class="goto-top" href="#"></a>
+  <ul class="bar-list bar-list-1">
+    
+      <li>
+        <p>
+          <a href="/">
+            <text class="bar-text bar-p1">
+              首页
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+      <li>
+        <p>
+          <a href="/about">
+            <text class="bar-text bar-p1">
+              关于
+            </text>
+            <text class="bar-text bar-p2"></text>
+          </a>
+          <text class="bar-p3">/</text>
+        </p>
+      </li>
+      
+  </ul>
+</div>-->
+
+        <div id="content-outer">
+          <div class="content-inner">
+            <link rel="stylesheet" href="/css/post.css">
+<div class="posts">
+  <a href="/index.html"><i class="fa fa-home
+replay-btn" aria-hidden="true"></i></a>
+  <div class="post-title">
+    <p>
+      GPU-CUDA-硬件入门指南
+    </p>
+    <hr>
+  </div>
+  <div class="post-content">
+    <h1>GPU 硬件与 CUDA 编程入门指南</h1>
+<blockquote>
+<p><strong>原文来源</strong>：知乎专栏「CUDA 硬件视角」系列<br>
+<strong>改写说明</strong>：本文在原文基础上进行了错误纠正、知识点细化、大量补充图解和代码示例，面向「学过 CUDA 语法、但不懂硬件原理」的入门读者。</p>
+</blockquote>
+<hr>
+<h2 id="目录">目录</h2>
+<ol>
+<li><a href="#1-%E5%89%8D%E8%A8%80%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%A6%E4%BA%86%E8%AF%AD%E6%B3%95%E8%BF%98%E4%B8%8D%E5%A4%9F">前言：为什么学了语法还不够？</a></li>
+<li><a href="#2-gpu-%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E-cpu-%E7%9A%84%E6%A0%B9%E6%9C%AC%E5%8C%BA%E5%88%AB">GPU 到底是什么？——与 CPU 的根本区别</a></li>
+<li><a href="#3-smgpu-%E7%9A%84%E5%90%8E%E5%8E%A8">SM——GPU 的「后厨」</a></li>
+<li><a href="#4-%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E8%B7%91%E5%88%B0%E7%A1%AC%E4%BB%B6%E4%B8%8Athread--warp--block--sm">线程怎么跑到硬件上？——Thread → Warp → Block → SM</a></li>
+<li><a href="#5-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%8F%E5%81%8F%E6%98%AF-32warp-%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%B7%A5%E7%A8%8B%E9%80%BB%E8%BE%91">为什么偏偏是 32？——Warp 大小的工程逻辑</a></li>
+<li><a href="#6-warp-divergence%E9%9A%90%E5%BD%A2%E7%9A%84%E6%80%A7%E8%83%BD%E6%9D%80%E6%89%8B">Warp Divergence——隐形的性能杀手</a></li>
+<li><a href="#7-occupancysm-%E8%83%BD%E5%90%8C%E6%97%B6%E6%8B%9B%E5%BE%85%E5%A4%9A%E5%B0%91-warp">Occupancy——SM 能同时招待多少 Warp？</a></li>
+<li><a href="#8-gpu-%E5%BF%AB%E7%9A%84%E7%9C%9F%E6%AD%A3%E7%A7%98%E5%AF%86%E5%BB%B6%E8%BF%9F%E9%9A%90%E8%97%8F">GPU 快的真正秘密——延迟隐藏</a></li>
+<li><a href="#9-%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA%E4%B8%8E%E7%BA%A0%E6%AD%A3">常见误区与纠正</a></li>
+<li><a href="#10-%E6%80%BB%E7%BB%93%E6%8A%8A%E7%9F%A5%E8%AF%86%E4%B8%B2%E8%B5%B7%E6%9D%A5">总结：把知识串起来</a></li>
+<li><a href="#11-%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B8%8E%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">工具链与参考资料</a></li>
+</ol>
+<hr>
+<h2 id="1-前言：为什么学了语法还不够？">1. 前言：为什么学了语法还不够？</h2>
+<p>很多人学 CUDA 的路径是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">背概念 → 写 kernel → 跑通 → 很慢 → 不知道怎么办</span><br></pre></td></tr></table></figure>
+<p>你背熟了 <code>thread</code>、<code>warp</code>、<code>block</code>、<code>grid</code> 的定义，写出了能跑通的 <code>&lt;&lt;&lt;grid, block&gt;&gt;&gt;</code> 调用——但性能一塌糊涂。<strong>问题不在语法，在于你没想清楚「这条指令到底跑在哪块硅片上、为什么要这么编排」</strong>。</p>
+<p>本文用一个贯穿始终的类比来帮你建立硬件直觉：</p>
+<blockquote>
+<p><strong>GPU 是一家巨型餐厅的后厨</strong>。CPU 是一位米其林大厨（单打独斗、做一道是一道），GPU 是 100 个炒菜师傅同时开火。你的 kernel 就是菜谱——菜谱写不好，100 个师傅也只能排队等锅。</p>
+</blockquote>
+<p>带着一个问题去读：<strong>为什么 GPU 不是「更快的 CPU」，而是另一种完全不同的东西？</strong></p>
+<hr>
+<h2 id="2-GPU-到底是什么？——与-CPU-的根本区别">2. GPU 到底是什么？——与 CPU 的根本区别</h2>
+<h3 id="2-1-先看一张对比图">2.1 先看一张对比图</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                         CPU vs GPU                                  │</span><br><span class="line">├────────────────────────────┬────────────────────────────────────────┤</span><br><span class="line">│          CPU               │               GPU                      │</span><br><span class="line">│                            │                                        │</span><br><span class="line">│   ████████  ████████       │   ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██    │</span><br><span class="line">│   大核 × 2~128             │   小核 × 数千                          │</span><br><span class="line">│                            │                                        │</span><br><span class="line">│   每个核：                  │   每个 SM（≈ 一个核簇）：               │</span><br><span class="line">│   ┌─────────────────┐      │   ┌──────────────────────────────┐     │</span><br><span class="line">│   │ 分支预测器      │      │   │ 4 个 Warp Scheduler          │     │</span><br><span class="line">│   │ 乱序执行引擎    │      │   │ 64 个 FP32 ALU               │     │</span><br><span class="line">│   │ 大容量 L1/L2    │      │   │ 64 个 INT32 ALU              │     │</span><br><span class="line">│   │ 深度流水线      │      │   │ 4 个 Tensor Core             │     │</span><br><span class="line">│   └─────────────────┘      │   │ 128 KB Register File         │     │</span><br><span class="line">│                            │   │ 128 KB Shared Memory / L1    │     │</span><br><span class="line">│                            │   └──────────────────────────────┘     │</span><br><span class="line">│                            │                                        │</span><br><span class="line">│   目标：单任务延迟最低     │   目标：总吞吐量最大                    │</span><br><span class="line">│   手段：投机 + 乱序 + 缓存 │   手段：海量并行 + 零开销切换           │</span><br><span class="line">└────────────────────────────┴────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-厨子类比">2.2 厨子类比</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CPU（米其林大厨）</th>
+<th>GPU（百人后厨）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>厨师数量</strong></td>
+<td>1~16 位顶级大厨</td>
+<td>数千位普通厨师</td>
+</tr>
+<tr>
+<td><strong>单道菜速度</strong></td>
+<td>极快</td>
+<td>普通</td>
+</tr>
+<tr>
+<td><strong>同时做菜数</strong></td>
+<td>几道</td>
+<td>几千道</td>
+</tr>
+<tr>
+<td><strong>擅长场景</strong></td>
+<td>复杂逻辑、分支多</td>
+<td>简单重复、数据量大</td>
+</tr>
+<tr>
+<td><strong>调度方式</strong></td>
+<td>每位大厨独立思考下一步</td>
+<td>32 个厨师一组听令，齐步走</td>
+</tr>
+<tr>
+<td><strong>等待食材时</strong></td>
+<td>先做别的准备（乱序执行）</td>
+<td>换另一组厨师上（warp 切换）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>核心洞察</strong>：CPU 设计目标是「让一个任务尽快完成」；GPU 设计目标是「让一万个任务整体最快完成」。这是两种完全不同的哲学。</p>
+</blockquote>
+<hr>
+<h2 id="3-SM——GPU-的「后厨」">3. SM——GPU 的「后厨」</h2>
+<h3 id="3-1-SM-是什么？">3.1 SM 是什么？</h3>
+<p><strong>SM（Streaming Multiprocessor，流式多处理器）</strong> 是 GPU 上最小的完整计算单元。可以把它理解成餐厅里的「一个独立后厨」——里面锅碗瓢盆一应俱全，能独立完成一道菜的完整流程。</p>
+<p>一颗 GPU 芯片上有几十到上百个 SM。以 NVIDIA A100 为例：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>A100 (GA100)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SM 总数</td>
+<td>108 个（满血版 128，A100 屏蔽部分）</td>
+</tr>
+<tr>
+<td>每个 SM 的 FP32 ALU</td>
+<td>64 个</td>
+</tr>
+<tr>
+<td>每个 SM 的 INT32 ALU</td>
+<td>64 个</td>
+</tr>
+<tr>
+<td>每个 SM 的 Tensor Core</td>
+<td>4 个</td>
+</tr>
+<tr>
+<td>每个 SM 的寄存器文件</td>
+<td>65,536 个 32-bit 寄存器</td>
+</tr>
+<tr>
+<td>每个 SM 的 Shared Memory</td>
+<td>最大 164 KB（可配置）</td>
+</tr>
+<tr>
+<td>每个 SM 的 L1 缓存</td>
+<td>与 Shared Memory 共享 192 KB</td>
+</tr>
+<tr>
+<td>每个 SM 最大线程数</td>
+<td>2,048</td>
+</tr>
+<tr>
+<td>每个 SM 最大 Warp 数</td>
+<td>64</td>
+</tr>
+<tr>
+<td>每个 SM 最大 Block 数</td>
+<td>32</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-SM-内部结构图">3.2 SM 内部结构图</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                         SM 内部结构 (Ampere)                         │</span><br><span class="line">│                                                                     │</span><br><span class="line">│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐              │</span><br><span class="line">│  │  Warp    │ │  Warp    │ │  Warp    │ │  Warp    │              │</span><br><span class="line">│  │Scheduler │ │Scheduler │ │Scheduler │ │Scheduler │  ← 4 个      │</span><br><span class="line">│  │  (WPS)   │ │  (WPS)   │ │  (WPS)   │ │  (WPS)   │  调度器      │</span><br><span class="line">│  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘              │</span><br><span class="line">│       │            │            │            │                     │</span><br><span class="line">│       ▼            ▼            ▼            ▼                     │</span><br><span class="line">│  ┌─────────────────────────────────────────────────────┐           │</span><br><span class="line">│  │               Dispatch Unit (指令分发)               │           │</span><br><span class="line">│  └───────────────────────┬─────────────────────────────┘           │</span><br><span class="line">│                          │                                         │</span><br><span class="line">│         ┌────────────────┼────────────────┐                        │</span><br><span class="line">│         ▼                ▼                ▼                        │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                │</span><br><span class="line">│  │  FP32 ALU   │  │  INT32 ALU  │  │ Tensor Core │                │</span><br><span class="line">│  │   (64 个)    │  │   (64 个)    │  │   (4 个)     │                │</span><br><span class="line">│  └─────────────┘  └─────────────┘  └─────────────┘                │</span><br><span class="line">│                                                                     │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                │</span><br><span class="line">│  │  Register   │  │   Shared    │  │  L1 Cache   │                │</span><br><span class="line">│  │    File     │  │   Memory    │  │             │                │</span><br><span class="line">│  │  (256 KB)   │  │ (可配 164KB)│  │  (与SMEM共享)│                │</span><br><span class="line">│  └─────────────┘  └─────────────┘  └─────────────┘                │</span><br><span class="line">│                                                                     │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐                                 │</span><br><span class="line">│  │ Load/Store  │  │   Texture   │  ← 内存与纹理单元                │</span><br><span class="line">│  │    Unit     │  │    Unit     │                                   │</span><br><span class="line">│  └─────────────┘  └─────────────┘                                 │</span><br><span class="line">└─────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-各部件通俗解释">3.3 各部件通俗解释</h3>
+<table>
+<thead>
+<tr>
+<th>部件</th>
+<th>类比</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Warp Scheduler（调度器）</strong></td>
+<td>厨房领班</td>
+<td>决定「下一锅炒什么」，每个周期挑一个准备好的 warp 发指令</td>
+</tr>
+<tr>
+<td><strong>Dispatch Unit（分发器）</strong></td>
+<td>传菜员</td>
+<td>把指令拆成具体操作，派发给 ALU 和内存单元</td>
+</tr>
+<tr>
+<td><strong>FP32 ALU</strong></td>
+<td>炒锅</td>
+<td>执行浮点运算（矩阵乘法、向量加法等主力）</td>
+</tr>
+<tr>
+<td><strong>INT32 ALU</strong></td>
+<td>切菜板</td>
+<td>执行整数运算（地址计算、循环计数器等）</td>
+</tr>
+<tr>
+<td><strong>Tensor Core</strong></td>
+<td>高压锅（专用设备）</td>
+<td>一个周期完成 4×4 矩阵乘加运算，AI 训练/推理加速</td>
+</tr>
+<tr>
+<td><strong>Register File</strong></td>
+<td>厨师手边的备料台</td>
+<td>每个线程的局部变量存在这里，访问最快（0 延迟）</td>
+</tr>
+<tr>
+<td><strong>Shared Memory</strong></td>
+<td>公共备料区</td>
+<td>一个 block 内所有线程共享，比全局内存快 ~100 倍</td>
+</tr>
+<tr>
+<td><strong>L1 Cache</strong></td>
+<td>冰箱（本地）</td>
+<td>缓存全局内存数据，减少远距离取料</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>关键认知</strong>：Warp Scheduler 是整个 SM 的「大脑」。它不执行运算，只负责决策——在几十个等待中的 warp 里选出「已经准备好的」那个，把它的下一条指令发出去。这个决策每个时钟周期都在发生。</p>
+</blockquote>
+<hr>
+<h2 id="4-线程怎么跑到硬件上？——Thread-→-Warp-→-Block-→-SM">4. 线程怎么跑到硬件上？——Thread → Warp → Block → SM</h2>
+<h3 id="4-1-映射层次图">4.1 映射层次图</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">                       GRID（整个 GPU 芯片）</span><br><span class="line">                            │</span><br><span class="line">            ┌───────────────┼───────────────┐</span><br><span class="line">            │               │               │</span><br><span class="line">            ▼               ▼               ▼</span><br><span class="line">         SM[0]           SM[1]    ...    SM[N-1]</span><br><span class="line">            │</span><br><span class="line">   ┌────────┼────────┐</span><br><span class="line">   │        │        │</span><br><span class="line">   ▼        ▼        ▼</span><br><span class="line">Block    Block    Block     ← 一个 SM 可同时驻留多个 Block</span><br><span class="line">  │</span><br><span class="line">  │  [ 一个 Block 被切成若干个 Warp ]</span><br><span class="line">  │</span><br><span class="line">  ├── Warp 0: Thread 0~31</span><br><span class="line">  ├── Warp 1: Thread 32~63</span><br><span class="line">  ├── Warp 2: Thread 64~95</span><br><span class="line">  └── ...</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-三条铁律">4.2 三条铁律</h3>
+<blockquote>
+<p><strong>铁律 1</strong>：一个 Block 一旦被分配到某个 SM，就永远锁死在那里，不会被迁移。<br>
+<em>→ 这就是 Shared Memory 只在 Block 内共享的硬件根源——因为数据就在那个 SM 上。</em></p>
+</blockquote>
+<blockquote>
+<p><strong>铁律 2</strong>：Warp 的分组按 <code>threadIdx</code> 升序自动完成，程序员没有任何控制权。<br>
+<em>→ 连续的 32 个 <code>threadIdx.x</code>（然后 <code>y</code>，再 <code>z</code>）自动形成一个 warp。你必须让数据布局和这 32 个线程的访问模式对齐。</em></p>
+</blockquote>
+<blockquote>
+<p><strong>铁律 3</strong>：Block 不跨 SM，但 Grid 的不同 Block 可以在不同 SM 上真正并行执行。<br>
+<em>→ 这是 GPU 能跑满几千个核的基础——每个 SM 领走几个 Block，各自独立干活。</em></p>
+</blockquote>
+<h3 id="4-3-CUDA-索引公式（代码对照）">4.3 CUDA 索引公式（代码对照）</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// ─── 一维索引 ───</span><br><span class="line">int tid    = blockIdx.x * blockDim.x + threadIdx.x;</span><br><span class="line"></span><br><span class="line">// ─── Warp 身份 ───</span><br><span class="line">int warpId = threadIdx.x / 32;   // 我在 Block 的第几个 warp</span><br><span class="line">int laneId = threadIdx.x % 32;   // 我在 warp 里是第几号线程（0~31）</span><br><span class="line"></span><br><span class="line">// ─── 二维索引 ───</span><br><span class="line">int row = blockIdx.y * blockDim.y + threadIdx.y;</span><br><span class="line">int col = blockIdx.x * blockDim.x + threadIdx.x;</span><br><span class="line">int tid2d = row * gridDim.x * blockDim.x + col;</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-一个具体的映射例子">4.4 一个具体的映射例子</h3>
+<p>假设你启动：<code>&lt;&lt;&lt;grid=(4), block=(128)&gt;&gt;&gt;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Block 0 (128 threads)              Block 1 (128 threads)</span><br><span class="line">├── Warp 0: T0  ~ T31             ├── Warp 0: T128 ~ T159</span><br><span class="line">├── Warp 1: T32 ~ T63             ├── Warp 1: T160 ~ T191</span><br><span class="line">├── Warp 2: T64 ~ T95             ├── Warp 2: T192 ~ T223</span><br><span class="line">└── Warp 3: T96 ~ T127            └── Warp 3: T224 ~ T255</span><br><span class="line"></span><br><span class="line">Block 2 ──→ SM[1]                  Block 3 ──→ SM[2]</span><br><span class="line">（4 个 Block 可能分布在不同的 SM 上）</span><br></pre></td></tr></table></figure>
+<p>每个 Block 含 <code>⌈128/32⌉ = 4</code> 个 warp。4 个 Block × 4 warp = 总共 16 个 warp，可以分布在多个 SM 上并行执行。</p>
+<hr>
+<h2 id="5-为什么偏偏是-32？——Warp-大小的工程逻辑">5. 为什么偏偏是 32？——Warp 大小的工程逻辑</h2>
+<blockquote>
+<p>⚠️ <strong>原文错误纠正</strong>：原文说「这个数字在 CUDA 诞生之初就被定下，至今未变」。这句话<strong>对 NVIDIA 成立但对整体 GPU 概念不成立</strong>——AMD GPU 使用 Wavefront = 64。Warp 大小是工程权衡结果，不是唯一正确答案。</p>
+</blockquote>
+<h3 id="5-1-三条工程权衡">5.1 三条工程权衡</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌──────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    为什么 NVIDIA 选了 32？                         │</span><br><span class="line">├──────────────────────────────────────────────────────────────────┤</span><br><span class="line">│                                                                  │</span><br><span class="line">│  权衡 1: 指令获取效率                                             │</span><br><span class="line">│  ─────────────────                                                │</span><br><span class="line">│  32 个线程共享一条指令（SIMT），每个 SM 有 4 个 Warp Scheduler。  │</span><br><span class="line">│  每个周期只需取 4 条指令 → 指令带宽压力小。                        │</span><br><span class="line">│                                                                  │</span><br><span class="line">│  如果 Warp = 16：需要 8 个 Scheduler 才能驱动同量 ALU              │</span><br><span class="line">│                  → 硬件开销翻倍                                   │</span><br><span class="line">│  如果 Warp = 64：每条指令锁住 64 个线程                            │</span><br><span class="line">│                  → divergence 惩罚更大（64 个线程一起等）          │</span><br><span class="line">│                                                                  │</span><br><span class="line">│  权衡 2: 寄存器文件尺寸                                            │</span><br><span class="line">│  ───────────────                                                  │</span><br><span class="line">│  每 SM 65536 个寄存器，最多 2048 线程。                           │</span><br><span class="line">│  每线程至少 ≈ 65536/2048 = 32 个寄存器。                          │</span><br><span class="line">│                                                                  │</span><br><span class="line">│  Warp = 32 → 32×32 = 1024 registers/warp 刚好匹配                 │</span><br><span class="line">│  如果 Warp = 64 → 需要更大寄存器文件 → 面积/功耗 ↑                │</span><br><span class="line">│                                                                  │</span><br><span class="line">│  权衡 3: 延迟隐藏能力                                              │</span><br><span class="line">│  ───────────────                                                  │</span><br><span class="line">│  内存延迟 ~500 cycles，ALO 每 4 cycles 一条指令。                 │</span><br><span class="line">│  需约 500/4 = 125 threads 才能完全隐藏延迟。                      │</span><br><span class="line">│  32-thread warp → 约 4 个 active warps 即可。                     │</span><br><span class="line">│  16-thread warp → 需 8 个 active warps → occupancy 门槛翻倍       │</span><br><span class="line">│                                                                  │</span><br><span class="line">│  结论: 32 是三条曲线的「甜蜜点」（sweet spot）。                    │</span><br><span class="line">│                                                                  │</span><br><span class="line">└──────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-NVIDIA-32-vs-AMD-64">5.2 NVIDIA 32 vs AMD 64</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>NVIDIA (CUDA)</th>
+<th>AMD (ROCm/HIP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>调度单元名称</strong></td>
+<td>Warp</td>
+<td>Wavefront</td>
+</tr>
+<tr>
+<td><strong>大小</strong></td>
+<td>32 threads</td>
+<td>64 threads</td>
+</tr>
+<tr>
+<td><strong>理由</strong></td>
+<td>平衡硬件开销与灵活性</td>
+<td>偏向吞吐量，每个 wavefront 更多并行</td>
+</tr>
+<tr>
+<td><strong>Divergence 惩罚</strong></td>
+<td>较小（32 线程级串行）</td>
+<td>较大（64 线程级串行）</td>
+</tr>
+<tr>
+<td><strong>实际影响</strong></td>
+<td>写 CUDA 代码时 block size 建议 ≥ 128</td>
+<td>写 HIP 代码时 block size 建议 ≥ 256</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-Warp-Divergence——隐形的性能杀手">6. Warp Divergence——隐形的性能杀手</h2>
+<blockquote>
+<p>⚠️ <strong>原文重大遗漏纠正</strong>：原文对 divergence 的讨论基于<strong>传统的 SIMT 模型</strong>（warp 内所有线程完全锁步，分支串行执行两条路径）。但自 <strong>Volta 架构（2017 年）起，NVIDIA 引入了 Independent Thread Scheduling（ITS）</strong>——warp 内每个线程可以有独立的程序计数器，不需要同时执行两个分支的全部指令。<strong>你的代码行为取决于编译目标架构</strong>（<code>-arch=sm_70</code> 及以上启用 ITS）。</p>
+</blockquote>
+<h3 id="6-1-Divergence-本质：一个-warp-的线程走了不同分支">6.1 Divergence 本质：一个 warp 的线程走了不同分支</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">传统 SIMT 模型 (pre-Volta, sm_&lt;70)：</span><br><span class="line"></span><br><span class="line">线程:    T0 T1 T2 T3 T4 ...  T31</span><br><span class="line">条件:    Y  Y  Y  N  N  ...  N</span><br><span class="line">          │        │</span><br><span class="line">          ▼        ▼</span><br><span class="line">     ┌─────────┐  ┌─────────┐</span><br><span class="line">     │ 分支 A  │  │ 分支 B  │</span><br><span class="line">     │(前3线程 │  │(后29线程│</span><br><span class="line">     │ 执行)   │  │ 执行)   │</span><br><span class="line">     └─────────┘  └─────────┘</span><br><span class="line">          │              │</span><br><span class="line">    时间:  串行！A 时 29 个线程干等，B 时 3 个线程干等</span><br><span class="line">          总时间 = T_A + T_B  ← 而非 max(T_A, T_B)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Independent Thread Scheduling (Volta+, sm_70+)：</span><br><span class="line"></span><br><span class="line">线程:    T0  T1  T2     T3  T4  ...  T31</span><br><span class="line">         │   │   │      │   │        │</span><br><span class="line">         ▼   ▼   ▼      ▼   ▼        ▼</span><br><span class="line">     ┌─────────────────────────────────────┐</span><br><span class="line">     │  Scheduler 可以按线程独立调度        │</span><br><span class="line">     │  但！执行单元仍是每组 32 线程       │</span><br><span class="line">     │  仍会产生「部分活跃」的浪费         │</span><br><span class="line">     └─────────────────────────────────────┘</span><br><span class="line"></span><br><span class="line">ITS 改善了什么：</span><br><span class="line">  ✓ 线程可以在不同时间点执行不同指令</span><br><span class="line">  ✓ 细粒度同步更灵活（但需要用 __syncwarp()）</span><br><span class="line">  ✗ Divergence 的「部分空闲」问题仍然存在</span><br><span class="line">  ✗ 执行单元利用率下降的根因未变</span><br></pre></td></tr></table></figure>
+<h3 id="6-2-两种解决方案（附代码）">6.2 两种解决方案（附代码）</h3>
+<h4 id="方案-1：用-Predication（条件赋值）替代跳转">方案 1：用 Predication（条件赋值）替代跳转</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// ❌ 差：分支导致 divergence</span><br><span class="line">if (threadIdx.x &lt; 16) &#123;</span><br><span class="line">    a[idx] = b[idx] * 2.0f;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    a[idx] = b[idx] * 0.5f;</span><br><span class="line">&#125;</span><br><span class="line">// 问题：warp 内 16 个线程走 if，16 个走 else，串行执行</span><br><span class="line"></span><br><span class="line">// ✅ 好：引入条件表达式，编译器生成 select 类指令</span><br><span class="line">float scale = (threadIdx.x &lt; 16) ? 2.0f : 0.5f;</span><br><span class="line">a[idx] = b[idx] * scale;</span><br><span class="line">// 效果：32 个线程一起算 &quot;threadIdx.x &lt; 16&quot;，然后一起乘结果</span><br><span class="line">// 硬件层面无 divergence —— 所有线程执行完全相同的指令序列</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>编译器生成的 PTX 指令</strong>：<code>setp.lt</code> → <code>selp.f32</code>（一条 select 指令替代两个分支块）。<code>select</code> 是单指令，warp 内所有线程同时执行，不产生分支惩罚。</p>
+</blockquote>
+<h4 id="方案-2：数据重排——让同分支线程聚在同一个-warp">方案 2：数据重排——让同分支线程聚在同一个 warp</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 场景：处理稀疏矩阵，只有部分元素需要特殊处理</span><br><span class="line">// ❌ 差：随机分布的非零元导致每个 warp 都 divergence</span><br><span class="line">for (int i = 0; i &lt; N; i++) &#123;</span><br><span class="line">    if (is_nonzero[i]) &#123;</span><br><span class="line">        // 复杂计算 —— 同一个 warp 里有的走有的不走</span><br><span class="line">        process(data[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ✅ 好：先做 stream compaction，把非零元聚集在一起</span><br><span class="line">// Step 1: 用 prefix sum 计算每个非零元的目标位置</span><br><span class="line">// Step 2: 把非零元紧凑排列到连续内存</span><br><span class="line">// Step 3: 用连续的 warp 处理紧凑后的数据</span><br><span class="line">// 结果：处理非零元的 warp 全部走同一分支，无 divergence</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-什么时候用哪个？">6.3 什么时候用哪个？</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方案</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分支很短（1~3 条指令）</td>
+<td>Predication</td>
+<td>条件赋值比跳转开销小</td>
+</tr>
+<tr>
+<td>分支很长（10+ 条指令）</td>
+<td>数据重排</td>
+<td>避免大量线程被闲置</td>
+</tr>
+<tr>
+<td>分支条件与 <code>threadIdx</code>/<code>laneId</code> 相关</td>
+<td>优先 Predication</td>
+<td>条件对 warp 内所有线程可预测</td>
+</tr>
+<tr>
+<td>分支条件依赖输入数据</td>
+<td>数据重排</td>
+<td>根除不一致性而非掩盖</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>工程直觉</strong>：看到 <code>if</code> 条件跟 <code>threadIdx</code> 有直接关系 → 先停下来想想能不能换成 Predication 或重排数据。这是 GPU 调优 <strong>90% 的低垂果实</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="7-Occupancy——SM-能同时招待多少-Warp？">7. Occupancy——SM 能同时招待多少 Warp？</h2>
+<h3 id="7-1-Occupancy-是什么？">7.1 Occupancy 是什么？</h3>
+<p><strong>Occupancy（占用率）= 一个 SM 上当前活跃的 warp 数 ÷ SM 最大 warp 数。</strong></p>
+<p>直观理解：一个后厨同时管多少个灶。灶越多，空灶的概率越低——但每个灶的火力可能会变小（因为资源被摊薄了）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Occupancy 的本质是「用数量换效率」：</span><br><span class="line"></span><br><span class="line">  Occupancy 高 = 更多 warp 待命中</span><br><span class="line">               = Warp Scheduler 挑到「准备好」的 warp 概率更大</span><br><span class="line">               = ALU 闲置时间更短</span><br><span class="line">               = 延迟被更好地隐藏</span><br><span class="line"></span><br><span class="line">  Occupancy 低 = 可选 warp 少</span><br><span class="line">               = 可能所有 warp 都在等内存</span><br><span class="line">               = ALU 闲着（stall）</span><br><span class="line">               = 延迟暴露出来</span><br></pre></td></tr></table></figure>
+<h3 id="7-2-限制-Occupancy-的三大瓶颈（最严格者胜出）">7.2 限制 Occupancy 的三大瓶颈（最严格者胜出）</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌───────────────────────────────────────────────────────────┐</span><br><span class="line">│                   Occupancy 三大瓶颈                        │</span><br><span class="line">│                                                           │</span><br><span class="line">│   ┌──────────────┐                                        │</span><br><span class="line">│   │ 寄存器用量    │ ← 每线程用 64 个寄存器                  │</span><br><span class="line">│   │ 65536 ÷ 64   │   SM 最多容纳 1024 线程                │</span><br><span class="line">│   │ = 1024 线程  │   如果 block=256 则最多 4 block         │</span><br><span class="line">│   └──────┬───────┘                                        │</span><br><span class="line">│          │                                                │</span><br><span class="line">│          ▼                                                │</span><br><span class="line">│   ┌──────────────┐                                        │</span><br><span class="line">│   │ Shared Mem   │ ← 每 block 用 48 KB                    │</span><br><span class="line">│   │ 164KB ÷ 48KB │   SM 最多容纳 3 block                  │</span><br><span class="line">│   │ = 3 block    │   如果 block=256 则 3×256=768 线程     │</span><br><span class="line">│   └──────┬───────┘                                        │</span><br><span class="line">│          │                                                │</span><br><span class="line">│          ▼                                                │</span><br><span class="line">│   ┌──────────────┐                                        │</span><br><span class="line">│   │ Block 大小    │ ← 每 block=32 threads (1 warp)        │</span><br><span class="line">│   │ max 32 block │   SM 最多 32 block = 1024 线程         │</span><br><span class="line">│   │ per SM       │   但也受上两条限制                      │</span><br><span class="line">│   └──────┬───────┘                                        │</span><br><span class="line">│          │                                                │</span><br><span class="line">│          ▼                                                │</span><br><span class="line">│   ┌──────────────────────────────────────────────────┐    │</span><br><span class="line">│   │           最终结果 = min(三者)                     │    │</span><br><span class="line">│   │   例：寄存器→4 block, SMEM→3 block, 大小→32 block │    │</span><br><span class="line">│   │   → 实际最多 3 block → Occupancy = 3×8/64 = 37.5%│    │</span><br><span class="line">│   └──────────────────────────────────────────────────┘    │</span><br><span class="line">└───────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="7-3-Occupancy-Calculator-公式（逐行解释）">7.3 Occupancy Calculator 公式（逐行解释）</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 伪代码：Occupancy 计算器的工作逻辑</span></span><br><span class="line"></span><br><span class="line">max_threads_per_sm = <span class="number">2048</span>      <span class="comment"># A100: SM 最多 2048 线程</span></span><br><span class="line">total_regs_per_sm  = <span class="number">65536</span>     <span class="comment"># A100: SM 寄存器总数</span></span><br><span class="line">total_smem_per_sm  = <span class="number">164</span> * <span class="number">1024</span>  <span class="comment"># A100: SM shared memory (字节)</span></span><br><span class="line">max_blocks_per_sm  = <span class="number">32</span>        <span class="comment"># A100: SM 最多 32 个 block</span></span><br><span class="line">max_warps_per_sm   = <span class="number">64</span>        <span class="comment"># A100: 2048/32 = 64</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ─── 用户可调的三个参数 ───</span></span><br><span class="line">threads_per_block  = <span class="number">256</span>       <span class="comment"># blockDim.x</span></span><br><span class="line">regs_per_thread    = <span class="number">48</span>        <span class="comment"># 每个线程用的寄存器（编译时确定）</span></span><br><span class="line">smem_per_block     = <span class="number">32</span> * <span class="number">1024</span> <span class="comment"># 每个 block 用的 shared memory（字节）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ─── 三个上限 ───</span></span><br><span class="line">warps_per_block = (threads_per_block + <span class="number">31</span>) // <span class="number">32</span>  <span class="comment"># 向上取整</span></span><br><span class="line"></span><br><span class="line">max_by_threads = max_threads_per_sm // threads_per_block   <span class="comment"># = 2048/256 = 8</span></span><br><span class="line">max_by_smem    = total_smem_per_sm  // smem_per_block      <span class="comment"># = 164KB/32KB = 5</span></span><br><span class="line">max_by_regs    = total_regs_per_sm  // (regs_per_thread * threads_per_block)</span><br><span class="line">                                                          <span class="comment"># = 65536/(48*256) = 5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ─── 最终结果：取最小 ───</span></span><br><span class="line">active_blocks  = <span class="built_in">min</span>(max_by_threads, max_by_smem, max_by_regs, max_blocks_per_sm)</span><br><span class="line">               = <span class="built_in">min</span>(<span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">32</span>) = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">active_warps   = active_blocks * warps_per_block  <span class="comment"># = 5 * 8 = 40</span></span><br><span class="line">occupancy      = active_warps / max_warps_per_sm  <span class="comment"># = 40/64 = 62.5%</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-4-⚠️-Occupancy-≠-性能（原文正确，但需强调）">7.4 ⚠️ Occupancy ≠ 性能（原文正确，但需强调）</h3>
+<p>这是初学者最容易混淆的点，我来展开说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">            Occupancy 与性能的真实关系</span><br><span class="line"></span><br><span class="line">Occupancy 高 ≠ 性能好</span><br><span class="line">Occupancy 低 ≠ 性能差</span><br><span class="line"></span><br><span class="line">真正决定性能的是：ALU（计算单元）到底有没有在干活？</span><br><span class="line"></span><br><span class="line">┌─────────────────────────────────────────────────────┐</span><br><span class="line">│                                                     │</span><br><span class="line">│  Compute-bound kernel（计算密集）                    │</span><br><span class="line">│  ─────────────────────────────                       │</span><br><span class="line">│  每个 warp 要算很久才需要数据                        │</span><br><span class="line">│  → 不需要很多 warp 就能喂饱 ALU                      │</span><br><span class="line">│  → 50% occupancy 可能就够了                          │</span><br><span class="line">│  → 再提高 occupancy 只增加寄存器压力，无收益          │</span><br><span class="line">│                                                     │</span><br><span class="line">│  Memory-bound kernel（内存密集）                     │</span><br><span class="line">│  ─────────────────────────────                       │</span><br><span class="line">│  每个 warp 算一下就等数据                            │</span><br><span class="line">│  → 需要大量 warp 轮流上阵掩盖延迟                    │</span><br><span class="line">│  → 需要高 occupancy                                  │</span><br><span class="line">│  → occupancy 不足 = ALU 大量空闲等数据               │</span><br><span class="line">│                                                     │</span><br><span class="line">└─────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p><strong>判断标准（实操）</strong>：</p>
+<ol>
+<li>用 <code>nvcc --ptxas-options=-v</code> 看编译后实际寄存器用量</li>
+<li>用 <strong>Nsight Compute</strong> 的 <em>Warp State Statistics</em> 看 warp 到底在等什么
+<ul>
+<li>如果 <strong>Stall Long Scoreboard</strong> 占比最大 → 等内存，需要提高 occupancy</li>
+<li>如果 <strong>Stall Not Selected</strong> 占比最大 → ALU 已满载，occupancy 够了</li>
+</ul>
+</li>
+<li>寄存器用得少（如 &lt; 32 per thread）→ 可适当增大 block size 提 occupancy</li>
+<li>寄存器紧（如 &gt; 64 per thread）→ <strong>不要</strong>为了 occupancy 硬减寄存器，register spill 到 local memory 的代价远超 occupancy 收益</li>
+</ol>
+<hr>
+<h2 id="8-GPU-快的真正秘密——延迟隐藏">8. GPU 快的真正秘密——延迟隐藏</h2>
+<h3 id="8-1-核心洞察：GPU-不加速单线程">8.1 核心洞察：GPU 不加速单线程</h3>
+<p>铺垫了六章，终于可以回答最初的问题了：</p>
+<blockquote>
+<p><strong>GPU 凭什么比 CPU 快？——它不让任何一个 warp 更快，它让没有 warp 闲着。</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">      GPU 的速度秘密（时间轴）</span><br><span class="line"></span><br><span class="line">Warp 0:  [计算] [...........等内存 500 cycles..........] [计算]</span><br><span class="line">Warp 1:          [计算] [...........等内存...........] [计算]</span><br><span class="line">Warp 2:                  [计算] [...........等内存...] [计算]</span><br><span class="line">Warp 3:                          [计算] [.............] [计算]</span><br><span class="line">Warp 4:                                  [计算] [......] [计算]</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">ALU 视角：  ████████████████████████████████████████████████</span><br><span class="line">            从不闲着！每个周期都有一个 warp 在上面算。</span><br><span class="line"></span><br><span class="line">单个 warp 的延迟： 500 cycles（等内存）</span><br><span class="line">但从 ALU 看：     一直在干活，延迟被「隐藏」了</span><br></pre></td></tr></table></figure>
+<h3 id="8-2-零开销上下文切换——GPU-最被低估的特性">8.2 零开销上下文切换——GPU 最被低估的特性</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    为什么切换 warp 是 0 开销？              │</span><br><span class="line">├────────────────────────────────────────────────────────────┤</span><br><span class="line">│                                                            │</span><br><span class="line">│  CPU 上下文切换：                                          │</span><br><span class="line">│  ┌──────────────────────────────────────────────────┐     │</span><br><span class="line">│  │ 1. 保存当前线程的数百个寄存器 → 内存（μs 级）    │     │</span><br><span class="line">│  │ 2. 加载新线程的寄存器 ← 内存（μs 级）            │     │</span><br><span class="line">│  │ 3. 切换页表、刷新 TLB                             │     │</span><br><span class="line">│  │ 总代价：几微秒 = 几万个 CPU 周期！                │     │</span><br><span class="line">│  └──────────────────────────────────────────────────┘     │</span><br><span class="line">│                                                            │</span><br><span class="line">│  GPU Warp 切换：                                           │</span><br><span class="line">│  ┌──────────────────────────────────────────────────┐     │</span><br><span class="line">│  │ 所有驻留 warp 的寄存器始终保存在片上 Register File│     │</span><br><span class="line">│  │ Warp Scheduler 只需改变「下一周期从哪读指令」     │     │</span><br><span class="line">│  │ 无需 save/restore 任何东西                       │     │</span><br><span class="line">│  │ 总代价：0 个额外周期                              │     │</span><br><span class="line">│  └──────────────────────────────────────────────────┘     │</span><br><span class="line">│                                                            │</span><br><span class="line">│  关键前提：所有活跃 warp 的状态必须能同时塞进寄存器文件。   │</span><br><span class="line">│  这就是为什么寄存器用量直接影响 occupancy 的根因。          │</span><br><span class="line">│                                                            │</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="8-3-需要多少个-Warp？（Little’s-Law-应用）">8.3 需要多少个 Warp？（Little’s Law 应用）</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">内存延迟 = L cycles（例如 HBM 约 500c）</span><br><span class="line">每段计算 = C cycles（例如矩阵乘的一轮 20c）</span><br><span class="line"></span><br><span class="line">完全隐藏延迟所需 warps ≈ L / C + 1</span><br><span class="line"></span><br><span class="line">例：L=500, C=20 → 约需要 26 个 active warps</span><br><span class="line">如果 SM 最大 64 warps → 需 occupancy = 26/64 ≈ 40%</span><br><span class="line"></span><br><span class="line">这就是为什么：</span><br><span class="line">• memory-bound kernel → C 很小 → 需要更多 warps → 需要高 occupancy</span><br><span class="line">• compute-bound kernel → C 很大 → 几个 warp 就够了 → 低 occupancy 也可接受</span><br></pre></td></tr></table></figure>
+<h3 id="8-4-CPU-vs-GPU：最终对比">8.4 CPU vs GPU：最终对比</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                         CPU vs GPU 对照表                           │</span><br><span class="line">├──────────────────────────┬─────────────────────────────────────────┤</span><br><span class="line">│           CPU            │                  GPU                     │</span><br><span class="line">├──────────────────────────┼─────────────────────────────────────────┤</span><br><span class="line">│ 隐藏延迟手段             │ 隐藏延迟手段                             │</span><br><span class="line">│ • 乱序执行（指令重排）   │ • 海量 warp 零开销切换                   │</span><br><span class="line">│ • 分支预测（猜你走哪）   │ • 不需要猜——能跑的就跑                  │</span><br><span class="line">│ • 多级大缓存（L1/L2/L3） │ • 小缓存但海量并行遮百丑                │</span><br><span class="line">├──────────────────────────┼─────────────────────────────────────────┤</span><br><span class="line">│ 上下文切换代价           │ 上下文切换代价                           │</span><br><span class="line">│ μs 级                    │ 0 cycle                                  │</span><br><span class="line">│ 保存/恢复数百个寄存器    │ 所有状态常驻片上 Register File           │</span><br><span class="line">├──────────────────────────┼─────────────────────────────────────────┤</span><br><span class="line">│ 单线程性能               │ 单线程（单 warp）性能                   │</span><br><span class="line">│ 极高（优化到极致）       │ 不重要（不是设计目标）                   │</span><br><span class="line">├──────────────────────────┼─────────────────────────────────────────┤</span><br><span class="line">│ 设计目标                 │ 设计目标                                 │</span><br><span class="line">│ 让一个任务尽快做完       │ 让大量任务整体吞吐最大                   │</span><br><span class="line">└──────────────────────────┴─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="9-常见误区与纠正">9. 常见误区与纠正</h2>
+<h3 id="误区-1：「Block-size-一定要是-32-的倍数」">误区 1：「Block size 一定要是 32 的倍数」</h3>
+<p><strong>纠正</strong>：不绝对。但<strong>强烈建议 ≥ 128 且是 32 的倍数</strong>。</p>
+<ul>
+<li>Block size 不是 32 倍数 → 最后一个 warp 不满 32 线程 → 那些 ALU 就浪费了</li>
+<li>Block size 太小（如 32 = 1 warp）→ 要填满 SM 需要很多 block → occupancy 受限</li>
+<li>建议：128 或 256 作为起点，然后 profile 调优</li>
+</ul>
+<h3 id="误区-2：「Shared-Memory-越大越好」">误区 2：「Shared Memory 越大越好」</h3>
+<p><strong>纠正</strong>：用了多少就扣多少「occupancy 配额」。</p>
+<ul>
+<li>每 block 用 48 KB → 同 SM 最多 3~4 block → occupancy 可能骤降</li>
+<li>不要为了用 Shared Memory 而用——确认有数据复用或 bank conflict 优化需求再用</li>
+<li>有时不用 Shared Memory、让 L1 自动缓存，反而 occupancy 更高、整体更快</li>
+</ul>
+<h3 id="误区-3：「无脑追求-100-Occupancy」">误区 3：「无脑追求 100% Occupancy」</h3>
+<p><strong>纠正</strong>：这是最常见的 tuning 误区，已在 7.4 节详细说明。</p>
+<p>一句话口诀：<strong>compute-bound 不用追，memory-bound 追不够</strong>。</p>
+<h3 id="误区-4：「让-threadIdx-x-访问连续地址只是经验法则」">误区 4：「让 threadIdx.x 访问连续地址只是经验法则」</h3>
+<p><strong>纠正</strong>：这是硬件合并访问（Coalesced Access）的必然要求。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">32 threads × 4 bytes = 128 bytes = 一个 cache line</span><br><span class="line"></span><br><span class="line">threadIdx.x 连续 → 32 次访问落入同一个 128B cache line</span><br><span class="line">                  → 一次内存事务完成</span><br><span class="line">                  </span><br><span class="line">threadIdx.x 不连续 → 每个线程命中不同 cache line</span><br><span class="line">                    → 最多 32 次独立内存事务 → 慢 32 倍！</span><br></pre></td></tr></table></figure>
+<h3 id="误区-5：「多开-block-总比少开好」">误区 5：「多开 block 总比少开好」</h3>
+<p><strong>纠正</strong>：block 太多可能阻塞 SM 上的资源。</p>
+<ul>
+<li>每个 SM 最多同时 32 个 block</li>
+<li>超出部分在硬件调度器里排队（不占 SM 资源但也不执行）</li>
+<li>Grid 维度建议是 SM 数量的整数倍，保证负载均衡</li>
+</ul>
+<hr>
+<h2 id="10-总结：把知识串起来">10. 总结：把知识串起来</h2>
+<p>回到开头的问题——<strong>GPU 不是更快的 CPU，它是另一种东西</strong>。</p>
+<p>GPU 做出的每一个设计选择，都指向同一件事：<strong>用并行度换延迟容忍</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">       GPU 硬件设计逻辑链</span><br><span class="line"></span><br><span class="line">&quot;32-wide warp&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;按 threadIdx.x 升序自动分组&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;数据布局须与 warp 对齐 ──→ 合并访问（coalesced access）&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;warp 内走不同分支 ──→ divergence ──→ predication 或数据重排&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;零开销 warp 切换 ──→ 延迟隐藏需要足够的 active warps&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;active warps = occupancy ──→ 三大瓶颈：寄存器 / SMEM / block 大小&quot;</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">&quot;Occupancy ≠ 性能 ──→ compute-bound vs memory-bound 判断&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>现在那些「最佳实践」不再是死记硬背了</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>实践</th>
+<th>硬件根因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>threadIdx.x 连续访问连续地址</td>
+<td>32 lanes 一次 128B cache line → 合并成一次内存事务</td>
+</tr>
+<tr>
+<td>block size 是 32 的倍数</td>
+<td>不满的 warp 会浪费整个 warp 调度槽位</td>
+</tr>
+<tr>
+<td>Shared Memory 避免 bank conflict</td>
+<td>32 banks 对应 32 lanes，冲突就串行</td>
+</tr>
+<tr>
+<td>不无脑追 100% occupancy</td>
+<td>减寄存器换 warp 数往往得不偿失（register spill）</td>
+</tr>
+<tr>
+<td>用 predication 替代短分支</td>
+<td>避免 warp divergence 导致的串行执行</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11-工具链与参考资料">11. 工具链与参考资料</h2>
+<h3 id="11-1-必备命令">11.1 必备命令</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看寄存器用量（编译阶段输出的关键信息）</span></span><br><span class="line">nvcc --ptxas-options=-v kernel.cu -o kernel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定目标架构（影响指令生成和 ITS 行为）</span></span><br><span class="line">nvcc -<span class="built_in">arch</span>=sm_80 kernel.cu   <span class="comment"># A100 (Ampere)</span></span><br><span class="line">nvcc -<span class="built_in">arch</span>=sm_89 kernel.cu   <span class="comment"># RTX 4090 (Ada Lovelace)</span></span><br><span class="line">nvcc -<span class="built_in">arch</span>=sm_90 kernel.cu   <span class="comment"># H100 (Hopper)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Nsight Compute 性能分析</span></span><br><span class="line">ncu --<span class="built_in">set</span> full -o report ./my_kernel      <span class="comment"># 全量采集</span></span><br><span class="line">ncu --section WarpStateStats ./my_kernel  <span class="comment"># 仅看 warp 状态</span></span><br><span class="line">ncu --section SpeedOfLight ./my_kernel    <span class="comment"># 快速查看瓶颈</span></span><br></pre></td></tr></table></figure>
+<h3 id="11-2-核心文档">11.2 核心文档</h3>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>链接</th>
+<th>重点章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUDA C++ Programming Guide</td>
+<td><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/">docs.nvidia.com</a></td>
+<td>Hardware Implementation, Memory Hierarchy</td>
+</tr>
+<tr>
+<td>Ampere (A100) Whitepaper</td>
+<td><a target="_blank" rel="noopener" href="https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-ampere-architecture-whitepaper.pdf">PDF</a></td>
+<td>SM architecture, Tensor Core</td>
+</tr>
+<tr>
+<td>Hopper (H100) Whitepaper</td>
+<td><a target="_blank" rel="noopener" href="https://resources.nvidia.com/en-us-tensor-core">nvidia.com</a></td>
+<td>TMA, DPX instructions</td>
+</tr>
+<tr>
+<td>Hopper Tuning Guide</td>
+<td><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/pdf/Hopper_Tuning_Guide.pdf">PDF</a></td>
+<td>Occupancy, latency hiding</td>
+</tr>
+<tr>
+<td>CUDA Occupancy Calculator</td>
+<td><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-occupancy-calculator/">Excel/Nsight</a></td>
+<td>图形化分析三大瓶颈</td>
+</tr>
+</tbody>
+</table>
+<h3 id="11-3-推荐课程">11.3 推荐课程</h3>
+<ul>
+<li>
+<p><strong>Stanford CS149: Parallel Computing</strong> — Lecture 7-8 专门讲 GPU Architecture</p>
+<ul>
+<li>课程主页：<a target="_blank" rel="noopener" href="https://cs149.stanford.edu/">cs149.stanford.edu</a></li>
+<li>视频：YouTube 搜索 “Stanford CS149 2023 Lecture 7”</li>
+</ul>
+</li>
+<li>
+<p><strong>CMU 15-418: Parallel Computer Architecture and Programming</strong></p>
+<ul>
+<li>课程主页：<a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~418/">www.cs.cmu.edu/~418</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="11-4-练手建议">11.4 练手建议</h3>
+<blockquote>
+<p>把一个矩阵乘法从 naive 实现写到接近 cuBLAS 的性能，比读十篇综述都有用。</p>
+</blockquote>
+<p>练习路径：</p>
+<ol>
+<li><strong>naive</strong>：每个线程算一个输出元素 → 搞清楚 grid/block 划分</li>
+<li><strong>+ coalesced access</strong>：让 threadIdx.x 连续 → 理解内存合并</li>
+<li><strong>+ shared memory tiling</strong>：每个 block 把一小块矩阵搬进 SMEM → 理解数据复用</li>
+<li><strong>+ double buffering</strong>：边算边加载下一块 → 理解异步与延迟隐藏</li>
+<li><strong>+ vectorized loads</strong>：用 <code>float4</code> 一次读 16 字节 → 理解内存带宽利用率</li>
+<li><strong>profile 对比每一步</strong>：Nsight Compute 看 stall 原因的变化</li>
+</ol>
+<hr>
+<h2 id="附录：原文错误与遗漏汇总">附录：原文错误与遗漏汇总</h2>
+<p>本文在原文基础上做了以下纠正和补充：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>原文问题</th>
+<th>本文处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>缺失 Independent Thread Scheduling（Volta+）的讨论，divergence 模型过时</td>
+<td>第 6 章补充 ITS 机制、<code>__syncwarp()</code> 必要性、<code>-arch</code> 编译选项影响</td>
+</tr>
+<tr>
+<td>2</td>
+<td>「Warp=32 至今未变」暗示这是唯一正确答案</td>
+<td>第 5 章补充 AMD Wavefront=64 的对比，说明是权衡结果</td>
+</tr>
+<tr>
+<td>3</td>
+<td>章节编号混乱（04 节头部缺失）</td>
+<td>重新编排章节，补充第 4 节完整 Divergence 内容</td>
+</tr>
+<tr>
+<td>4</td>
+<td>缺少代码实例</td>
+<td>第 6 章补充 Predication、数据重排等代码示例</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Occupancy 公式过于简略</td>
+<td>第 7 章提供逐行带注释的伪代码和具体数值演算</td>
+</tr>
+<tr>
+<td>6</td>
+<td>「50% occupancy 即可」缺少条件说明</td>
+<td>补充 compute-bound/memory-bound 的区分逻辑</td>
+</tr>
+<tr>
+<td>7</td>
+<td>延迟数据 L2≈150c 不准确（A100 L2≈200c）</td>
+<td>修正并标注为近似值</td>
+</tr>
+<tr>
+<td>8</td>
+<td>缺少 A100 与 Ada/GA102 的 SM 配置差异说明</td>
+<td>第 3 章详细列表</td>
+</tr>
+<tr>
+<td>9</td>
+<td>缺少 Tensor Core 介绍（A100 的核心特性）</td>
+<td>第 3 章 SM 结构图补充</td>
+</tr>
+<tr>
+<td>10</td>
+<td>缺少工具链实操命令</td>
+<td>第 11 章补充 nvcc、ncu 的常用命令</td>
+</tr>
+<tr>
+<td>11</td>
+<td>缺少入门者常见的 5 大误区</td>
+<td>第 9 章新增完整误区纠正</td>
+</tr>
+<tr>
+<td>12</td>
+<td>「A100 有 108 个 SM」不够精确</td>
+<td>补充说明 GA100 满血 128 SM，A100 启用 108</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p><strong>本文档位于</strong>：<code>~/gpu-cuda-hardware-guide/GPU-CUDA-硬件入门指南.md</code><br>
+<strong>推荐阅读顺序</strong>：按章节顺序阅读（各章有递进依赖）。已有基础可直接跳至第 6 章（Divergence）或第 7 章（Occupancy）。</p>
+</blockquote>
+
+  </div>
+  
+</div>
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css">
+<div class="bottom-outer">
+  <div class="copyright">©2021 - 2021 By Tanger</div>
+  <div class="framework-info">
+    <span>Power by</span>
+    <a class="a1" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme by</span>
+    <a class="a2" target="_blank" rel="noopener" href="https://github.com/redhat123456/hexo-theme-MiHoYo">MiHoYo</a>
+  </div>
+</div>
+
+          
+            <!-- scripts list from theme config.yml -->
+            
+              <script src="/js/MiHoYo.js"></script>
+              
+                
+
+  </body>
+
+  </html>
